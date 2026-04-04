@@ -16,7 +16,7 @@
 | **Fire**      | 1.75× | 1.00× | 0.25× | 1.50× |
 
 **Key insights:**
-- Explosive is the universal solvent — decent vs everything, great vs buildings and light
+- Explosive is the universal solvent — decent vs everything, great vs buildings and light armor
 - Energy is the anti-heavy specialist — worst vs light, best vs heavy
 - Chemical/Fire excel vs light armor (infantry), but fall off sharply vs heavy/buildings
 - Kinetic is reliable vs light but severely penalized vs heavy and buildings
@@ -25,126 +25,125 @@
 
 ## T1 Unit Comparison
 
-| Unit | Faction | Cost | HP | Armor | DPS (raw) | Effective DPS vs Light | Effective DPS vs Heavy | Role | Counters | Countered By |
-|------|---------|------|-----|-------|-----------|----------------------|----------------------|------|----------|--------------|
-| Rifleman | AEGIS | 150 | 120 | Light | 15.0 (kinetic) | 15.0 | 7.5 | Combat infantry | Forge Conscript (1v1) | Fire weapons, AoE explosives |
-| Engineer | AEGIS | 200 | 80 | Light | 4.2 (kinetic) | 4.2 | 2.1 | Support/repair | — (utility) | Any combat unit |
+| Unit | Faction | Cost | HP | Armor | DPS (raw) | Eff DPS vs Light | Eff DPS vs Heavy | Role | Counters | Countered By |
+|------|---------|------|-----|-------|-----------|-----------------|-----------------|------|----------|--------------|
+| Rifleman | AEGIS | 150 | 120 | Light | 15.0 (kinetic) | 15.0 | 7.5 | Combat infantry | Forge Conscript | Fire, AoE explosives |
+| Engineer | AEGIS | 200 | 80 | Light | 4.2 (kinetic) | 4.2 | 2.1 | Repair/utility | — (utility) | Any combat unit |
 | Harvester | AEGIS | 600 | 400 | Heavy | — (unarmed) | — | — | Economy | — | Any combat unit |
-| Scout Buggy | AEGIS | 250 | 150 | Light | 16.0 (kinetic) | 16.0 | 8.0 | Recon/harassment | Slow infantry | Forge Attack Bike |
-| Conscript | FORGE | 100 | 85 | Light | 10.0 (kinetic) | 10.0 | 5.0 | Cheap swarm | Economy pressure | AEGIS Rifleman (1v1) |
-| Saboteur | FORGE | 250 | 90 | Light | 15.0 (explosive) | 22.5 | 11.3 | Spec Ops/demo | Structures, vehicles | Scout Buggy, massed Riflemen |
+| Scout Buggy | AEGIS | 250 | 150 | Light | 16.0 (kinetic) | 16.0 | 8.0 | Recon/harassment | Slow infantry, harvesters | Forge Attack Bike |
+| Conscript | FORGE | 100 | 85 | Light | 10.0 (kinetic) | 10.0 | 5.0 | Cheap swarm | Economy pressure | AEGIS Rifleman 1v1 |
+| Saboteur | FORGE | 250 | 90 | Light | 15.0 (explosive) | 22.5 | 11.3 | Spec Ops/demo | Structures (C4), vehicles | Scout Buggy, massed Riflemen |
 | Harvester | FORGE | 600 | 400 | Heavy | — (unarmed) | — | — | Economy | — | Any combat unit |
 | Attack Bike | FORGE | 200 | 100 | Light | 12.5 (explosive) | 18.75 | 9.4 | Fast raider | Harvesters, scouts | Massed Riflemen, turrets |
 
 **T1 Notes:**
-- Rifleman (150) vs Conscript (100): Rifleman wins 1v1 (15 DPS, 120 HP vs 10 DPS, 85 HP). But 3 Conscripts (300) handily beat 2 Riflemen (300). FORGE gets better cost efficiency in swarms.
-- Attack Bike is the fastest T1 unit (7.5 speed) and has explosive damage — excellent harasser.
-- Scout Buggy has exceptional vision range (12 tiles), unique among T1.
-- Saboteur's Plant C4 ability (200 structure damage, 30s CD) is potentially powerful for structure snipes even at T1.
+- **Rifleman vs Conscript:** Rifleman wins 1v1 (15 DPS, 120 HP vs 10 DPS, 85 HP). But 3 Conscripts (300cr) handily beat 2 Riflemen (300cr). FORGE gets better cost efficiency in swarms.
+- **Attack Bike** is the fastest T1 unit (7.5 speed) and deals explosive — excellent harasser, hard to catch.
+- **Scout Buggy** has exceptional vision range (12 tiles), unique among T1 units.
+- **Saboteur's Plant C4** (200 structure damage, 30s CD) is potent for structure snipes even at T1.
 
 ---
 
 ## T2 Unit Comparison
 
-| Unit | Faction | Cost | HP | Armor | DPS (raw) | Effective DPS vs Light | Effective DPS vs Heavy | Role | Counters | Countered By |
-|------|---------|------|-----|-------|-----------|----------------------|----------------------|------|----------|--------------|
-| Medic | AEGIS | 250+50sec | 90 | Light | — (no weapon) | — | — | Support healer | Attrition (sustains blob) | Any combat unit |
-| Rocket Trooper | AEGIS | 300 | 100 | Light | 26.0 (explosive) | 39.0 | 19.5 | Anti-vehicle inf | Vehicles, tanks | Snipers, Interceptors |
-| APC | AEGIS | 500 | 300 | Medium | 25.0 (kinetic) | 25.0 | 12.5 | Transport/screen | Infantry positioning | Rocket Trooper, Battle Tank |
-| Medium Tank | AEGIS | 800 | 450 | Heavy | 42.5 (kinetic) | 42.5 | 21.3 | Main battle tank | Light vehicles, infantry, structures | Rocket Trooper, explosive units |
-| AA Vehicle (Skyguard) | AEGIS | 600+100sec | 250 | Medium | 40.0 (energy) | 30.0 | 50.0 (vs air med) | Anti-air | All air units | Ground units (can't shoot ground) |
-| Interceptor | AEGIS | 700+150sec | 180 | Medium | 37.5 (energy) | 28.1 | 46.9 | Air superiority | Helicopters, enemy air | AA Vehicle, Skyguard |
-| Grenadier | FORGE | 250 | 110 | Medium | 20.0 (explosive, AoE 2.0) | 30.0 | 15.0 | AoE anti-infantry | Infantry blobs, light vehicles | Snipers, long-range units |
-| Flametrooper | FORGE | 200 | 100 | Light | 50.0 (fire, AoE 1.5) | 87.5 | 12.5 | Close-range AoE | Infantry, buildings | Long-range units, tanks |
-| Battle Tank (Crusher) | FORGE | 700 | 400 | Heavy | 41.7 (kinetic) | 41.7 | 20.8 | Main battle tank | Light vehicles, infantry, structures | Rocket Trooper, explosive units |
+| Unit | Faction | Cost | HP | Armor | DPS (raw) | Eff DPS vs Light | Eff DPS vs Heavy | Role | Counters | Countered By |
+|------|---------|------|-----|-------|-----------|-----------------|-----------------|------|----------|--------------|
+| Medic | AEGIS | 250+50sec | 90 | Light | — (no weapon) | — | — | Sustain healer | Attrition (heal aura) | Any combat unit |
+| Rocket Trooper | AEGIS | 300 | 100 | Light | 26.0 (explosive) | 39.0 | 19.5 | Anti-vehicle infantry | Vehicles, tanks | Snipers, air units |
+| Guardian APC | AEGIS | 500 | 300 | Medium | 25.0 (kinetic) | 25.0 | 12.5 | Transport/screen | Infantry positioning | Rocket Trooper, Battle Tank |
+| Guardian Tank | AEGIS | 800 | 450 | Heavy | 42.5 (kinetic) | 42.5 | 21.3 | Main battle tank | Light vehicles, infantry, structures | Rocket Trooper, explosive |
+| Skyguard AA | AEGIS | 600+100sec | 250 | Medium | 40.0 (energy) | 30.0 | 50.0* | Anti-air only | All air units | Ground units (helpless) |
+| Interceptor | AEGIS | 700+150sec | 180 | Medium | 37.5 (energy) | 28.1 | 46.9* | Air superiority | Helicopters, all air | AA Vehicle, Skyguard |
+| Grenadier | FORGE | 250 | 110 | Medium | 20.0 (explosive, AoE 2.0) | 30.0 | 15.0 | AoE anti-infantry | Infantry blobs, light vehicles | Tanks, long-range units |
+| Flametrooper | FORGE | 200 | 100 | Light | 50.0 (fire, AoE 1.5) | **87.5** | 12.5 | Close-range AoE | Infantry, buildings | Long-range units, tanks |
+| Crusher Tank | FORGE | 700 | 400 | Heavy | 41.7 (kinetic) | 41.7 | 20.8 | Main battle tank | Light vehicles, infantry, structures | Rocket Trooper, explosive |
 | Rocket Buggy | FORGE | 450+50sec | 180 | Light | 22.0 (explosive) | 33.0 | 16.5 | Fast anti-vehicle | Tanks, heavy vehicles | Interceptors, infantry |
 | Toxin Truck | FORGE | 550+100sec | 280 | Medium | 13.3 (chemical, AoE 3.0) | 20.0 | 6.7 | Area denial/DoT | Infantry, defensive positions | Snipers, long-range vehicles |
-| Helicopter (Havoc) | FORGE | 650+100sec | 220 | Medium | 25.0 (explosive, AoE 1.5) | 37.5 | 18.75 | Air gunship | Ground vehicles, structures | Interceptor, AA Vehicle |
+| Havoc Gunship | FORGE | 650+100sec | 220 | Medium | 25.0 (explosive, AoE 1.5) | 37.5 | 18.75 | Air gunship vs ground | Ground vehicles, structures | Interceptor, AA Vehicle |
+
+*Air units use medium armor at T2; energy vs medium = 1.0× multiplier.
 
 **T2 Notes:**
-- AEGIS gets dedicated Medic (no FORGE equivalent at T2) — significant sustain advantage in infantry fights
-- Flametrooper is an outlier: 50 raw DPS, ×1.75 vs light = **87.5 effective DPS** at 200 cost — highest DPS/cost at T2; countered by range but can devastate blob infantry before dying
-- FORGE has NO dedicated air-to-air counter at T2. Helicopter vs Interceptor: Helicopter only targets ground. AEGIS can freely air-scout and Interceptor dominates air unopposed.
-- Rocket Buggy (450+50sec) is excellent value vs tanks; fast enough to kite medium tanks
-- AEGIS Medium Tank vs FORGE Battle Tank: AEGIS 42.5 DPS, 450 HP, costs 800. FORGE 41.7 DPS, 400 HP, costs 700. FORGE tank is 12.5% cheaper for roughly equal performance — slight FORGE edge
+- **AEGIS gets dedicated Medic** (no FORGE equivalent at T2) — significant sustain advantage in infantry fights.
+- **Flametrooper is the standout concern:** 50 raw DPS × 1.75 fire vs light = **87.5 effective DPS** at only 200cr primary. Highest DPS/cost at T2. Countered by range but can decimate blob infantry before dying. ⚠️ See FLAG-01.
+- **FORGE has NO T2 air-to-air counter.** Havoc Gunship only targets ground. AEGIS Interceptor dominates the sky unopposed from T2. ⚠️ See FLAG-02.
+- **Guardian Tank vs Crusher Tank:** AEGIS 42.5 DPS / 450 HP / 800cr vs FORGE 41.7 DPS / 400 HP / 700cr. FORGE tank is ~12.5% cheaper for nearly equal performance — slight FORGE advantage.
 
 ---
 
 ## T3 Unit Comparison
 
-| Unit | Faction | Cost | HP | Armor | DPS (raw) | Effective DPS vs Heavy | Role | Counters | Countered By |
-|------|---------|------|-----|-------|-----------|----------------------|------|----------|--------------|
+| Unit | Faction | Cost | HP | Armor | DPS (raw) | Eff DPS vs Heavy | Role | Counters | Countered By |
+|------|---------|------|-----|-------|-----------|-----------------|------|----------|--------------|
 | Shock Trooper | AEGIS | 600+200sec | 280 | Medium | 39.3 (energy) | 49.1 | Elite infantry | Infantry, vehicles | AoE chemical/fire |
-| Sniper | AEGIS | 500+300sec | 100 | Light | 44.4 (kinetic) | 22.2 | Precision/detector | High-value inf/vehicles | AoE, fast flankers |
-| Artillery (Tempest) | AEGIS | 1800+300sec | 400 | Medium | 30.0 (kinetic) | 15.0 | Siege | Structures, static defense | Fast flankers, air |
-| Heavy Tank (Paladin) | AEGIS | 2200+400sec | 1200 | Heavy | 48.0+20.0 (energy+explosive) | 60.0+15.0 | Frontline tank | Vehicles, structures | Lots of explosives |
-| Gunship (Sentinel) | AEGIS | 1800+400sec | 500 | Medium | 87.5 (energy) | 109.4 | Air attack | Ground+air | Massed AA, Interceptors |
-| Bomber (Thunderhawk) | AEGIS | 2000+500sec | 600 | Medium | 33.3 (explosive, AoE 3.0) | 25.0 | Bombing run | Structures, vehicle groups | AA units |
-| Transport (Valkyrie) | AEGIS | 1200+200sec | 450 | Medium | — (unarmed) | — | Air transport | Flanks, paradrop | AA units |
-| Commander Unit (Aria) | AEGIS | 3500+1500sec | 2000 | Heavy | 55.6 (energy) + orbital | 69.4 | Hero/command | Everything | Overwhelming focus fire |
-| Chem Trooper | FORGE | 550+200sec | 180 | Medium | 37.5 (chemical, AoE 2.0) | 18.75 | Area infantry denial | Infantry | Energy weapons, long range |
-| Commando | FORGE | 700+250sec | 200 | Medium | 40.0 (kinetic) + 500 demo | — | Spec Ops sabotage | Structures (C4 800dmg) | Detectors, combat units |
-| Siege Tank (Basilisk) | FORGE | 1600+200sec | 500 | Medium | 32.7 (explosive) | 24.5 | Siege | Structures, static | Fast flankers, air |
-| Mammoth Tank (Juggernaut) | FORGE | 2500+500sec | 1500 | Heavy | 50.0+50.0 (explosive+kinetic) | 37.5+25.0 | Super-heavy | Everything on the ground | Overwhelming air power |
-| Strike Bomber (Vulture) | FORGE | 1800+400sec | 500 | Medium | 15.0 (chemical, AoE 3.5) + DoT | — | Chemical bombing | Infantry clusters, structures | AA units |
-| Transport (Mule) | FORGE | 1200+200sec | 450 | Medium | — (unarmed) | — | Air transport | Flanks, paradrop | AA units |
-| Iron Fist (Warlord Kael) | FORGE | 3000+1200sec | 1800 | Heavy | 75.0+33.3 (fire+kinetic) | 18.75+22.2 | Hero/brawler | Infantry, vehicles | Energy weapons, AEGIS Hero |
+| Longbow Sniper | AEGIS | 500+300sec | 100 | Light | 44.4 (kinetic) | 22.2 | Precision/detector | High-value inf, spec ops | AoE, fast flankers |
+| Tempest Artillery | AEGIS | 1800+300sec | 400 | Medium | 30.0 (kinetic) | 15.0 | Siege | Structures, static defense | Fast flankers, air |
+| Paladin Heavy Tank | AEGIS | 2200+400sec | 1200 | Heavy | 48.0+20.0 (energy+explosive) | 60.0+15.0 | Frontline assault | Vehicles, structures | Concentrated explosives |
+| Sentinel Gunship | AEGIS | 1800+400sec | 500 | Medium | **87.5** (energy, ground+air) | 109.4 | Air attack | Ground + air simultaneously | Massed AA |
+| Thunderhawk Bomber | AEGIS | 2000+500sec | 600 | Medium | 33.3 (explosive, AoE 3.0) | 25.0 | Carpet bombing | Structures, vehicle groups | AA units |
+| Valkyrie Transport | AEGIS | 1200+200sec | 450 | Medium | — (unarmed) | — | Air transport | Paradrop, flanks | AA units |
+| Commander Aria | AEGIS | 3500+1500sec | 2000 | Heavy | 55.6 (energy) + orbital | 69.4 | Hero/command | Everything | Overwhelming focus fire |
+| Chem Trooper | FORGE | 550+200sec | 180 | Medium | 37.5 (chemical, AoE 2.0) | 18.75 | Area infantry denial | Infantry clusters | Energy weapons, long range |
+| Iron Fang Commando | FORGE | 700+250sec | 200 | Medium | 40.0 (kinetic) + 500 demo | — | Spec Ops sabotage | Structures (C4 800dmg) | Detectors, combat units |
+| Basilisk Siege Tank | FORGE | 1600+200sec | 500 | Medium | 32.7 (explosive) | 24.5 | Siege | Structures, static units | Fast flankers, air |
+| Juggernaut (Mammoth) | FORGE | 2500+500sec | 1500 | Heavy | 50.0+50.0 (explosive+kinetic) | 37.5+25.0 | Super-heavy brawler | All ground units | Concentrated air power |
+| Vulture Strike Bomber | FORGE | 1800+400sec | 500 | Medium | 15.0 (chemical, AoE 3.5) + DoT | — | Chemical bombing | Infantry, structures | AA units |
+| Mule Transport | FORGE | 1200+200sec | 450 | Medium | — (unarmed) | — | Air transport | Paradrop, flanks | AA units |
+| Iron Fist (Kael) | FORGE | 3000+1200sec | 1800 | Heavy | 75.0+33.3 (fire+kinetic) | 18.75+22.2 | Hero/brawler | Infantry, vehicles in melee | Energy weapons, AEGIS Hero |
 
 **T3 Notes:**
-- AEGIS Gunship: 87.5 raw DPS (energy, hits ground+air) — highest sustained DPS of any T3 unit; only countered by massed AA
-- FORGE Mammoth Tank: Dual weapons, self-repair — strongest ground bruiser but countered by AEGIS air dominance
-- AEGIS Commander Unit has Orbital Strike (800 dmg, 4-tile radius, 90s CD) — massive zoning tool
-- FORGE Iron Fist has Rally Cry (+30% speed, +15% damage, 8-tile AoE) — transforms army fights
-- AEGIS Sniper has detector + 200 kinetic damage per shot (44.4 raw DPS, range 11, cloaks when stationary) — unique intel tool
-- FORGE Strike Bomber drops chemical with persistent DoT field — uniquely counters turtling
+- **AEGIS Sentinel Gunship**: 87.5 raw DPS (energy, range 7, hits ground + air simultaneously). Highest sustained DPS of all T3 units. Only countered by massed AA or overwhelming numbers.
+- **Commander Aria vs Iron Fist:** Aria costs more but has Orbital Strike (800 AoE, 90s CD), Shield Boost, Inspire, and detector. Iron Fist has Rally Cry (+30% speed/+15% damage) and Berserker Charge. Aria is better in defensive/tech games; Iron Fist is better leading aggressive ground pushes.
+- **AEGIS Sniper**: 200 kinetic per shot (44.4 DPS), range 11, **detector**, cloaks when stationary. Unique intel/counter-stealth tool — no FORGE equivalent.
+- **Basilisk vs Tempest Artillery:** FORGE Basilisk is cheaper (1600+200sec vs 1800+300sec), deploys faster (2.5s vs 3.0s), and deals more damage per shot (180 explosive vs 150 kinetic). Explosive vs medium = 1.0×, kinetic vs medium = 0.75×. FORGE siege is arguably strictly better. ⚠️ See FLAG-06.
 
 ---
 
 ## Faction Asymmetry Analysis
 
 ### AEGIS Advantages
-- **Air superiority at T2**: Interceptor + AA Vehicle give total sky control; FORGE has no T2 air-to-air
-- **Defensive tools**: Shield Generator (structure mechanic), Shock Trooper personal shields, Paladin's Overcharge Shields — layers of defensive mitigation
-- **Sustain**: Medic (T2, no FORGE equiv) + Engineer repair = best battlefield sustain
-- **Detector units**: Sniper (T3) + engineer vision — better at spotting stealth
-- **Commander Hero (Aria)**: Shield Boost + Inspire + Orbital Strike = dominant hero in late game
-- **Siege parity**: Tempest Artillery matches Basilisk range (16 vs 15 tiles); AEGIS deploys faster (3s vs 2.5s but higher damage)
+- **Air superiority lock at T2:** Interceptor + AA Vehicle gives complete sky control; FORGE has no T2 air-to-air response
+- **Defensive layering:** Shield Generator mechanic, Shock Trooper personal shields, Paladin's Overcharge Shields — stacking mitigation
+- **Sustain:** Medic (T2) + Engineer repair = best battlefield attrition survivability; no FORGE equivalent
+- **Detector coverage:** Sniper (T3) + Commander Aria (hero) — better at countering FORGE spec ops infiltration
+- **Commander Hero (Aria):** Shield Boost + Inspire + Orbital Strike = dominant in tech-defense games
+- **Artillery parity:** Tempest matches Basilisk range (16 vs 15); kinetic vs explosive is the key trade-off
 
 ### FORGE Advantages
-- **Cost efficiency at T1-T2**: Conscript 100cr, Attack Bike 200cr — FORGE can swarm economically
-- **Early aggression**: Attack Bike (7.5 speed, explosive) is the fastest T1 unit by far; can harass harvesters before AEGIS stabilizes
-- **AoE pressure**: Grenadier, Flametrooper, Toxin Truck, Strike Bomber — more area denial tools
-- **Flametrooper value**: 200cr for 87.5 effective DPS vs light is oppressive cost efficiency
-- **Iron Fist Hero**: Rally Cry + Berserker Charge = better at winning massed ground brawls
-- **Mammoth Tank**: 1500 HP self-repairing heavy vs Paladin's 1200 HP (but Paladin has shields)
-- **Chemical niche**: Strike Bomber + Chem Trooper create persistent zone denial AEGIS cannot replicate
+- **Cost efficiency swarm:** Conscript 100cr, Attack Bike 200cr, Flametrooper 200cr — massive cost advantage in T1/early T2
+- **Faster T1 pressure:** Attack Bike (7.5 speed) is 25% faster than Scout Buggy (6.0) and 40% faster than Rifleman (3.0)
+- **AoE denial breadth:** Grenadier, Flametrooper, Toxin Truck, Strike Bomber, Chem Trooper — more area denial than AEGIS at every tier
+- **Chemical niche:** Persistent toxic fields from Toxin Truck and Strike Bomber that AEGIS cannot currently cleanse
+- **Iron Fist hero:** Rally Cry + Berserker Charge = superior army-wide ground brawl performance; cheaper than Aria
+- **Mammoth Tank:** 1500 HP self-repairing super-heavy vs Paladin's 1200 HP (Paladin has shields, Mammoth has raw bulk)
+- **Cheaper Siege:** Basilisk undercuts Tempest on cost and deployment speed with competitive (arguably superior) stats
 
 ### Risk / Dominant Patterns
-- ⚠️ **FORGE early rush is strong**: Attack Bike + Conscript swarm at minute 1-3 can overwhelm before AEGIS builds anti-vehicle options
-- ⚠️ **AEGIS air gap**: FORGE has NO dedicated air-to-air at T2; Interceptors can roam freely until T3 Strike Bomber
-- ⚠️ **Flametrooper cost-efficiency**: 200cr for ~87.5 DPS vs light may be too efficient in early T2; needs stress-testing vs Rifleman blobs
-- ⚠️ **AEGIS late game tech spike**: If FORGE can't close out by T3, AEGIS Gunship + Paladin + Commander Aria becomes very difficult to counter
+- ⚠️ **FORGE early rush dominance:** Attack Bike + Conscript swarm in the first 2–3 minutes can overwhelm before AEGIS builds anti-vehicle options (Rocket Trooper is T2)
+- ⚠️ **AEGIS T2 air gap for FORGE:** FORGE has zero air-to-air capability from T2 onward until Strike Bomber (T3). AEGIS Interceptors can roam freely for an entire tech tier.
+- ⚠️ **Flametrooper cost-to-DPS imbalance:** 87.5 effective DPS at 200cr primary is the highest ratio in the game — potential to warp T2 infantry composition
+- ⚠️ **AEGIS late game tech spike:** If FORGE cannot close before AEGIS reaches T3, Sentinel Gunship + Paladin + Commander Aria becomes extremely difficult to counter on the ground
 
 ---
 
 ## Known Balance Issues / Flags
 
-1. **[FLAG-01] Flametrooper DPS/cost ratio** — At 200cr primary (no secondary), Flametrooper has 87.5 effective DPS vs light armor. Nearest AEGIS comparison (Rocket Trooper, 300cr) has 39.0 DPS vs light. Consider raising Flametrooper cost to 300cr primary, or reducing damage from 25 to 18 (would yield ~63 effective DPS vs light). **Playtest: send 5 Flamers into 5 Riflemen blobs.**
+1. **[FLAG-01] Flametrooper DPS/cost ratio** — At 200cr primary (no secondary), Flametrooper has 87.5 effective DPS vs light armor. The nearest AEGIS comparison (Rocket Trooper, 300cr) has 39.0 DPS vs light. Consider raising Flametrooper cost to 300cr primary, or reducing damage from 25 → 18 (~63 eff DPS vs light). **Playtest: 5 Flamers vs 5 Riflemen blobs, equal-cost fights.**
 
-2. **[FLAG-02] FORGE has no T2 air-to-air counter** — AEGIS Interceptor can harass freely in T2. FORGE only gets Strike Bomber at T3. Consider adding a limited AA capability to Rocket Buggy (targets: air) or creating a FORGE AA variant unit. **Playtest: how impactful is 2x Interceptors in a T2 game without FORGE AA?**
+2. **[FLAG-02] FORGE has no T2 air-to-air counter** — AEGIS Interceptor can harass and scout freely throughout T2. FORGE's only aerial response is the T3 Strike Bomber (ground attack, not air-to-air). Consider adding limited AA capability to Rocket Buggy (targets: air) or a dedicated FORGE AA variant unit at T2. **Playtest: measure Interceptor impact in T2 matches with no FORGE counter.**
 
-3. **[FLAG-03] AEGIS Scout Buggy produced_at "aegis_barracks"** — This vehicle coming from barracks is odd. If War Factory is T2, Scout Buggy needs a T1 production building. Either this is intentional design or it needs its own `aegis_vehicle_bay` T1 structure. **Design call needed.**
+3. **[FLAG-03] Scout Buggy produced_at "aegis_barracks"** — A vehicle produced at barracks is architecturally inconsistent. If War Factory unlocks at T2, Scout Buggy needs a T1 production building. Either introduce a T1 vehicle bay structure for AEGIS or confirm barracks can produce light vehicles. **Design call needed before implementing production system.**
 
-4. **[FLAG-04] FORGE early rush window** — Attack Bike (7.5 speed) reaches AEGIS base ~30% faster than any T1 AEGIS unit can react. First 3 minutes are highly favorable FORGE. AEGIS has no T1 dedicated anti-vehicle (only Rocket Trooper at T2). Possible mitigations: give AEGIS Engineer a repair-snare ability, or add a cheap T1 barrier/bunker option for AEGIS. **Playtest: rush pressure timeline at 90s, 2min, 3min.**
+4. **[FLAG-04] FORGE T1 rush window** — Attack Bike (7.5 speed) reaches AEGIS base ~30% faster than any T1 AEGIS unit can intercept. AEGIS has no T1 anti-vehicle capability (Rocket Trooper is T2). Possible mitigations: add a cheap T1 bunker/barrier for AEGIS, or give Engineer a slow/snare ability. **Playtest: attack bike rush timing at 90s, 2min, 3min checkpoints.**
 
-5. **[FLAG-05] Hero unit cost asymmetry** — AEGIS Commander Aria: 3500+1500sec. FORGE Iron Fist: 3000+1200sec. FORGE hero is cheaper AND has competitive power (Rally Cry vs Inspire). Aria's Orbital Strike is strong but on a 90s cooldown. Consider reducing Aria's secondary cost from 1500 to 1000, or reducing Iron Fist's health from 1800 to 1600. **Playtest: 1v1 hero matchup in isolation.**
+5. **[FLAG-05] Hero unit cost asymmetry** — AEGIS Commander Aria: 3500+1500sec. FORGE Iron Fist: 3000+1200sec. FORGE hero is 14% cheaper on primary and 20% cheaper on secondary, with competitive power (Rally Cry vs Inspire). Consider reducing Aria's secondary cost from 1500 → 1000, or buffing her base stats slightly. **Playtest: isolated hero 1v1 and army-with-hero fights.**
 
-6. **[FLAG-06] Artillery siege timer asymmetry** — AEGIS Tempest Artillery deploys in 3.0s and has 150 kinetic damage. FORGE Basilisk deploys in 2.5s with 180 explosive damage. FORGE siege unit is cheaper (1600 vs 1800), faster to deploy, and deals more damage per shot with explosive (better vs buildings). AEGIS secondary cost of +300 vs FORGE +200 makes this gap more pronounced. **Consider:** raise Basilisk cost to 1800+300 to match Tempest, or increase Tempest damage to 175.
+6. **[FLAG-06] Artillery (Basilisk vs Tempest) imbalance** — Forge Basilisk: 1600+200sec, 180 explosive dmg, range 15, 2.5s deploy. AEGIS Tempest: 1800+300sec, 150 kinetic dmg, range 16, 3.0s deploy. Basilisk is cheaper (+300cr+100sec cheaper), faster deploying (0.5s), and explosive vs medium = 1.0× while kinetic vs medium = 0.75×. FORGE siege is strictly superior on cost. **Consider:** raise Basilisk cost to 1800+300 to match, or increase Tempest damage to 175 kinetic.
 
-7. **[FLAG-07] Toxin Truck DoT field vs no AEGIS counter** — The Toxin Field ability (3-tile radius, 8 damage/s for 10s) creates persistent area denial that AEGIS cannot purge (no AoE cleanse ability exists). FORGE can zone resource nodes indefinitely. **Design call:** should AEGIS Engineer have a "decontaminate" ability, or is this an intentional FORGE niche?
+7. **[FLAG-07] Toxin Truck DoT field — no AEGIS cleanse** — The Toxin Field ability (3-tile radius, 8 dmg/s for 10s) creates persistent area denial that AEGIS cannot purge. FORGE can indefinitely zone resource nodes and chokepoints with no counterplay. **Design call:** give AEGIS Engineer a "decontaminate" ability, or confirm this is intentional asymmetry.
 
-8. **[FLAG-08] Duplicate .json files removed** — The T2 data branch had duplicate `.json` versions of T1 unit files (aegis_engineer.json, aegis_rifleman.json, etc.). These were stale artifacts and have been deleted from this branch. No content loss — YAML files are canonical.
+8. **[FLAG-08] Medic has no FORGE counterpart** — AEGIS Medic (T2) heals 5 HP/s in a 3-tile aura, extending infantry blob lifespan significantly. FORGE has no healing unit at any tier. May be intentional (FORGE wins through aggression, not attrition) but creates a hard asymmetry in extended T2 fights. **Playtest: AEGIS infantry blob with 2 Medics vs equal-cost FORGE swarm.**
 
-9. **[FLAG-09] aegis_artillery + aegis_heavy_tank produced_at field** — Both had `produced_at: "war_factory"` (generic, invalid ID). Fixed to `"aegis_war_factory"` in this PR.
+9. **[FLAG-09] YAML fix: aegis_artillery + aegis_heavy_tank produced_at** — Both units had `produced_at: "war_factory"` (invalid generic ID). Fixed to `"aegis_war_factory"` in this PR.
 
-10. **[FLAG-10] Medic has no FORGE counterpart** — AEGIS Medic (T2) provides passive heal-aura that significantly extends infantry blob lifespan. FORGE has no healing unit at any tier (Iron Fist self-sustains, Mammoth Tank self-repairs, but no battlefield medic). This may be intentional asymmetry (FORGE wins through aggression before attrition matters) but worth confirming in extended fights. **Playtest: AEGIS infantry blob with 2 Medics vs same-cost FORGE swarm.**
+10. **[FLAG-10] Stale .json unit files removed** — The T2 data branch had duplicate `.json` versions of T1 unit files (`aegis_engineer.json`, `aegis_rifleman.json`, `forge_conscript.json`, etc.). These were stale artifacts and have been deleted. YAML files are canonical per the schema spec.

@@ -9,7 +9,7 @@ cost:
   primary: 2200
   secondary: 400
 build_time: 30.0
-produced_at: "war_factory"
+produced_at: "aegis_war_factory"
 tech_requirements:
   - "aegis_advanced_tech"
 

@@ -8,100 +8,23 @@ tiers:
       - forge_generator
       - forge_barracks
       - forge_refinery
+      - forge_flame_turret
     units:
       - forge_conscript
       - forge_saboteur
       - forge_attack_bike
-      - forge_flame_tank
       - forge_harvester
 
   tier_2:
     unlock_requirements:
       structures: ["forge_barracks"]
-    structures:
-      - forge_war_factory
-      - forge_radar
-      - forge_munitions
-      - forge_turret
-      - forge_tunnel_entrance
-    units:
-      - forge_grenadier
-      - forge_flametrooper
-      - forge_battle_tank
-      - forge_rocket_buggy
-      - forge_toxin_truck
-      - forge_helicopter
-      - forge_recon_plane
+    structures: []
+    units: []
 
   tier_3:
     unlock_requirements:
-      structures: ["forge_munitions", "forge_radar"]
-    structures:
-      - forge_advanced_munitions
-      - forge_airstrip
-      - forge_tunnel_network_hub
-      - forge_chemical_missile
-    units:
-      - forge_commando
-      - forge_chem_trooper
-      - forge_siege_tank
-      - forge_mammoth_tank
-      - forge_strike_bomber
-      - forge_transport
-      - forge_iron_fist
+      structures: []
+    structures: []
+    units: []
 
-research:
-  - research_id: "forge_hardened_steel"
-    display_name: "Hardened Steel Plating"
-    description: "+20% HP for all vehicles"
-    cost: {primary: 1200, secondary: 400}
-    time: 40.0
-    requires: ["forge_munitions"]
-    effect:
-      type: "stat_modifier"
-      target: {category: "vehicle", faction: "forge"}
-      modifier: {health.max: 1.2}
-
-  - research_id: "forge_chemical_warfare"
-    display_name: "Advanced Chemical Compounds"
-    description: "+25% damage for chemical weapons"
-    cost: {primary: 1000, secondary: 600}
-    time: 55.0
-    requires: ["forge_advanced_munitions"]
-    effect:
-      type: "stat_modifier"
-      target: {weapon.damage_type: "chemical"}
-      modifier: {weapons.damage: 1.25}
-
-  - research_id: "forge_tunnel_reinforcement"
-    display_name: "Reinforced Tunnels"
-    description: "Tunnel exits gain +50% HP, max exits increased to 6"
-    cost: {primary: 1500, secondary: 500}
-    time: 60.0
-    requires: ["forge_tunnel_network_hub"]
-    effect:
-      type: "ability_upgrade"
-      target: "forge_tunnel_network_hub"
-      modifier: {max_exits: 6, exit_health: 1.5}
-
-  - research_id: "forge_incendiary_rounds"
-    display_name: "Incendiary Ammunition"
-    description: "+20% fire damage, fire weapons apply 3s burn DoT"
-    cost: {primary: 800, secondary: 500}
-    time: 50.0
-    requires: ["forge_advanced_munitions"]
-    effect:
-      type: "stat_modifier"
-      target: {weapon.damage_type: "fire"}
-      modifier: {weapons.damage: 1.2, dot_duration: 3.0}
-
-  - research_id: "forge_missile_warhead"
-    display_name: "Enhanced Warhead"
-    description: "Chemical Missile radius +3 tiles, residual duration +5s"
-    cost: {primary: 2000, secondary: 1200}
-    time: 100.0
-    requires: ["forge_chemical_missile"]
-    effect:
-      type: "ability_upgrade"
-      target: "forge_chemical_missile"
-      modifier: {radius: 3, residual_duration: 5.0}
+research: []

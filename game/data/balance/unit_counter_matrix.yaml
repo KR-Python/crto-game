@@ -1,0 +1,226 @@
+# CRTO Unit Counter Matrix
+# Based on damage/armor type math from damage_armor_matrix.yaml
+# strong_vs: units this unit has a favorable matchup against
+# weak_vs: units that counter this unit effectively
+# neutral_vs: roughly even or situational matchup
+#
+# DPS formula: damage × (1/cooldown) × armor_multiplier
+# Counters also account for range, mobility, and special abilities
+
+counters:
+
+  # ─── TIER 1 ───────────────────────────────────────────────────────────────
+
+  aegis_rifleman:
+    strong_vs: [forge_conscript, forge_harvester]
+    weak_vs: [forge_attack_bike, forge_flametrooper, forge_saboteur]
+    neutral_vs: [aegis_scout_buggy]
+    notes: "Beats conscript 1v1; loses to fire/explosive AoE; 50% more expensive so swarm math favors forge"
+
+  aegis_engineer:
+    strong_vs: []
+    weak_vs: [forge_conscript, forge_attack_bike, forge_saboteur]
+    neutral_vs: []
+    notes: "Utility only — repair/capture; avoid direct combat"
+
+  aegis_harvester:
+    strong_vs: []
+    weak_vs: [forge_attack_bike, forge_saboteur, forge_conscript]
+    neutral_vs: []
+    notes: "Economic unit, unarmed; heavy armor means light units chip slowly"
+
+  aegis_scout_buggy:
+    strong_vs: [forge_conscript, forge_harvester]
+    weak_vs: [forge_attack_bike]
+    neutral_vs: [forge_saboteur]
+    notes: "Vision 12 tiles; 16 DPS kinetic vs light; outrun by Attack Bike (7.5 vs 6.0 speed)"
+
+  forge_conscript:
+    strong_vs: [aegis_engineer, aegis_harvester]
+    weak_vs: [aegis_rifleman, aegis_scout_buggy]
+    neutral_vs: []
+    notes: "Cheap swarm; loses 1v1 to Rifleman but wins cost-equal fights in groups of 3+"
+
+  forge_harvester:
+    strong_vs: []
+    weak_vs: [aegis_scout_buggy, aegis_rifleman, forge_attack_bike]
+    neutral_vs: []
+    notes: "Economic unit, unarmed; same profile as AEGIS Harvester"
+
+  forge_attack_bike:
+    strong_vs: [aegis_scout_buggy, aegis_harvester, aegis_engineer, forge_harvester]
+    weak_vs: [aegis_rifleman]
+    neutral_vs: [forge_conscript]
+    notes: "Fastest T1 unit (7.5 spd); explosive vs light = 18.75 eff DPS; glass cannon — dies fast to massed fire"
+
+  forge_saboteur:
+    strong_vs: [aegis_engineer, aegis_harvester]
+    weak_vs: [aegis_scout_buggy, aegis_rifleman]
+    neutral_vs: [forge_conscript]
+    notes: "Plant C4 = 200 instant structure damage; spec ops role not a mainline fighter"
+
+  # ─── TIER 2 ───────────────────────────────────────────────────────────────
+
+  aegis_medic:
+    strong_vs: []
+    weak_vs: [forge_flametrooper, forge_grenadier, forge_toxin_truck]
+    neutral_vs: []
+    notes: "No weapon; heal aura 5 HP/s radius 3; must be screened; counters attrition indirectly"
+
+  aegis_rocket_trooper:
+    strong_vs: [forge_battle_tank, aegis_medium_tank, forge_attack_bike, forge_rocket_buggy, forge_helicopter]
+    weak_vs: [aegis_interceptor, forge_flametrooper, forge_grenadier]
+    neutral_vs: [forge_grenadier]
+    notes: "Explosive vs heavy = 19.5 eff DPS; light armor glass cannon; range 6 requires getting close"
+
+  aegis_apc:
+    strong_vs: [forge_conscript, forge_flametrooper, forge_grenadier]
+    weak_vs: [forge_rocket_buggy, forge_battle_tank, aegis_rocket_trooper]
+    neutral_vs: [forge_toxin_truck]
+    notes: "Medium armor MG; transport capacity 4 infantry — strategic positional value"
+
+  aegis_medium_tank:
+    strong_vs: [forge_conscript, forge_flametrooper, forge_grenadier, forge_toxin_truck, aegis_apc]
+    weak_vs: [aegis_rocket_trooper, forge_rocket_buggy, forge_helicopter]
+    neutral_vs: [forge_battle_tank]
+    notes: "Kinetic vs heavy = 21.3 eff DPS; slightly less cost-efficient than Crusher but comparable performance"
+
+  aegis_aa_vehicle:
+    strong_vs: [forge_helicopter, aegis_interceptor, forge_strike_bomber, aegis_bomber, aegis_gunship, forge_transport, aegis_transport]
+    weak_vs: [forge_battle_tank, forge_rocket_buggy, aegis_medium_tank]
+    neutral_vs: [forge_toxin_truck]
+    notes: "ONLY targets air; energy vs medium = 40 eff DPS; completely helpless vs ground; must be screened"
+
+  aegis_interceptor:
+    strong_vs: [forge_helicopter, forge_transport, aegis_transport, forge_strike_bomber]
+    weak_vs: [aegis_aa_vehicle]
+    neutral_vs: [aegis_gunship]
+    notes: "Air superiority; FORGE has NO T2 air-to-air counter (FLAG-02); roams freely until T3 Strike Bomber"
+
+  forge_grenadier:
+    strong_vs: [aegis_rifleman, forge_conscript, aegis_apc, aegis_medic]
+    weak_vs: [aegis_medium_tank, forge_battle_tank, aegis_sniper]
+    neutral_vs: [aegis_rocket_trooper]
+    notes: "AoE 2.0; explosive vs light = 30 eff DPS; medium armor; slow (2.8 spd)"
+
+  forge_flametrooper:
+    strong_vs: [aegis_rifleman, forge_conscript, aegis_medic, aegis_engineer]
+    weak_vs: [aegis_medium_tank, forge_battle_tank, aegis_rocket_trooper]
+    neutral_vs: [forge_grenadier]
+    notes: "87.5 eff DPS vs light (fire×1.75); AoE 1.5; extreme infantry threat; short range (3) only weakness — FLAG-01"
+
+  forge_battle_tank:
+    strong_vs: [forge_conscript, forge_flametrooper, forge_grenadier, aegis_apc, aegis_medic]
+    weak_vs: [aegis_rocket_trooper, forge_rocket_buggy, forge_helicopter]
+    neutral_vs: [aegis_medium_tank]
+    notes: "Kinetic vs heavy = 20.8 eff DPS; cheaper than Guardian Tank (700 vs 800) for similar stats"
+
+  forge_rocket_buggy:
+    strong_vs: [aegis_medium_tank, forge_battle_tank, aegis_apc, aegis_heavy_tank]
+    weak_vs: [aegis_interceptor, forge_grenadier, forge_flametrooper]
+    neutral_vs: [forge_toxin_truck]
+    notes: "Explosive vs heavy = 16.5 eff DPS; fast (7.0) — kite tanks; light armor is the tradeoff"
+
+  forge_toxin_truck:
+    strong_vs: [aegis_rifleman, forge_conscript, aegis_medic, aegis_engineer]
+    weak_vs: [aegis_sniper, aegis_artillery, forge_siege_tank]
+    neutral_vs: [aegis_apc]
+    notes: "Chemical AoE 3.0 + persistent DoT field; area denial specialist; slow (3.5); ignored by heavy armor"
+
+  forge_helicopter:
+    strong_vs: [aegis_medium_tank, forge_battle_tank, aegis_apc, forge_toxin_truck]
+    weak_vs: [aegis_interceptor, aegis_aa_vehicle]
+    neutral_vs: [forge_rocket_buggy]
+    notes: "Explosive AoE 1.5 from air; only targets ground; hard countered by Interceptor + AA combo"
+
+  # ─── TIER 3 ───────────────────────────────────────────────────────────────
+
+  aegis_shock_trooper:
+    strong_vs: [forge_conscript, forge_grenadier, forge_flametrooper, forge_chem_trooper, forge_commando]
+    weak_vs: [forge_mammoth_tank, forge_iron_fist]
+    neutral_vs: [forge_chem_trooper]
+    notes: "Energy vs medium = 49.1 eff DPS; personal shield (150 HP recharging) adds effective durability"
+
+  aegis_sniper:
+    strong_vs: [forge_flametrooper, forge_grenadier, forge_toxin_truck, forge_conscript, forge_commando]
+    weak_vs: [forge_attack_bike, forge_iron_fist]
+    neutral_vs: [forge_chem_trooper]
+    notes: "Detector + camo when stationary; 200 kinetic per shot range 11; fragile (100 HP light)"
+
+  aegis_artillery:
+    strong_vs: [forge_siege_tank, forge_mammoth_tank, forge_toxin_truck, forge_commando]
+    weak_vs: [forge_helicopter, forge_strike_bomber, forge_attack_bike, aegis_bomber]
+    neutral_vs: [forge_siege_tank]
+    notes: "Range 16 kinetic; siege mode 3s deploy; kinetic vs medium = 22.5 eff DPS; excellent vs structures"
+
+  aegis_heavy_tank:
+    strong_vs: [forge_battle_tank, forge_rocket_buggy, forge_helicopter, forge_conscript, forge_grenadier]
+    weak_vs: [forge_mammoth_tank, forge_strike_bomber]
+    neutral_vs: [forge_siege_tank]
+    notes: "Dual weapons: energy cannon (60 DPS vs heavy) + missile pod (hits air); Overcharge Shields +400 HP"
+
+  aegis_gunship:
+    strong_vs: [forge_mammoth_tank, forge_battle_tank, forge_iron_fist, forge_helicopter, forge_conscript]
+    weak_vs: [forge_strike_bomber, aegis_aa_vehicle]
+    neutral_vs: [aegis_interceptor]
+    notes: "87.5 raw DPS energy (range 7, ground+air); highest sustained DPS T3; countered only by massed AA"
+
+  aegis_bomber:
+    strong_vs: [forge_mammoth_tank, forge_siege_tank, forge_iron_fist, forge_conscript]
+    weak_vs: [aegis_aa_vehicle, forge_strike_bomber]
+    neutral_vs: [forge_siege_tank]
+    notes: "200 explosive AoE 3.0 per run; cooldown 6s; devastating vs clumped ground; needs air escort"
+
+  aegis_transport:
+    strong_vs: []
+    weak_vs: [aegis_aa_vehicle, aegis_interceptor, aegis_gunship]
+    neutral_vs: []
+    notes: "Unarmed; 8 infantry or 4 vehicle capacity; enables paradrop behind enemy lines"
+
+  aegis_commander_unit:
+    strong_vs: [forge_iron_fist, forge_mammoth_tank, forge_conscript, forge_commando]
+    weak_vs: []
+    neutral_vs: [forge_iron_fist]
+    notes: "Unique/hero; Orbital Strike 800 dmg AoE 4 (90s CD); Shield Boost + Inspire auras; detector; energy vs heavy = 69.4 DPS"
+
+  forge_chem_trooper:
+    strong_vs: [aegis_rifleman, forge_conscript, aegis_medic, aegis_engineer, aegis_shock_trooper]
+    weak_vs: [aegis_sniper, aegis_heavy_tank, aegis_gunship]
+    neutral_vs: [aegis_shock_trooper]
+    notes: "Chemical AoE 2.0; immune to own gas; Gas Cloud 25 dmg/s 3-radius 8s; chemical vs medium = 37.5 DPS"
+
+  forge_commando:
+    strong_vs: [aegis_artillery, aegis_heavy_tank, forge_siege_tank]
+    weak_vs: [aegis_sniper, aegis_shock_trooper, aegis_commander_unit]
+    neutral_vs: [aegis_shock_trooper]
+    notes: "Infiltrate (20s stealth); Plant C4 = 800 explosive vs structure; satchel charge 500 dmg close range"
+
+  forge_siege_tank:
+    strong_vs: [aegis_artillery, aegis_heavy_tank, aegis_shock_trooper, forge_toxin_truck]
+    weak_vs: [aegis_bomber, aegis_gunship, forge_commando, aegis_interceptor]
+    neutral_vs: [aegis_artillery]
+    notes: "Range 15 explosive; 1600+200sec (cheaper than Tempest); 2.5s deploy; explosive vs medium = 32.7 DPS — FLAG-06"
+
+  forge_mammoth_tank:
+    strong_vs: [aegis_heavy_tank, aegis_shock_trooper, aegis_artillery, forge_siege_tank, aegis_apc]
+    weak_vs: [aegis_gunship, aegis_bomber, aegis_commander_unit]
+    neutral_vs: [aegis_heavy_tank]
+    notes: "1500 HP self-repairing; dual weapons; top autocannon hits air; ultimate ground bruiser; melts to concentrated air"
+
+  forge_strike_bomber:
+    strong_vs: [aegis_rifleman, forge_conscript, aegis_medic, aegis_shock_trooper, aegis_artillery]
+    weak_vs: [aegis_aa_vehicle, aegis_interceptor, aegis_gunship]
+    neutral_vs: [aegis_bomber]
+    notes: "Chemical bomb AoE 3.5 + Toxic Residue DoT 20/s 6s; great vs infantry/turtling; FORGE's T3 air-to-ground tool"
+
+  forge_transport:
+    strong_vs: []
+    weak_vs: [aegis_aa_vehicle, aegis_interceptor, aegis_gunship]
+    neutral_vs: []
+    notes: "Unarmed; 8 infantry or 4 vehicle capacity; mirrors AEGIS Valkyrie Transport exactly"
+
+  forge_iron_fist:
+    strong_vs: [aegis_shock_trooper, aegis_rifleman, forge_conscript, aegis_apc, forge_mammoth_tank]
+    weak_vs: [aegis_commander_unit, aegis_gunship, aegis_heavy_tank]
+    neutral_vs: [aegis_commander_unit]
+    notes: "Hero/unique; fire 75 DPS + kinetic 33.3 DPS; Rally Cry buffs all nearby units; Charge 300 dmg stun 10-range"
