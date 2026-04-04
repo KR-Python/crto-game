@@ -1,0 +1,9 @@
+# Godot runtime files (generated)
+.godot/
+
+# Generated JSON data files (source is YAML; JSON produced by tools/yaml_to_json.py)
+game/data/**/*.json
+
+# OS
+.DS_Store
+Thumbs.db

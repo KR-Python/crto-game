@@ -28,6 +28,10 @@ jobs:
         run: |
           python tools/validate_schemas.py
 
+      - name: Convert YAML data to JSON (Godot runtime)
+        run: |
+          python tools/yaml_to_json.py
+
       - name: Lint GDScript (gdtoolkit)
         run: |
           pip install gdtoolkit 2>/dev/null || true
