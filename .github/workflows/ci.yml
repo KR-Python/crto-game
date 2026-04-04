@@ -1,0 +1,58 @@
+name: CRTO CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  validate:
+    name: Validate & Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate YAML data files
+        run: |
+          python tools/validate_schemas.py
+
+      - name: Lint GDScript (gdtoolkit)
+        run: |
+          pip install gdtoolkit 2>/dev/null || true
+          if command -v gdlint &>/dev/null; then
+            echo "✓ gdtoolkit available — running lint"
+            find game/ -name "*.gd" -print0 | xargs -0 gdlint 2>&1 || true
+          else
+            echo "⚠ gdtoolkit not available or install failed — skipping GDScript lint"
+          fi
+
+  build-report:
+    name: Build Report (main only)
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Report build status
+        run: |
+          echo "✓ Phase 0 CI passed on main branch"
+          echo "  Commit: ${{ github.sha }}"
+          echo "  Branch: ${{ github.ref_name }}"
+          echo ""
+          echo "NOTE: Godot headless export is Phase 1 CI — not yet configured."
+          echo "      When Phase 1 is ready, add Godot download + export steps here."
