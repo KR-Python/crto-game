@@ -1,22 +1,22 @@
 class_name VisionSystem
 
 # Computes fog-of-war visibility per faction.
-# Uses SpatialHash + dirty region tracking to avoid recomputing
-# the entire map each tick.
+# Uses dirty region tracking to avoid recomputing the entire map each tick.
+#
+# Phase 6: dirty region tracking is the key optimization.
+# If no entities moved this tick, vision computation is completely skipped.
+# When entities move, only cells near moved positions are recomputed.
 #
 # Reads: Position, VisionRange, Faction
 # Writes: _visible_cells (internal), queried by renderer
-#
-# Dirty region tracking: MovementSystem marks cells dirty when
-# entities move. Only dirty cells + cells around new/removed
-# entities get recomputed.
 
 var _spatial_hash: SpatialHash = null
-var _dirty_positions: Array = []  # Array[Vector2] — positions that changed this tick
-var _visible_cells: Dictionary = {}  # int (faction_id) → Dictionary{Vector2i → int (viewer_count)}
+var _dirty_positions: Array = []
+var _visible_cells: Dictionary = {}  # int (faction_id) -> Dictionary{Vector2i -> int}
 var _needs_full_rebuild: bool = true
 
 const CELL_SIZE: float = 32.0  # fog cell size (1 tile)
+
 
 func set_spatial_hash(sh: SpatialHash) -> void:
 	_spatial_hash = sh
@@ -37,6 +37,12 @@ func is_visible(faction_id: int, world_pos: Vector2) -> bool:
 	return false
 
 
+func get_visible_cell_count(faction_id: int) -> int:
+	if _visible_cells.has(faction_id):
+		return _visible_cells[faction_id].size()
+	return 0
+
+
 func tick(ecs: ECS, _tick_count: int) -> void:
 	if _needs_full_rebuild:
 		_full_rebuild(ecs)
@@ -45,7 +51,7 @@ func tick(ecs: ECS, _tick_count: int) -> void:
 		return
 
 	if _dirty_positions.is_empty():
-		return  # Nothing moved — skip entirely
+		return
 
 	_incremental_update(ecs)
 	_dirty_positions.clear()
@@ -59,9 +65,8 @@ func _full_rebuild(ecs: ECS) -> void:
 
 
 func _incremental_update(ecs: ECS) -> void:
-	# Collect dirty cells at max vision range
-	var max_range: float = 256.0  # conservative max; could be computed from data
-	var dirty_cells: Dictionary = {}  # Vector2i → true
+	var max_range: float = 256.0
+	var dirty_cells: Dictionary = {}
 
 	for pos in _dirty_positions:
 		var min_c: Vector2i = _pos_to_cell(pos - Vector2(max_range, max_range))
@@ -70,13 +75,11 @@ func _incremental_update(ecs: ECS) -> void:
 			for y in range(min_c.y, max_c.y + 1):
 				dirty_cells[Vector2i(x, y)] = true
 
-	# Clear dirty cells from all factions
 	for faction_id in _visible_cells:
 		var faction_vis: Dictionary = _visible_cells[faction_id]
 		for cell in dirty_cells:
 			faction_vis.erase(cell)
 
-	# Re-add vision for entities near dirty regions
 	var entities: Array = ecs.query(["Position", "VisionRange", "Faction"])
 	for eid in entities:
 		var pos: Dictionary = ecs.get_component(eid, "Position")
@@ -86,7 +89,6 @@ func _incremental_update(ecs: ECS) -> void:
 		var min_c: Vector2i = _pos_to_cell(epos - Vector2(r, r))
 		var max_c: Vector2i = _pos_to_cell(epos + Vector2(r, r))
 
-		# Check if any of this entity's vision cells are dirty
 		var overlaps: bool = false
 		for cx in range(min_c.x, max_c.x + 1):
 			if overlaps:

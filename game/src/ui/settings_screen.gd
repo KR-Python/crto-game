@@ -6,29 +6,37 @@ extends Control
 
 signal closed()
 
-const TAB_AUDIO: int    = 0
-const TAB_VIDEO: int    = 1
+# Tab indices
+const TAB_AUDIO: int = 0
+const TAB_VIDEO: int = 1
 const TAB_KEYBINDS: int = 2
 
+# Rebind state — which action row is waiting for a key press
 var _rebinding_action: String = ""
+
+# Built at runtime; maps action name → label node showing current binding
 var _keybind_labels: Dictionary = {}
 
+# Ordered list of rebindable actions with display names
 const REBINDABLE_ACTIONS: Array = [
-	["camera_up",     "Move Camera Up"],
-	["camera_down",   "Move Camera Down"],
-	["camera_left",   "Move Camera Left"],
-	["camera_right",  "Move Camera Right"],
-	["zoom_in",       "Zoom In"],
-	["zoom_out",      "Zoom Out"],
-	["select_all",    "Select All"],
-	["attack_move",   "Attack Move"],
-	["stop",          "Stop"],
-	["hold_position", "Hold Position"],
-	["request_wheel", "Open Request Wheel"],
-	["ping_danger",   "Ping Danger"],
-	["home_camera",   "Home Camera"],
+	["camera_up",      "Move Camera Up"],
+	["camera_down",    "Move Camera Down"],
+	["camera_left",    "Move Camera Left"],
+	["camera_right",   "Move Camera Right"],
+	["zoom_in",        "Zoom In"],
+	["zoom_out",       "Zoom Out"],
+	["select_all",     "Select All"],
+	["attack_move",    "Attack Move"],
+	["stop",           "Stop"],
+	["hold_position",  "Hold Position"],
+	["request_wheel",  "Open Request Wheel"],
+	["ping_danger",    "Ping Danger"],
+	["home_camera",    "Home Camera"],
 ]
 
+# ---------------------------------------------------------------------------
+# Node references — set in _build_ui()
+# ---------------------------------------------------------------------------
 var _tab_container: TabContainer
 var _master_slider: HSlider
 var _music_slider: HSlider
@@ -39,7 +47,7 @@ var _resolution_opt: OptionButton
 var _render_scale_slider: HSlider
 var _render_scale_label: Label
 var _keybind_list: VBoxContainer
-var _rebind_overlay: Panel
+var _rebind_overlay: Panel  # shown while capturing a new key
 
 
 func _ready() -> void:
@@ -47,10 +55,14 @@ func _ready() -> void:
 	_load_values()
 
 
+# ---------------------------------------------------------------------------
+# Input — capture rebind key presses
+# ---------------------------------------------------------------------------
+
 func _input(event: InputEvent) -> void:
 	if _rebinding_action.is_empty():
 		return
-	# Ignore key/button release events
+	# Ignore releases and non-actionable events
 	if event is InputEventKey and not (event as InputEventKey).pressed:
 		return
 	if event is InputEventMouseButton and not (event as InputEventMouseButton).pressed:
@@ -60,6 +72,7 @@ func _input(event: InputEvent) -> void:
 		_cancel_rebind()
 		get_viewport().set_input_as_handled()
 		return
+	# Accept key or mouse button events only
 	if event is InputEventKey or event is InputEventMouseButton:
 		SettingsManager.rebind_key(_rebinding_action, event)
 		_finish_rebind()
@@ -71,6 +84,7 @@ func _input(event: InputEvent) -> void:
 # ---------------------------------------------------------------------------
 
 func _build_ui() -> void:
+	# Root fills the full screen with a semi-transparent background
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 	var bg := ColorRect.new()
@@ -79,14 +93,16 @@ func _build_ui() -> void:
 	add_child(bg)
 
 	var panel := Panel.new()
-	panel.set_anchor(SIDE_LEFT,   0.5)
-	panel.set_anchor(SIDE_RIGHT,  0.5)
-	panel.set_anchor(SIDE_TOP,    0.5)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.custom_minimum_size = Vector2(700, 500)
+	panel.set_anchor(SIDE_LEFT, 0.5)
+	panel.set_anchor(SIDE_RIGHT, 0.5)
+	panel.set_anchor(SIDE_TOP, 0.5)
 	panel.set_anchor(SIDE_BOTTOM, 0.5)
-	panel.set_offset(SIDE_LEFT,   -350.0)
-	panel.set_offset(SIDE_RIGHT,   350.0)
-	panel.set_offset(SIDE_TOP,    -250.0)
-	panel.set_offset(SIDE_BOTTOM,  250.0)
+	panel.set_offset(SIDE_LEFT, -350.0)
+	panel.set_offset(SIDE_RIGHT, 350.0)
+	panel.set_offset(SIDE_TOP, -250.0)
+	panel.set_offset(SIDE_BOTTOM, 250.0)
 	add_child(panel)
 
 	var vbox := VBoxContainer.new()
@@ -94,6 +110,7 @@ func _build_ui() -> void:
 	vbox.add_theme_constant_override("separation", 8)
 	panel.add_child(vbox)
 
+	# Title row
 	var title_row := HBoxContainer.new()
 	vbox.add_child(title_row)
 
@@ -107,6 +124,7 @@ func _build_ui() -> void:
 	close_btn.pressed.connect(_on_close_pressed)
 	title_row.add_child(close_btn)
 
+	# Tabs
 	_tab_container = TabContainer.new()
 	_tab_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	vbox.add_child(_tab_container)
@@ -115,6 +133,7 @@ func _build_ui() -> void:
 	_build_video_tab()
 	_build_keybind_tab()
 
+	# Rebind capture overlay (hidden by default)
 	_rebind_overlay = Panel.new()
 	_rebind_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_rebind_overlay.visible = false
@@ -164,9 +183,11 @@ func _add_volume_row(parent: VBoxContainer, label_text: String) -> HSlider:
 	pct_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(pct_lbl)
 
+	# Keep percentage label in sync
 	slider.value_changed.connect(func(v: float) -> void:
 		pct_lbl.text = "%d%%" % int(v * 100)
 	)
+
 	return slider
 
 
@@ -176,6 +197,7 @@ func _build_video_tab() -> void:
 	tab.add_theme_constant_override("separation", 12)
 	_tab_container.add_child(tab)
 
+	# Fullscreen
 	var fs_row := HBoxContainer.new()
 	tab.add_child(fs_row)
 	var fs_lbl := Label.new()
@@ -186,6 +208,7 @@ func _build_video_tab() -> void:
 	_fullscreen_check.toggled.connect(_on_fullscreen_toggled)
 	fs_row.add_child(_fullscreen_check)
 
+	# VSync
 	var vs_row := HBoxContainer.new()
 	tab.add_child(vs_row)
 	var vs_lbl := Label.new()
@@ -196,6 +219,7 @@ func _build_video_tab() -> void:
 	_vsync_check.toggled.connect(_on_vsync_toggled)
 	vs_row.add_child(_vsync_check)
 
+	# Resolution
 	var res_row := HBoxContainer.new()
 	tab.add_child(res_row)
 	var res_lbl := Label.new()
@@ -207,6 +231,7 @@ func _build_video_tab() -> void:
 		_resolution_opt.add_item(res)
 	res_row.add_child(_resolution_opt)
 
+	# Render Scale
 	var scale_row := HBoxContainer.new()
 	tab.add_child(scale_row)
 	var scale_lbl := Label.new()
@@ -227,6 +252,7 @@ func _build_video_tab() -> void:
 		_render_scale_label.text = "%d%%" % int(v * 100)
 	)
 
+	# Apply button — video changes only take effect on explicit apply
 	var apply_btn := Button.new()
 	apply_btn.text = "Apply"
 	apply_btn.pressed.connect(_on_video_apply_pressed)
@@ -278,19 +304,23 @@ func _add_keybind_row(action: String, display_name: String) -> void:
 
 
 # ---------------------------------------------------------------------------
-# Populate widgets from SettingsManager
+# Load values from SettingsManager into widgets
 # ---------------------------------------------------------------------------
 
 func _load_values() -> void:
+	# Audio
 	_master_slider.value = SettingsManager.audio.get("master_volume", 1.0)
-	_music_slider.value  = SettingsManager.audio.get("music_volume",  0.7)
-	_sfx_slider.value    = SettingsManager.audio.get("sfx_volume",    0.9)
+	_music_slider.value  = SettingsManager.audio.get("music_volume", 0.7)
+	_sfx_slider.value    = SettingsManager.audio.get("sfx_volume", 0.9)
 
+	# Video
 	_fullscreen_check.button_pressed = SettingsManager.video.get("fullscreen", false)
 	_vsync_check.button_pressed      = SettingsManager.video.get("vsync", true)
-	_select_resolution(SettingsManager.video.get("resolution", "1920x1080"))
+	var res: String = SettingsManager.video.get("resolution", "1920x1080")
+	_select_resolution(res)
 	_render_scale_slider.value = SettingsManager.video.get("render_scale", 1.0)
 
+	# Keybinds
 	_refresh_keybind_labels()
 
 
@@ -299,7 +329,7 @@ func _select_resolution(res: String) -> void:
 		if _resolution_opt.get_item_text(i) == res:
 			_resolution_opt.selected = i
 			return
-	_resolution_opt.selected = 1  # fallback to 1920x1080
+	_resolution_opt.selected = 1  # default 1920x1080
 
 
 func _refresh_keybind_labels() -> void:
@@ -324,7 +354,31 @@ func _event_display(event: InputEvent) -> String:
 
 
 # ---------------------------------------------------------------------------
-# Signal handlers
+# Signal handlers — Audio tab
+# ---------------------------------------------------------------------------
+
+func _on_master_slider_changed(value: float) -> void:
+	SettingsManager.set_audio("master_volume", value)
+
+
+func _on_music_slider_changed(value: float) -> void:
+	SettingsManager.set_audio("music_volume", value)
+
+
+func _on_sfx_slider_changed(value: float) -> void:
+	SettingsManager.set_audio("sfx_volume", value)
+
+
+func _on_test_sound_pressed() -> void:
+	# Play a short UI click through the SFX bus — requires an AudioStreamPlayer
+	# with the name "UIClick" in the scene tree; gracefully skip if absent
+	var player: AudioStreamPlayer = get_node_or_null("/root/UIClick")
+	if player:
+		player.play()
+
+
+# ---------------------------------------------------------------------------
+# Signal handlers — Video tab
 # ---------------------------------------------------------------------------
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
@@ -336,19 +390,17 @@ func _on_vsync_toggled(pressed: bool) -> void:
 
 
 func _on_video_apply_pressed() -> void:
-	SettingsManager.set_video("fullscreen",    _fullscreen_check.button_pressed)
-	SettingsManager.set_video("vsync",         _vsync_check.button_pressed)
-	SettingsManager.set_video("resolution",    _resolution_opt.get_item_text(_resolution_opt.selected))
-	SettingsManager.set_video("render_scale",  _render_scale_slider.value)
+	# Read current widget state into SettingsManager then apply
+	SettingsManager.set_video("fullscreen", _fullscreen_check.button_pressed)
+	SettingsManager.set_video("vsync", _vsync_check.button_pressed)
+	SettingsManager.set_video("resolution", _resolution_opt.get_item_text(_resolution_opt.selected))
+	SettingsManager.set_video("render_scale", _render_scale_slider.value)
 	SettingsManager.apply_video()
 
 
-func _on_test_sound_pressed() -> void:
-	# Requires an AudioStreamPlayer autoloaded as UIClick; skip gracefully if absent
-	var player: AudioStreamPlayer = get_node_or_null("/root/UIClick")
-	if player:
-		player.play()
-
+# ---------------------------------------------------------------------------
+# Signal handlers — Keybind tab
+# ---------------------------------------------------------------------------
 
 func _start_rebind(action: String) -> void:
 	_rebinding_action = action
@@ -370,6 +422,10 @@ func _on_keybind_reset_pressed() -> void:
 	SettingsManager.reset_to_defaults()
 	_load_values()
 
+
+# ---------------------------------------------------------------------------
+# Close
+# ---------------------------------------------------------------------------
 
 func _on_close_pressed() -> void:
 	closed.emit()

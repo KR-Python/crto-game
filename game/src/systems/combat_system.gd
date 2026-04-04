@@ -1,7 +1,10 @@
 class_name CombatSystem
 
 # Tick pipeline step 9: Target acquisition, damage calculation, weapon cooldowns.
-# Does NOT handle death — DeathSystem (step 10) handles entity removal.
+# Does NOT handle death -- DeathSystem (step 10) handles entity removal.
+#
+# Phase 6 optimization: uses SpatialHash for auto-acquire target search
+# instead of iterating all attackable entities. AoE also uses spatial hash.
 #
 # Reads: Position, Weapon, Health, AttackCommand, FactionComponent, Attackable,
 #         Flying, Structure, PoweredOff
@@ -11,16 +14,20 @@ const TICKS_PER_SECOND: float = 15.0
 const TICK_DURATION: float = 1.0 / TICKS_PER_SECOND
 
 var _armor_matrix: Dictionary = {}
+var _spatial_hash: SpatialHash = null
 
 
 func _init() -> void:
 	_load_armor_matrix()
 
 
+func set_spatial_hash(sh: SpatialHash) -> void:
+	_spatial_hash = sh
+
+
 func _load_armor_matrix() -> void:
 	var file := FileAccess.open("res://data/balance/damage_armor_matrix.yaml", FileAccess.READ)
 	if file == null:
-		push_error("CombatSystem: failed to load damage_armor_matrix.yaml")
 		_armor_matrix = _get_default_armor_matrix()
 		return
 	var yaml_text := file.get_as_text()
@@ -29,13 +36,10 @@ func _load_armor_matrix() -> void:
 	if parsed is Dictionary and parsed.has("matrix"):
 		_armor_matrix = parsed["matrix"]
 	else:
-		push_warning("CombatSystem: invalid armor matrix format, using defaults")
 		_armor_matrix = _get_default_armor_matrix()
 
 
 func _parse_yaml(text: String) -> Variant:
-	# Minimal YAML parser for the flat matrix structure.
-	# For production, replace with a proper YAML addon.
 	var result: Dictionary = {}
 	var current_section: String = ""
 	var current_dict: Dictionary = {}
@@ -93,7 +97,7 @@ func tick(ecs: ECS, tick_count: int) -> void:
 		if ecs.has_component(entity_id, "PoweredOff"):
 			continue
 
-		# 4. Target acquisition
+		# 4. Target acquisition (spatial hash accelerated)
 		var target_id: int = _acquire_target(ecs, entity_id, weapon, position)
 		if target_id < 0:
 			continue
@@ -111,15 +115,14 @@ func tick(ecs: ECS, tick_count: int) -> void:
 		var target_pos: Dictionary = ecs.get_component(target_id, "Position")
 		var dist: float = _distance(position, target_pos)
 		if dist > weapon.get("range", 0.0):
-			# Out of range — don't fire, let MovementSystem close distance
 			continue
 
-		# 7. Fire — apply damage
+		# 7. Fire -- apply damage
 		var damage: float = _calculate_damage(weapon, target_health)
 		target_health["current"] = maxf(target_health["current"] - damage, 0.0)
 		ecs.set_component(target_id, "Health", target_health)
 
-		# 8. AoE damage
+		# 8. AoE damage (spatial hash accelerated)
 		var aoe: float = weapon.get("area_of_effect", 0.0)
 		if aoe > 0.0:
 			_apply_aoe_damage(ecs, entity_id, target_id, target_pos, weapon, aoe)
@@ -130,44 +133,48 @@ func tick(ecs: ECS, tick_count: int) -> void:
 
 
 func _acquire_target(ecs: ECS, entity_id: int, weapon: Dictionary, position: Dictionary) -> int:
-	# If AttackCommand exists, use that target (explicit override)
+	# Explicit AttackCommand takes priority
 	if ecs.has_component(entity_id, "AttackCommand"):
 		var cmd: Dictionary = ecs.get_component(entity_id, "AttackCommand")
 		var target: int = cmd.get("target", -1)
 		if target >= 0 and ecs.entity_exists(target):
 			return target
-		# Invalid target — clear command
 		_clear_attack_command(ecs, entity_id)
 
-	# Auto-acquire: nearest valid enemy within range
+	# Auto-acquire: use spatial hash for candidates within range
 	var my_faction: int = _get_faction(ecs, entity_id)
 	var weapon_range: float = weapon.get("range", 0.0)
 	var targets_mask: Variant = weapon.get("targets", [])
-	var attackable_entities: Array = ecs.query(["Attackable", "Position", "Health", "FactionComponent"])
+	var pos := Vector2(position.get("x", 0.0), position.get("y", 0.0))
+
+	var candidates: Array
+	if _spatial_hash != null:
+		candidates = _spatial_hash.query_radius(pos, weapon_range)
+	else:
+		candidates = ecs.query(["Attackable", "Position", "Health", "FactionComponent"])
 
 	var best_id: int = -1
 	var best_dist: float = INF
 
-	for candidate_id in attackable_entities:
+	for candidate_id in candidates:
 		if candidate_id == entity_id:
 			continue
-		# Must be different faction
+		if not ecs.has_component(candidate_id, "Attackable"):
+			continue
+		if not ecs.has_component(candidate_id, "Health"):
+			continue
 		var candidate_faction: int = _get_faction(ecs, candidate_id)
 		if candidate_faction == my_faction:
 			continue
-		# Must be alive
 		var candidate_health: Dictionary = ecs.get_component(candidate_id, "Health")
 		if candidate_health.get("current", 0.0) <= 0.0:
 			continue
-		# Must match weapon targets mask
 		if not _matches_target_mask(ecs, candidate_id, targets_mask):
 			continue
-		# Must be in range
 		var candidate_pos: Dictionary = ecs.get_component(candidate_id, "Position")
 		var dist: float = _distance(position, candidate_pos)
 		if dist > weapon_range:
 			continue
-		# Nearest wins, tie-break by lowest entity ID
 		if dist < best_dist or (dist == best_dist and candidate_id < best_id):
 			best_dist = dist
 			best_id = candidate_id
@@ -177,7 +184,7 @@ func _acquire_target(ecs: ECS, entity_id: int, weapon: Dictionary, position: Dic
 
 func _matches_target_mask(ecs: ECS, candidate_id: int, targets_mask: Variant) -> bool:
 	if targets_mask is not Array:
-		return true  # No mask = targets everything
+		return true
 	if targets_mask.is_empty():
 		return true
 	var is_flying: bool = ecs.has_component(candidate_id, "Flying")
@@ -193,9 +200,6 @@ func _matches_target_mask(ecs: ECS, candidate_id: int, targets_mask: Variant) ->
 			"structure":
 				if is_structure:
 					return true
-			"naval":
-				# TODO Phase 2: naval tag check
-				pass
 	return false
 
 
@@ -212,11 +216,18 @@ func _calculate_damage(weapon: Dictionary, target_health: Dictionary) -> float:
 func _apply_aoe_damage(ecs: ECS, attacker_id: int, primary_target_id: int,
 		target_pos: Dictionary, weapon: Dictionary, aoe_radius: float) -> void:
 	var attacker_faction: int = _get_faction(ecs, attacker_id)
-	var all_attackable: Array = ecs.query(["Attackable", "Position", "Health"])
+	var center := Vector2(target_pos.get("x", 0.0), target_pos.get("y", 0.0))
 
-	for candidate_id in all_attackable:
-		# Skip primary target (already took full damage) and firing unit
+	var candidates: Array
+	if _spatial_hash != null:
+		candidates = _spatial_hash.query_radius(center, aoe_radius)
+	else:
+		candidates = ecs.query(["Attackable", "Position", "Health"])
+
+	for candidate_id in candidates:
 		if candidate_id == primary_target_id or candidate_id == attacker_id:
+			continue
+		if not ecs.has_component(candidate_id, "Attackable"):
 			continue
 		var candidate_pos: Dictionary = ecs.get_component(candidate_id, "Position")
 		var dist: float = _distance(target_pos, candidate_pos)
@@ -226,11 +237,9 @@ func _apply_aoe_damage(ecs: ECS, attacker_id: int, primary_target_id: int,
 		if candidate_health.get("current", 0.0) <= 0.0:
 			continue
 		var base_damage: float = _calculate_damage(weapon, candidate_health)
-		# Friendly units: 50% damage. Enemy units: 100% damage.
 		var candidate_faction: int = _get_faction(ecs, candidate_id)
 		var damage_mult: float = 0.5 if candidate_faction == attacker_faction else 1.0
-		var final_damage: float = base_damage * damage_mult
-		candidate_health["current"] = maxf(candidate_health["current"] - final_damage, 0.0)
+		candidate_health["current"] = maxf(candidate_health["current"] - base_damage * damage_mult, 0.0)
 		ecs.set_component(candidate_id, "Health", candidate_health)
 
 

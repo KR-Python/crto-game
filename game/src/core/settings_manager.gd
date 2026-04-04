@@ -8,6 +8,7 @@ signal settings_changed(category: String)
 
 const SETTINGS_PATH: String = "user://settings.cfg"
 
+# Default values — also used by reset_to_defaults()
 const DEFAULT_AUDIO: Dictionary = {
 	"master_volume": 1.0,
 	"music_volume": 0.7,
@@ -21,26 +22,26 @@ const DEFAULT_VIDEO: Dictionary = {
 	"render_scale": 1.0,
 }
 
-# Default values stored as int scancode / MouseButton enum
+# Key constants used as default values; stored as int scancode / mouse button index
 const DEFAULT_KEYBINDS: Dictionary = {
-	"camera_up":      KEY_W,
-	"camera_down":    KEY_S,
-	"camera_left":    KEY_A,
-	"camera_right":   KEY_D,
-	"zoom_in":        MOUSE_BUTTON_WHEEL_UP,
-	"zoom_out":       MOUSE_BUTTON_WHEEL_DOWN,
-	"select_all":     KEY_CTRL,   # +A combo handled in InputHandler
-	"attack_move":    KEY_A,
-	"stop":           KEY_S,
-	"hold_position":  KEY_H,
-	"request_wheel":  KEY_Q,
-	"ping_danger":    KEY_ALT,
-	"home_camera":    KEY_HOME,
+	"camera_up": KEY_W,
+	"camera_down": KEY_S,
+	"camera_left": KEY_A,
+	"camera_right": KEY_D,
+	"zoom_in": MOUSE_BUTTON_WHEEL_UP,
+	"zoom_out": MOUSE_BUTTON_WHEEL_DOWN,
+	"select_all": KEY_CTRL,   # +A combo handled in InputHandler
+	"attack_move": KEY_A,
+	"stop": KEY_S,
+	"hold_position": KEY_H,
+	"request_wheel": KEY_Q,
+	"ping_danger": KEY_ALT,
+	"home_camera": KEY_HOME,
 }
 
 var audio: Dictionary = DEFAULT_AUDIO.duplicate()
 var video: Dictionary = DEFAULT_VIDEO.duplicate()
-# action_name → InputEvent; populated from DEFAULT_KEYBINDS on load
+# action_name → InputEvent (populated from DEFAULT_KEYBINDS on first load)
 var keybinds: Dictionary = {}
 
 var _config: ConfigFile = ConfigFile.new()
@@ -57,21 +58,25 @@ func _ready() -> void:
 func load_settings() -> void:
 	var err: int = _config.load(SETTINGS_PATH)
 	if err != OK:
+		# No saved config yet — apply defaults and bail
 		_apply_keybind_defaults()
 		return
 
+	# Audio
 	for key in DEFAULT_AUDIO.keys():
 		audio[key] = _config.get_value("audio", key, DEFAULT_AUDIO[key])
 
+	# Video
 	for key in DEFAULT_VIDEO.keys():
 		video[key] = _config.get_value("video", key, DEFAULT_VIDEO[key])
 
+	# Keybinds — serialised as scancode integers
 	for action in DEFAULT_KEYBINDS.keys():
 		var stored: int = _config.get_value("keybinds", action, -1)
 		if stored == -1:
 			keybinds[action] = _make_event_from_default(action)
 		else:
-			keybinds[action] = _make_event_from_int(stored)
+			keybinds[action] = _make_event_from_int(action, stored)
 
 	_apply_audio()
 	_apply_video()
@@ -118,8 +123,8 @@ func set_audio(key: String, value: float) -> void:
 
 func _apply_audio() -> void:
 	_set_bus_volume("Master", audio.get("master_volume", 1.0))
-	_set_bus_volume("Music",  audio.get("music_volume",  0.7))
-	_set_bus_volume("SFX",    audio.get("sfx_volume",    0.9))
+	_set_bus_volume("Music", audio.get("music_volume", 0.7))
+	_set_bus_volume("SFX", audio.get("sfx_volume", 0.9))
 
 
 func _set_bus_volume(bus_name: String, linear: float) -> void:
@@ -148,16 +153,19 @@ func apply_video() -> void:
 
 
 func _apply_video() -> void:
+	# Fullscreen
 	var fs: bool = video.get("fullscreen", false)
 	if fs:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
+	# VSync
 	var vsync_mode: int = DisplayServer.VSYNC_ENABLED if video.get("vsync", true) \
 		else DisplayServer.VSYNC_DISABLED
 	DisplayServer.window_set_vsync_mode(vsync_mode)
 
+	# Resolution
 	var res_str: String = video.get("resolution", "1920x1080")
 	var parts: PackedStringArray = res_str.split("x")
 	if parts.size() == 2:
@@ -166,6 +174,7 @@ func _apply_video() -> void:
 		if w > 0 and h > 0:
 			DisplayServer.window_set_size(Vector2i(w, h))
 
+	# Render scale — applies to the 3D viewport if one exists
 	var scale: float = clampf(video.get("render_scale", 1.0), 0.5, 1.0)
 	var vp: Viewport = get_viewport()
 	if vp:
@@ -181,6 +190,7 @@ func rebind_key(action: String, event: InputEvent) -> void:
 		push_warning("SettingsManager: unknown action '%s'" % action)
 		return
 	keybinds[action] = event
+	# Propagate to Godot's InputMap so the new binding takes effect immediately
 	InputMap.action_erase_events(action)
 	InputMap.action_add_event(action, event)
 	save_settings()
@@ -201,10 +211,11 @@ func _apply_keybind_defaults() -> void:
 
 
 func _make_event_from_default(action: String) -> InputEvent:
-	return _make_event_from_int(DEFAULT_KEYBINDS[action])
+	return _make_event_from_int(action, DEFAULT_KEYBINDS[action])
 
 
-func _make_event_from_int(code: int) -> InputEvent:
+func _make_event_from_int(action: String, code: int) -> InputEvent:
+	# Mouse button codes live in the MouseButton enum range
 	if code == MOUSE_BUTTON_WHEEL_UP or code == MOUSE_BUTTON_WHEEL_DOWN \
 			or code == MOUSE_BUTTON_LEFT or code == MOUSE_BUTTON_RIGHT \
 			or code == MOUSE_BUTTON_MIDDLE:
