@@ -45,3 +45,18 @@ func should_multi_prong() -> bool:
 
 func get_first_attack_tick() -> int:
 	return personality.get("behavior", {}).get("first_attack_tick", 900)
+
+
+func should_harass() -> bool:
+	return get_strategy_weight("harass") >= 0.8
+
+
+func get_attack_threshold() -> float:
+	var attack_weight: float = get_strategy_weight("attack")
+	if attack_weight > 0.0:
+		return 1.3 / attack_weight
+	return 1.3
+
+
+func get_reaction_time_ticks() -> int:
+	return personality.get("difficulty_modifiers", {}).get("reaction_time_ticks", 15)

@@ -1,0 +1,38 @@
+personality_id: "dr_chen"
+display_name: "Dr. Chen"
+faction_affinity: "aegis"
+difficulty: "medium"
+description: "Defensive mastermind who turtles to T3 and overwhelms with technology."
+
+strategy_weights:
+  expand_economy: 1.2
+  build_army: 0.6
+  tech_up: 1.8
+  attack: 0.5
+  defend: 1.6
+  harass: 0.3
+
+behavior:
+  first_attack_tick: 3000
+  attack_frequency: "rare"
+  retreat_threshold: 0.6
+  expansion_timing: "mid"
+  tech_priority: ["tech", "air", "vehicles"]
+  preferred_composition:
+    vehicles: 0.3
+    infantry: 0.1
+    air: 0.4
+    special: 0.2
+
+difficulty_modifiers:
+  resource_bonus: 1.0
+  reaction_time_ticks: 15
+  micro_precision: 0.6
+  scouting_frequency: "medium"
+  multi_prong_attacks: false
+
+personality_quirks:
+  - "Rushes to T3 technology before committing to any attack"
+  - "Builds heavy defense perimeter — turrets and walls"
+  - "Single devastating push once tech advantage is secured"
+  - "Retreats easily to preserve expensive units"
