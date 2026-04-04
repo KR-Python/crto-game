@@ -1,0 +1,48 @@
+tutorial_id: "field_marshal_basics"
+display_name: "Field Marshal Tutorial"
+description: "Learn to command the army"
+role: "field_marshal"
+map: "iron_bridge"
+starting_units: 5  # pre-spawned combat units — mix of tanks and infantry
+
+steps:
+  - id: "welcome"
+    text: "Welcome, Field Marshal. You command the army. Let's start with the basics."
+    complete_when: "manual"
+
+  - id: "select_unit"
+    text: "Click on a unit to select it. Try selecting the tank on the left."
+    highlight_element: "game_world"
+    complete_when: "unit_selected"
+    hint: "Left-click on any unit to select it"
+
+  - id: "move_unit"
+    text: "Right-click anywhere on the map to move your selected unit there."
+    complete_when: "unit_moved"
+    hint: "Right-click on the map to issue a move order"
+
+  - id: "select_all"
+    text: "Press Ctrl+A to select all your units at once."
+    complete_when: "all_units_selected"
+    hint: "Ctrl+A selects everything you control"
+
+  - id: "attack_move"
+    text: "Press A then click to attack-move — your units will engage any enemies they encounter."
+    complete_when: "attack_move_issued"
+    hint: "Press A, then left-click a destination to attack-move"
+
+  - id: "request_units"
+    text: "Hold Q to open the request wheel. Ask the Quartermaster for more tanks."
+    highlight_element: "request_wheel"
+    complete_when: "request_sent"
+    hint: "Hold Q and drag to the tank icon, then release"
+
+  - id: "first_engagement"
+    text: "Enemy scouts approaching! Defeat them to complete this tutorial."
+    complete_when: "enemy_defeated"
+    trigger_event: "spawn_enemy_scouts"
+    hint: "Select your units and right-click the enemy, or use attack-move (A + click)"
+
+  - id: "complete"
+    text: "Well done, Field Marshal! You're ready for battle. Coordinate with your Quartermaster and Commander for the best results."
+    complete_when: "manual"
