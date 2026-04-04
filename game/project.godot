@@ -1,0 +1,20 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; but this placeholder marks the Godot project root.
+
+[configuration]
+
+config_version=5
+
+[application]
+
+config/name="CRTO — Cooperative Real-Time Operations"
+config/description="Cooperative RTS where 2-6 players each fill a specialized role."
+config/version="0.0.1"
+run/main_scene="res://src/core/game_loop.gd"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+config/icon="res://assets/ui/icon.svg"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
