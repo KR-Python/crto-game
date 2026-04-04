@@ -1,82 +1,90 @@
 class_name NavGrid
-## Navigation grid storing walkability and movement type masks per cell.
-## Cell size: 1 tile = 1 cell. Buildings occupy multiple cells (set as impassable).
+extends RefCounted
 
-# Movement type bitmask constants
-const MOVE_FOOT: int = 1
-const MOVE_WHEELED: int = 2
-const MOVE_TRACKED: int = 4
-const MOVE_HOVER: int = 8
-const MOVE_FLYING: int = 16
-const MOVE_ALL: int = 0xFF
+## Navigation grid wrapping GameMap for pathfinding queries.
+## Translates between world coordinates and tile coordinates,
+## exposes passability checks by movement type constants.
 
-# Cell size in world units (1 tile = 1 cell)
-const CELL_SIZE: float = 32.0  # 1 tile = 32px
+# Movement type constants (match GameMap passability strings)
+const MOVE_FOOT: int = 0
+const MOVE_WHEELED: int = 1
+const MOVE_TRACKED: int = 2
+const MOVE_HOVER: int = 3
+const MOVE_FLYING: int = 4
+
+const _MOVE_STRINGS: Array = ["foot", "wheeled", "tracked", "hover", "flying"]
 
 var width: int
 var height: int
-var _walkable: PackedByteArray        # 1 = walkable, 0 = blocked
-var _movement_type_mask: PackedByteArray  # bitmask per cell
+var tile_size: int
+
+var _game_map: GameMap
+
+## Optional override grid for unit tests (Array of bool, width*height).
+## When set, is_walkable ignores _game_map entirely.
+var _walkable_override: PackedByteArray = PackedByteArray()
+
+signal nav_grid_changed
 
 
-func _init(w: int, h: int) -> void:
-	width = w
-	height = h
-	var total: int = w * h
-	_walkable = PackedByteArray()
-	_walkable.resize(total)
-	_walkable.fill(1)  # all walkable by default
-	_movement_type_mask = PackedByteArray()
-	_movement_type_mask.resize(total)
-	_movement_type_mask.fill(MOVE_ALL)
+func _init(game_map: GameMap = null) -> void:
+	if game_map:
+		_game_map = game_map
+		width = game_map.width
+		height = game_map.height
+		tile_size = GameMap.TILE_SIZE
+	else:
+		# Test mode — caller sets width/height/tile_size manually
+		width = 0
+		height = 0
+		tile_size = 64
 
 
-func _index(x: int, y: int) -> int:
-	return y * width + x
+## Create a simple open grid for testing. All cells walkable.
+static func create_open(w: int, h: int, t_size: int = 64) -> NavGrid:
+	var grid := NavGrid.new(null)
+	grid.width = w
+	grid.height = h
+	grid.tile_size = t_size
+	grid._walkable_override.resize(w * h)
+	grid._walkable_override.fill(1)
+	return grid
 
 
-func is_in_bounds(x: int, y: int) -> bool:
-	return x >= 0 and x < width and y >= 0 and y < height
-
-
-func set_cell_walkable(x: int, y: int, walkable: bool, movement_types: int = MOVE_ALL) -> void:
-	if not is_in_bounds(x, y):
-		return
-	var idx: int = _index(x, y)
-	_walkable[idx] = 1 if walkable else 0
-	_movement_type_mask[idx] = movement_types
-
-
-func is_walkable(x: int, y: int, movement_type: int = MOVE_FOOT) -> bool:
-	if not is_in_bounds(x, y):
-		return false
-	# Flying units ignore terrain — always walkable
-	if movement_type == MOVE_FLYING:
-		return true
-	var idx: int = _index(x, y)
-	if _walkable[idx] == 0:
-		return false
-	return (_movement_type_mask[idx] & movement_type) != 0
-
-
-func set_rect_blocked(rect: Rect2i, movement_types: int = 0) -> void:
-	## Block a rectangular region. movement_types=0 means fully impassable.
-	for yy in range(rect.position.y, rect.position.y + rect.size.y):
-		for xx in range(rect.position.x, rect.position.x + rect.size.x):
-			if is_in_bounds(xx, yy):
-				var idx: int = _index(xx, yy)
-				if movement_types == 0:
-					_walkable[idx] = 0
-					_movement_type_mask[idx] = 0
-				else:
-					_movement_type_mask[idx] = movement_types
+## Mark a cell impassable in the override grid (test helper).
+func set_blocked(cx: int, cy: int) -> void:
+	if _walkable_override.size() > 0 and is_in_bounds(cx, cy):
+		_walkable_override[cy * width + cx] = 0
 
 
 func world_to_cell(world_pos: Vector2) -> Vector2i:
-	return Vector2i(int(world_pos.x / CELL_SIZE), int(world_pos.y / CELL_SIZE))
+	return Vector2i(
+		int(world_pos.x) / tile_size,
+		int(world_pos.y) / tile_size
+	)
 
 
 func cell_to_world(cell: Vector2i) -> Vector2:
-	## Returns cell center in world coordinates.
-	return Vector2(float(cell.x) * CELL_SIZE + CELL_SIZE * 0.5,
-			float(cell.y) * CELL_SIZE + CELL_SIZE * 0.5)
+	return Vector2(
+		cell.x * tile_size + tile_size / 2.0,
+		cell.y * tile_size + tile_size / 2.0
+	)
+
+
+func is_in_bounds(cx: int, cy: int) -> bool:
+	return cx >= 0 and cy >= 0 and cx < width and cy < height
+
+
+func is_walkable(cx: int, cy: int, move_type: int = MOVE_TRACKED) -> bool:
+	if not is_in_bounds(cx, cy):
+		return false
+	if _walkable_override.size() > 0:
+		return _walkable_override[cy * width + cx] != 0
+	if _game_map == null:
+		return false
+	var move_str: String = _MOVE_STRINGS[move_type] if move_type < _MOVE_STRINGS.size() else "tracked"
+	return _game_map.is_passable(cx, cy, move_str)
+
+
+func invalidate() -> void:
+	nav_grid_changed.emit()

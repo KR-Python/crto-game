@@ -1,58 +1,97 @@
 class_name CommandProcessingSystem
-## Tick pipeline step 6.
-## Converts MoveCommand into a pathfinding request and writes PathState.
-## Flying entities use NavGrid.MOVE_FLYING (ignores terrain).
-## Non-queued commands are consumed after processing.
+extends RefCounted
 
-var pathfinder: Pathfinder  # injected at game start
-var nav_grid: NavGrid       # injected at game start
+## Processes move commands each tick. Groups units by destination and
+## selects flowfield pathfinding for large groups (>FLOWFIELD_THRESHOLD)
+## or individual A* for small ones.
+
+const FLOWFIELD_THRESHOLD: int = 5
+
+var _nav_grid: NavGrid
+var _flowfield_cache: Dictionary = {}  # "x,y" → Flowfield
+var _cache_valid: bool = true
 
 
-func tick(ecs: ECS, tick_count: int) -> void:
-	# Query all entities that have a MoveCommand
-	var entities: Array = ecs.query_with_components(["MoveCommand", "Position"])
-	for entity_id in entities:
-		var move_cmd: Dictionary = ecs.get_component(entity_id, "MoveCommand")
-		if move_cmd.is_empty():
-			continue
+func _init(nav_grid: NavGrid) -> void:
+	_nav_grid = nav_grid
+	_nav_grid.nav_grid_changed.connect(_on_nav_grid_changed)
 
-		var pos_comp: Dictionary = ecs.get_component(entity_id, "Position")
-		var current_pos: Vector2 = Vector2(pos_comp.x, pos_comp.y)
-		var destination: Vector2 = move_cmd.destination
 
-		# Determine if PathState is already valid for this destination
-		var existing_path: Dictionary = ecs.get_component(entity_id, "PathState")
-		if not existing_path.is_empty() and existing_path.has("destination"):
-			if existing_path.destination.is_equal_approx(destination):
-				# Path already computed for this destination — skip
-				if not move_cmd.get("queued", false):
-					ecs.remove_component(entity_id, "MoveCommand")
-				continue
+func _on_nav_grid_changed() -> void:
+	_flowfield_cache.clear()
+	_cache_valid = true  # cache cleared, new lookups will rebuild
 
-		# Determine movement type
-		var movement_type: int = NavGrid.MOVE_FOOT
-		var flying_comp: Dictionary = ecs.get_component(entity_id, "Flying")
-		if not flying_comp.is_empty():
-			movement_type = NavGrid.MOVE_FLYING
 
-		# Request path — returns Array[Vector2] or empty if no path found
-		var path: Array[Vector2] = pathfinder.find_path(current_pos, destination, movement_type)
+## Main per-tick entry point. Reads MoveCommand components, groups by
+## destination, dispatches to flowfield or individual A*.
+## Returns a Dictionary: entity_id → Vector2 (direction this tick).
+func process_move_commands(ecs: Object, _tick_count: int) -> Dictionary:
+	var directions: Dictionary = {}
 
-		# Write PathState regardless — empty path triggers straight-line fallback in MovementSystem
-		ecs.set_component(entity_id, "PathState", {
-			"path": path,
-			"current_index": 0,
-			"destination": destination,
-		})
+	# Gather all entities with MoveCommand
+	var move_entities: Array = _get_entities_with_move(ecs)
+	if move_entities.is_empty():
+		return directions
 
-		# Non-queued commands: keep MoveCommand on entity so MovementSystem can read destination
-		# for straight-line fallback, but mark it as processed to avoid re-pathing next tick.
-		# Queued commands are left intact; they are cleared by MovementSystem on arrival.
-		if not move_cmd.get("queued", false):
-			# Leave MoveCommand so MovementSystem has destination for fallback,
-			# but tag it as processed so we don't re-path every tick.
-			ecs.set_component(entity_id, "MoveCommand", {
-				"destination": destination,
-				"queued": false,
-				"path_requested": true,
-			})
+	# Group by destination cell
+	var groups: Dictionary = {}  # "cx,cy" → [entity_data, ...]
+	for entity_data: Dictionary in move_entities:
+		var dest: Vector2 = entity_data["destination"]
+		var cell: Vector2i = _nav_grid.world_to_cell(dest)
+		var key: String = "%d,%d" % [cell.x, cell.y]
+		if not groups.has(key):
+			groups[key] = []
+		groups[key].append(entity_data)
+
+	# Process each group
+	for key: String in groups:
+		var group: Array = groups[key]
+		if group.size() > FLOWFIELD_THRESHOLD:
+			directions.merge(_process_with_flowfield(group))
+		else:
+			directions.merge(_process_with_astar(group))
+
+	return directions
+
+
+## Get or build a cached flowfield for the given destination.
+func get_or_build_flowfield(dest_world: Vector2, move_type: int = NavGrid.MOVE_TRACKED) -> Flowfield:
+	var cell: Vector2i = _nav_grid.world_to_cell(dest_world)
+	var key: String = "%d,%d" % [cell.x, cell.y]
+	if _flowfield_cache.has(key):
+		return _flowfield_cache[key]
+	var ff: Flowfield = Flowfield.new(_nav_grid)
+	ff.build(dest_world, move_type)
+	_flowfield_cache[key] = ff
+	return ff
+
+
+func _process_with_flowfield(group: Array) -> Dictionary:
+	var dirs: Dictionary = {}
+	if group.is_empty():
+		return dirs
+	var dest: Vector2 = group[0]["destination"]
+	var ff: Flowfield = get_or_build_flowfield(dest)
+	for entity_data: Dictionary in group:
+		var pos: Vector2 = entity_data["position"]
+		dirs[entity_data["entity_id"]] = ff.get_direction(pos)
+	return dirs
+
+
+func _process_with_astar(group: Array) -> Dictionary:
+	# Stub: individual A* not yet implemented. Return direct direction for now.
+	var dirs: Dictionary = {}
+	for entity_data: Dictionary in group:
+		var pos: Vector2 = entity_data["position"]
+		var dest: Vector2 = entity_data["destination"]
+		var diff: Vector2 = dest - pos
+		dirs[entity_data["entity_id"]] = diff.normalized() if diff.length() > 0.01 else Vector2.ZERO
+	return dirs
+
+
+func _get_entities_with_move(ecs: Object) -> Array:
+	# Expects ecs to have get_entities_with_component("MoveCommand")
+	# Each returns { entity_id, position: Vector2, destination: Vector2 }
+	if ecs.has_method("get_entities_with_move_command"):
+		return ecs.get_entities_with_move_command()
+	return []
