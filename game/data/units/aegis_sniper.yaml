@@ -1,0 +1,66 @@
+unit_id: "aegis_sniper"
+display_name: "Longbow Sniper"
+faction: "aegis"
+category: "infantry"
+tier: 3
+role_tag: "combat"
+
+cost:
+  primary: 500
+  secondary: 300
+build_time: 20.0
+produced_at: "aegis_barracks"
+tech_requirements:
+  - "aegis_advanced_tech"
+
+health:
+  max: 100
+  armor_type: "light"
+
+movement:
+  speed: 2.2
+  type: "foot"
+  can_crush_infantry: false
+
+vision:
+  range: 12
+  detector: true
+
+weapons:
+  - weapon_id: "railgun_rifle"
+    damage: 200
+    damage_type: "kinetic"
+    range: 11
+    cooldown: 4.5
+    targets: ["ground"]
+    projectile_speed: 50
+    area_of_effect: 0
+    turret: false
+
+abilities:
+  - ability_id: "cloak_stationary"
+    display_name: "Active Camouflage"
+    description: "Becomes invisible when stationary for 3 seconds. Breaks on firing or moving."
+    cooldown: 0.0
+    passive: true
+    effect:
+      type: "stealth"
+      activation_delay: 3.0
+      breaks_on: ["fire", "move"]
+
+ai_hints:
+  threat_value: 5
+  preferred_targets: ["infantry", "vehicle"]
+  engagement_range: "max_range"
+  retreat_health_pct: 0.4
+
+sounds:
+  select: "sfx/aegis/sniper_select.ogg"
+  move: "sfx/aegis/sniper_move.ogg"
+  attack: "sfx/aegis/sniper_fire.ogg"
+  death: "sfx/aegis/sniper_death.ogg"
+
+sprite: "sprites/aegis/longbow_sniper.png"
+icon: "ui/icons/aegis/longbow_sniper.png"
+death_effect: "effects/infantry_death"
+scale: 1.0

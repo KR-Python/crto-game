@@ -1,0 +1,48 @@
+structure_id: "forge_advanced_munitions"
+display_name: "Advanced Munitions Depot"
+faction: "forge"
+tier: 3
+role_tag: "tech"
+
+cost:
+  primary: 2500
+  secondary: 800
+build_time: 35.0
+build_requirements:
+  structures: ["forge_munitions", "forge_radar"]
+  tech: []
+
+footprint:
+  width: 3
+  height: 3
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 2
+
+health:
+  max: 1400
+  armor_type: "building"
+
+power:
+  consumption: 45
+  production: 0
+
+vision:
+  range: 6
+
+production:
+  can_produce:
+    - "forge_iron_fist"
+  queue_size: 1
+  rally_point: true
+
+tech_provides:
+  - "forge_advanced_munitions"
+
+weapons: []
+abilities: []
+
+sprite: "sprites/forge/advanced_munitions.png"
+icon: "ui/icons/forge/advanced_munitions.png"
+construction_stages: 4

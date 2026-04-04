@@ -1,0 +1,51 @@
+structure_id: "aegis_airfield"
+display_name: "Airfield"
+faction: "aegis"
+tier: 3
+role_tag: "production"
+
+cost:
+  primary: 2500
+  secondary: 500
+build_time: 30.0
+build_requirements:
+  structures: ["aegis_tech_lab"]
+  tech: []
+
+footprint:
+  width: 4
+  height: 3
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 2
+
+health:
+  max: 1200
+  armor_type: "building"
+
+power:
+  consumption: 40
+  production: 0
+
+vision:
+  range: 8
+
+production:
+  can_produce:
+    - "aegis_interceptor"
+    - "aegis_bomber"
+    - "aegis_gunship"
+    - "aegis_transport"
+  queue_size: 3
+  rally_point: true
+
+tech_provides:
+  - "aegis_airfield"
+
+weapons: []
+abilities: []
+
+sprite: "sprites/aegis/airfield.png"
+icon: "ui/icons/aegis/airfield.png"
+construction_stages: 4

@@ -1,0 +1,93 @@
+unit_id: "aegis_commander_unit"
+display_name: "Commander Aria Voss"
+faction: "aegis"
+category: "vehicle"
+tier: 3
+role_tag: "hero"
+
+cost:
+  primary: 3500
+  secondary: 1500
+build_time: 45.0
+produced_at: "aegis_advanced_tech"
+tech_requirements:
+  - "aegis_advanced_tech"
+unique: true  # only one can exist at a time
+
+health:
+  max: 2000
+  armor_type: "heavy"
+
+movement:
+  speed: 3.0
+  type: "hover"
+  can_crush_infantry: false
+
+vision:
+  range: 12
+  detector: true
+
+weapons:
+  - weapon_id: "command_energy_lance"
+    damage: 100
+    damage_type: "energy"
+    range: 8
+    cooldown: 1.8
+    targets: ["ground", "air", "structure"]
+    projectile_speed: 30
+    area_of_effect: 0
+    turret: true
+
+abilities:
+  - ability_id: "orbital_strike"
+    display_name: "Orbital Strike"
+    description: "Call down an orbital bombardment on target area. 3s delay, 4-tile radius, 800 damage."
+    cooldown: 90.0
+    passive: false
+    effect:
+      type: "area_damage"
+      delay: 3.0
+      damage: 800
+      radius: 4
+      damage_type: "energy"
+      cast_range: 20
+
+  - ability_id: "shield_boost"
+    display_name: "Shield Boost"
+    description: "Grant 300 shield HP to all friendly units within 6 tiles for 10s."
+    cooldown: 45.0
+    passive: false
+    effect:
+      type: "aura_shield"
+      shield_hp: 300
+      radius: 6
+      duration: 10.0
+
+  - ability_id: "inspire"
+    display_name: "Inspire"
+    description: "Nearby units gain +20% fire rate for 15s."
+    cooldown: 60.0
+    passive: false
+    effect:
+      type: "aura_buff"
+      radius: 8
+      duration: 15.0
+      modifier:
+        weapons.cooldown: 0.8
+
+ai_hints:
+  threat_value: 10
+  preferred_targets: ["vehicle", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.3
+
+sounds:
+  select: "sfx/aegis/commander_select.ogg"
+  move: "sfx/aegis/commander_move.ogg"
+  attack: "sfx/aegis/commander_fire.ogg"
+  death: "sfx/aegis/commander_death.ogg"
+
+sprite: "sprites/aegis/commander_aria.png"
+icon: "ui/icons/aegis/commander_aria.png"
+death_effect: "effects/hero_explosion"
+scale: 1.6

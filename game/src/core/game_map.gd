@@ -1,129 +1,210 @@
 class_name GameMap
-extends Node2D
+extends Node
 
-const TILE_SIZE: int = 32   # pixels per tile
+# Tile size in world units
+const TILE_SIZE: int = 64
 const DEFAULT_WIDTH: int = 128
 const DEFAULT_HEIGHT: int = 96
 
-var width: int = DEFAULT_WIDTH
-var height: int = DEFAULT_HEIGHT
-var nav_grid: NavGrid       # populated on load
-
-# Tile types — index matches TileSet source IDs
-enum TileType { GRASS = 0, WATER = 1, CLIFF = 2, BRIDGE = 3, FORD = 4 }
-
-# Passability matrix: outer = TileType, inner = movement_type bitmask
-# movement_type 0 = ground, 1 = water, 2 = air
-const PASSABLE_MATRIX: Array[int] = [
-	0b111,  # GRASS  — all movement types
-	0b110,  # WATER  — water + air only
-	0b000,  # CLIFF  — impassable
-	0b111,  # BRIDGE — all movement types
-	0b111,  # FORD   — all movement types
-]
-
-# Flat terrain data (width * height bytes)
-var _tile_types: PackedByteArray
-
-@onready var tilemap: TileMapLayer = $TileMapLayer
+# Terrain passability keys
+const PASS_FOOT: String = "foot"
+const PASS_WHEELED: String = "wheeled"
+const PASS_TRACKED: String = "tracked"
+const PASS_HOVER: String = "hover"
+const PASS_FLYING: String = "flying"
 
 signal map_loaded(width: int, height: int)
 
+var width: int = DEFAULT_WIDTH
+var height: int = DEFAULT_HEIGHT
+var spawn_points: Dictionary = {}
+var resource_nodes: Array = []
+var expansion_points: Array = []
 
-func _ready() -> void:
-	# TileMapLayer node must exist in scene tree (added via .tscn)
-	_build_placeholder_tileset()
-	load_flat_map(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+# tile_meta[x][y] = { passable_by: [...], vision_bonus: int, type: String }
+var tile_meta: Array = []
 
+func load_from_data(map_data: Dictionary) -> void:
+	width = map_data.get("dimensions", {}).get("width", DEFAULT_WIDTH)
+	height = map_data.get("dimensions", {}).get("height", DEFAULT_HEIGHT)
 
-# ── Map Loading ───────────────────────────────────────────────────────────────
+	_init_tile_meta()
+	_apply_terrain(map_data.get("terrain", {}))
 
-## Creates a flat all-grass map for Phase 0 testing.
-func load_flat_map(w: int, h: int) -> void:
-	width = w
-	height = h
-	_tile_types = PackedByteArray()
-	_tile_types.resize(width * height)
-	_tile_types.fill(TileType.GRASS)
+	spawn_points = map_data.get("spawn_points", {})
+	resource_nodes = map_data.get("resources", [])
+	expansion_points = map_data.get("expansions", [])
 
-	_render_tilemap()
-	nav_grid = NavGrid.new(width, height)
-	_populate_nav_grid()
-	map_loaded.emit(width, height)
+	emit_signal("map_loaded", width, height)
 
+# Returns spawn data for a team
+func get_spawn_data(team: String) -> Dictionary:
+	return spawn_points.get(team, {})
 
-## YAML loading is stubbed — implemented in Phase 1.
-func load_from_yaml(map_id: String) -> void:
-	push_warning("GameMap.load_from_yaml: YAML loading not yet implemented for '%s'" % map_id)
-	load_flat_map(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+# Spawn resource node entities at correct positions
+func spawn_resource_nodes(ecs: Object, entity_factory: Object) -> void:
+	for node_data in resource_nodes:
+		var pos: Vector2 = Vector2(
+			float(node_data["position"][0]),
+			float(node_data["position"][1])
+		) * TILE_SIZE
+		var entity_id: int = ecs.create_entity()
+		ecs.add_component(entity_id, "position", {"x": pos.x, "y": pos.y})
+		ecs.add_component(entity_id, "resource_node", {
+			"type": node_data["type"],
+			"remaining": node_data.get("amount", 0)
+		})
 
+# Check if a tile is passable for a given movement type
+func is_passable(tx: int, ty: int, movement_type: String) -> bool:
+	if tx < 0 or ty < 0 or tx >= width or ty >= height:
+		return false
+	var meta: Dictionary = _get_tile_meta(tx, ty)
+	var passable_by: Array = meta.get("passable_by", [PASS_FOOT, PASS_WHEELED, PASS_TRACKED, PASS_HOVER, PASS_FLYING])
+	return movement_type in passable_by
 
-# ── Terrain Queries ───────────────────────────────────────────────────────────
+# Returns vision bonus for a tile (from cliffs, towers, etc.)
+func get_vision_bonus(tx: int, ty: int) -> int:
+	var meta: Dictionary = _get_tile_meta(tx, ty)
+	return meta.get("vision_bonus", 0)
 
-func get_tile_type(cell: Vector2i) -> TileType:
-	if not _is_valid_cell(cell):
-		return TileType.CLIFF   # out-of-bounds treated as impassable
-	return _tile_types[cell.y * width + cell.x] as TileType
+# Returns tile type string
+func get_tile_type(tx: int, ty: int) -> String:
+	var meta: Dictionary = _get_tile_meta(tx, ty)
+	return meta.get("type", "grass")
 
+# ---- Private ----
 
-## movement_type: 0 = ground, 1 = water, 2 = air
-func is_passable(cell: Vector2i, movement_type: int) -> bool:
-	var tile: TileType = get_tile_type(cell)
-	var mask: int = PASSABLE_MATRIX[tile]
-	return (mask >> movement_type) & 1 == 1
+func _init_tile_meta() -> void:
+	tile_meta = []
+	for _x in range(width):
+		var col: Array = []
+		for _y in range(height):
+			col.append({
+				"type": "grass",
+				"passable_by": [PASS_FOOT, PASS_WHEELED, PASS_TRACKED, PASS_HOVER, PASS_FLYING],
+				"vision_bonus": 0
+			})
+		tile_meta.append(col)
 
+func _get_tile_meta(tx: int, ty: int) -> Dictionary:
+	if tx < 0 or ty < 0 or tx >= width or ty >= height:
+		return {}
+	if tx >= tile_meta.size():
+		return {}
+	var col: Array = tile_meta[tx]
+	if ty >= col.size():
+		return {}
+	return col[ty]
 
-## Returns the world-space Rect2 of the map, used for camera bounds clamping.
-func get_world_bounds() -> Rect2:
-	return Rect2(0, 0, width * TILE_SIZE, height * TILE_SIZE)
+func _set_tile_meta(tx: int, ty: int, meta: Dictionary) -> void:
+	if tx < 0 or ty < 0 or tx >= width or ty >= height:
+		return
+	if tx >= tile_meta.size():
+		return
+	var col: Array = tile_meta[tx]
+	if ty >= col.size():
+		return
+	col[ty] = meta
 
+func _apply_terrain(terrain: Dictionary) -> void:
+	# base_type is already set to grass in _init_tile_meta
+	# If a different base_type is specified, apply it
+	var base_type: String = terrain.get("base_type", "grass")
+	if base_type != "grass":
+		_flood_base_type(base_type)
 
-# ── Internal Helpers ──────────────────────────────────────────────────────────
+	var features: Array = terrain.get("features", [])
+	for feature in features:
+		_apply_feature(feature)
 
-func _is_valid_cell(cell: Vector2i) -> bool:
-	return cell.x >= 0 and cell.x < width and cell.y >= 0 and cell.y < height
+func _flood_base_type(base_type: String) -> void:
+	var passable: Array = _passable_for_type(base_type)
+	for tx in range(width):
+		for ty in range(height):
+			tile_meta[tx][ty] = {
+				"type": base_type,
+				"passable_by": passable,
+				"vision_bonus": 0
+			}
 
+func _apply_feature(feature: Dictionary) -> void:
+	var ftype: String = feature.get("type", "")
+	var bounds: Dictionary = feature.get("bounds", {})
+	var bx: int = bounds.get("x", 0)
+	var by: int = bounds.get("y", 0)
+	var bw: int = bounds.get("width", 1)
+	var bh: int = bounds.get("height", 1)
+	var passable_by: Array = feature.get("passable_by", [])
+	var provides: Dictionary = feature.get("provides", {})
 
-func _render_tilemap() -> void:
-	tilemap.clear()
-	for y in range(height):
-		for x in range(width):
-			var tile: int = _tile_types[y * width + x]
-			tilemap.set_cell(Vector2i(x, y), tile, Vector2i(0, 0))
+	match ftype:
+		"water":
+			# Water is impassable by default — only explicit bridge/ford overrides allow passage
+			_apply_rect_tiles(bx, by, bw, bh, {
+				"type": "water",
+				"passable_by": [],
+				"vision_bonus": 0
+			})
 
+		"bridge":
+			# Bridge allows foot, wheeled, tracked — not hover or flying (they don't need it)
+			var bridge_pass: Array = passable_by if passable_by.size() > 0 \
+				else [PASS_FOOT, PASS_WHEELED, PASS_TRACKED]
+			_apply_rect_tiles(bx, by, bw, bh, {
+				"type": "bridge",
+				"passable_by": bridge_pass,
+				"vision_bonus": 0
+			})
 
-func _populate_nav_grid() -> void:
-	# Ground movement passability (movement_type = 0)
-	for y in range(height):
-		for x in range(width):
-			var cell := Vector2i(x, y)
-			nav_grid.set_cell_walkable(cell.x, cell.y, is_passable(cell, 0))
+		"ford":
+			# Ford is infantry-only by default
+			var ford_pass: Array = passable_by if passable_by.size() > 0 else [PASS_FOOT]
+			_apply_rect_tiles(bx, by, bw, bh, {
+				"type": "ford",
+				"passable_by": ford_pass,
+				"vision_bonus": 0
+			})
 
+		"cliff":
+			# Cliffs are passable by flying only; grant vision bonus
+			var vision_bonus: int = provides.get("vision_bonus", 0)
+			_apply_rect_tiles(bx, by, bw, bh, {
+				"type": "cliff",
+				"passable_by": [PASS_FLYING],
+				"vision_bonus": vision_bonus
+			})
 
-## Builds a TileSet with solid-color placeholder tiles for each TileType.
-## No art required — uses CanvasTexture + AtlasTexture pattern for Phase 0.
-func _build_placeholder_tileset() -> void:
-	var ts := TileSet.new()
-	ts.tile_size = Vector2i(TILE_SIZE, TILE_SIZE)
+		"rocky_ridge":
+			# Impassable terrain barrier
+			_apply_rect_tiles(bx, by, bw, bh, {
+				"type": "rocky_ridge",
+				"passable_by": [PASS_FLYING],
+				"vision_bonus": 0
+			})
 
-	var colors: Array[Color] = [
-		Color("#4a7c59"),  # GRASS
-		Color("#2d6a9f"),  # WATER
-		Color("#8b7355"),  # CLIFF
-		Color("#a0856c"),  # BRIDGE
-		Color("#6e9b78"),  # FORD (slightly lighter green)
-	]
+		"sand":
+			_apply_rect_tiles(bx, by, bw, bh, {
+				"type": "sand",
+				"passable_by": [PASS_FOOT, PASS_WHEELED, PASS_TRACKED, PASS_HOVER, PASS_FLYING],
+				"vision_bonus": 0
+			})
 
-	for i in range(colors.size()):
-		var img := Image.create(TILE_SIZE, TILE_SIZE, false, Image.FORMAT_RGB8)
-		img.fill(colors[i])
-		var tex := ImageTexture.create_from_image(img)
+		_:
+			push_warning("GameMap: unknown terrain feature type '%s'" % ftype)
 
-		var source := TileSetAtlasSource.new()
-		source.texture = tex
-		source.texture_region_size = Vector2i(TILE_SIZE, TILE_SIZE)
-		source.create_tile(Vector2i(0, 0))
+func _apply_rect_tiles(bx: int, by: int, bw: int, bh: int, meta: Dictionary) -> void:
+	for tx in range(bx, bx + bw):
+		for ty in range(by, by + bh):
+			_set_tile_meta(tx, ty, meta.duplicate(true))
 
-		ts.add_source(source, i)   # source_id == TileType enum value
-
-	tilemap.tile_set = ts
+func _passable_for_type(base_type: String) -> Array:
+	match base_type:
+		"water":
+			return []
+		"cliff", "rocky_ridge":
+			return [PASS_FLYING]
+		"sand", "grass", "dirt":
+			return [PASS_FOOT, PASS_WHEELED, PASS_TRACKED, PASS_HOVER, PASS_FLYING]
+		_:
+			return [PASS_FOOT, PASS_WHEELED, PASS_TRACKED, PASS_HOVER, PASS_FLYING]
