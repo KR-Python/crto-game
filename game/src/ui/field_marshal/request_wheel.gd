@@ -2,7 +2,7 @@ class_name RequestWheel
 extends Control
 
 ## Field Marshal's quick request radial menu.
-## Hold Q → show wheel centered on mouse, release over option → send request to Quartermaster.
+## Hold Q to show wheel centered on mouse; release over option to emit request_sent.
 
 signal request_sent(request_type: String)
 
@@ -18,18 +18,15 @@ var _visible_wheel: bool = false
 var _hovered_index: int = -1
 var _segment_buttons: Array = []
 
-
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
 	_build_wheel()
 
-
 func _build_wheel() -> void:
 	name = "RequestWheel"
 	set_anchors_preset(Control.PRESET_CENTER)
 	custom_minimum_size = Vector2(240, 240)
-
 	var center_label := Label.new()
 	center_label.text = "REQUEST"
 	center_label.add_theme_font_size_override("font_size", 12)
@@ -38,7 +35,6 @@ func _build_wheel() -> void:
 	center_label.set_anchors_preset(Control.PRESET_CENTER)
 	center_label.custom_minimum_size = Vector2(80, 24)
 	add_child(center_label)
-
 	# Cardinal directions: top, right, bottom, left
 	var directions: Array = [Vector2(0, -1), Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0)]
 	for i in range(REQUESTS.size()):
@@ -46,12 +42,10 @@ func _build_wheel() -> void:
 		btn.text = REQUESTS[i].label
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.custom_minimum_size = Vector2(90, 36)
-		var offset: Vector2 = directions[i] * WHEEL_RADIUS
 		btn.set_anchors_preset(Control.PRESET_CENTER)
-		btn.position = offset - btn.custom_minimum_size / 2.0
+		btn.position = directions[i] * WHEEL_RADIUS - btn.custom_minimum_size / 2.0
 		_segment_buttons.append(btn)
 		add_child(btn)
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("request_wheel"):
@@ -64,7 +58,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif _visible_wheel and event is InputEventMouseMotion:
 		_update_hover(event.position)
 
-
 func _show_wheel() -> void:
 	_visible_wheel = true
 	_hovered_index = -1
@@ -73,14 +66,12 @@ func _show_wheel() -> void:
 	global_position = get_viewport().get_mouse_position() - size / 2.0
 	_update_segment_highlights()
 
-
 func _hide_wheel() -> void:
 	_visible_wheel = false
 	_hovered_index = -1
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_update_segment_highlights()
-
 
 func _update_hover(mouse_screen_pos: Vector2) -> void:
 	var best_dist := INF
@@ -95,13 +86,10 @@ func _update_hover(mouse_screen_pos: Vector2) -> void:
 	_hovered_index = best_idx if best_dist < WHEEL_RADIUS * 1.5 else -1
 	_update_segment_highlights()
 
-
 func _commit_selection() -> void:
 	if _hovered_index >= 0 and _hovered_index < REQUESTS.size():
 		emit_signal("request_sent", REQUESTS[_hovered_index].id)
 
-
 func _update_segment_highlights() -> void:
 	for i in range(_segment_buttons.size()):
-		var btn: Button = _segment_buttons[i]
-		btn.modulate = Color(1.3, 1.0, 0.3) if i == _hovered_index else Color(1, 1, 1)
+		_segment_buttons[i].modulate = Color(1.3, 1.0, 0.3) if i == _hovered_index else Color(1, 1, 1)

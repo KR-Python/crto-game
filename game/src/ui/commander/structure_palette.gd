@@ -2,7 +2,8 @@ class_name StructurePalette
 extends Control
 
 ## Commander's primary build panel — lists structures available for placement.
-## Filtered by faction and build requirements.
+## Filtered by faction and build requirements. Emits structure_selected to trigger
+## InputHandler placement ghost.
 
 signal structure_selected(structure_type: String)
 signal placement_cancelled()
@@ -10,17 +11,14 @@ signal placement_cancelled()
 var data_loader: DataLoader
 var faction_id: int
 var selected_structure: String = ""
-
 var _built_ids: Array[String] = []
 var _item_container: VBoxContainer
 var _items: Dictionary = {}
-
 
 func _ready() -> void:
 	_build_layout()
 	if data_loader:
 		refresh(_built_ids)
-
 
 func _build_layout() -> void:
 	name = "StructurePalette"
@@ -43,16 +41,15 @@ func _build_layout() -> void:
 	_item_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(_item_container)
 
-
+## Re-filter palette items based on what's already been built.
 func refresh(built_structure_ids: Array[String]) -> void:
 	_built_ids = built_structure_ids
 	_rebuild_items()
 
-
+## Called by InputHandler when placement completes or is cancelled.
 func clear_selection() -> void:
 	selected_structure = ""
 	_update_selection_highlight()
-
 
 func _rebuild_items() -> void:
 	for child in _item_container.get_children():
@@ -66,7 +63,6 @@ func _rebuild_items() -> void:
 		var item := _create_item(struct_data)
 		_item_container.add_child(item)
 		_items[struct_data.id] = item
-
 
 func _create_item(struct_data: Dictionary) -> Button:
 	var btn := Button.new()
@@ -83,9 +79,7 @@ func _create_item(struct_data: Dictionary) -> Button:
 		btn.modulate = Color(0.5, 0.5, 0.5, 1.0)
 	return btn
 
-
 func _format_item_label(data: Dictionary, met: bool) -> String:
-	var name_str: String = data.get("name", data.id)
 	var ore: int = data.get("cost_ore", 0)
 	var gems: int = data.get("cost_gems", 0)
 	var power: int = data.get("power_consumption", 0)
@@ -94,9 +88,7 @@ func _format_item_label(data: Dictionary, met: bool) -> String:
 		cost_str += " / %d gems" % gems
 	if power != 0:
 		cost_str += " | %+d pwr" % -power
-	var locked: String = "" if met else " [locked]"
-	return "%s%s\n%s" % [name_str, locked, cost_str]
-
+	return "%s%s\n%s" % [data.get("name", data.id), "" if met else " [locked]", cost_str]
 
 func _requirements_met(struct_data: Dictionary) -> bool:
 	for req in struct_data.get("build_requirements", []):
@@ -104,12 +96,10 @@ func _requirements_met(struct_data: Dictionary) -> bool:
 			return false
 	return true
 
-
 func _on_item_pressed(structure_type: String) -> void:
 	selected_structure = structure_type
 	_update_selection_highlight()
 	emit_signal("structure_selected", structure_type)
-
 
 func _update_selection_highlight() -> void:
 	for sid in _items:
@@ -120,7 +110,6 @@ func _update_selection_highlight() -> void:
 			btn.modulate = Color(0.5, 0.5, 0.5, 1.0)
 		else:
 			btn.modulate = Color(1, 1, 1, 1)
-
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and selected_structure != "":
