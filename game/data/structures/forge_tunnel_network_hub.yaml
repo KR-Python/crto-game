@@ -1,0 +1,67 @@
+structure_id: "forge_tunnel_network_hub"
+display_name: "Tunnel Network Hub"
+faction: "forge"
+tier: 3
+role_tag: "special"
+
+cost:
+  primary: 1800
+  secondary: 600
+build_time: 30.0
+build_requirements:
+  structures: ["forge_advanced_munitions"]
+  tech: []
+
+footprint:
+  width: 3
+  height: 3
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 2
+
+health:
+  max: 1200
+  armor_type: "building"
+
+power:
+  consumption: 30
+  production: 0
+
+vision:
+  range: 5
+
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+
+tech_provides: []
+weapons: []
+
+abilities:
+  - ability_id: "tunnel_network"
+    display_name: "Tunnel Network"
+    description: "Connects all Tunnel Entrances. Units can instantly travel between any two tunnel exits. Maximum 4 connected exits."
+    cooldown: 0.0
+    passive: true
+    effect:
+      type: "tunnel_network"
+      max_exits: 4
+      transfer_time: 2.0
+      allowed_categories: ["infantry", "vehicle"]
+
+  - ability_id: "build_tunnel_exit"
+    display_name: "Build Tunnel Exit"
+    description: "Construct a new tunnel exit at target location. 20s build time. Can be destroyed by enemies."
+    cooldown: 60.0
+    passive: false
+    effect:
+      type: "spawn_structure"
+      structure_id: "forge_tunnel_exit"
+      build_time: 20.0
+      range: 30
+
+sprite: "sprites/forge/tunnel_hub.png"
+icon: "ui/icons/forge/tunnel_hub.png"
+construction_stages: 3
