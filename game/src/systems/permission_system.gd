@@ -27,13 +27,15 @@ const DEFENSE_STRUCTURE_KEYWORDS: Array = [
 	"turret", "wall", "gate", "mine", "sensor", "bunker", "defense"
 ]
 
-func _init(rm: RoleManager, cq: CommandQueue) -> void:
+func _init(rm: RoleManager = null, cq: CommandQueue = null) -> void:
 	role_manager = rm
 	command_queue = cq
 
-func tick(ecs: Dictionary, tick_count: int) -> void:
+func tick(ecs: ECS, tick_count: int) -> void:
 	validated_commands.clear()
 	rejected_commands.clear()
+	if command_queue == null:
+		return
 	command_queue.clear_expired(tick_count)
 	var commands: Array[Dictionary] = command_queue.get_commands_for_tick(tick_count)
 	for command in commands:

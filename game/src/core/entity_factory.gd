@@ -22,6 +22,10 @@ func _init(ecs: ECS, data_loader: DataLoader = null) -> void:
 ## Create a unit entity from a unit type identifier.
 ## Loads from DataLoader (YAML-sourced JSON) with hardcoded fallback.
 ## Returns the new entity_id, or -1 if the unit type is completely unknown.
+func create_test_unit(position: Vector2) -> int:
+	return create_from_definition("aegis_rifleman", position)
+
+
 func create_from_definition(unit_type: String, position: Vector2) -> int:
 	var def: Dictionary = _resolve_unit_def(unit_type)
 	if def.is_empty():

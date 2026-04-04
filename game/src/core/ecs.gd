@@ -88,3 +88,19 @@ func query_exclude(required: Array[String], excluded: Array[String]) -> Array[in
 		if not has_excluded:
 			result.append(entity_id)
 	return result
+
+func set_component(entity_id: int, component_name: String, data: Dictionary = {}) -> void:
+	add_component(entity_id, component_name, data)
+
+func query_with_components(component_names: Array[String]) -> Array[int]:
+	return query(component_names)
+
+func is_alive(entity_id: int) -> bool:
+	return entity_exists(entity_id)
+
+func get_entities_with_component(component_name: String) -> Array[int]:
+	var result: Array[int] = []
+	for entity_id: int in _entities:
+		if _entities[entity_id].has(component_name):
+			result.append(entity_id)
+	return result

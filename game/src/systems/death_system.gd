@@ -29,7 +29,7 @@ func tick(ecs: ECS, tick_count: int) -> void:
 			var pos_data: Dictionary = ecs.get_component(entity_id, "Position")
 			pos = Vector2(pos_data.get("x", 0.0), pos_data.get("y", 0.0))
 
-		ecs.remove_entity(entity_id)
+		ecs.destroy_entity(entity_id)
 		unit_died.emit(entity_id, faction_id, pos)
 
 		# TODO: XP/resource refund hooks (Phase 2+)

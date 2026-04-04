@@ -97,7 +97,7 @@ func _populate_nav_grid() -> void:
 	for y in range(height):
 		for x in range(width):
 			var cell := Vector2i(x, y)
-			nav_grid.set_passable(cell, is_passable(cell, 0))
+			nav_grid.set_cell_walkable(cell.x, cell.y, is_passable(cell, 0))
 
 
 ## Builds a TileSet with solid-color placeholder tiles for each TileType.
