@@ -11,7 +11,7 @@ const MOVE_FLYING: int = 16
 const MOVE_ALL: int = 0xFF
 
 # Cell size in world units (1 tile = 1 cell)
-const CELL_SIZE: float = 1.0
+const CELL_SIZE: float = 32.0  # 1 tile = 32px
 
 var width: int
 var height: int

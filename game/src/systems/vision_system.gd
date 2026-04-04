@@ -35,6 +35,11 @@ func _init() -> void:
 		_fog.append(grid)
 
 
+func initialize(_w: int, _h: int) -> void:
+	pass
+
+
+
 # ── Public API ────────────────────────────────────────────────────────────────
 
 ## Register which team a faction belongs to (all same-team factions share vision).
