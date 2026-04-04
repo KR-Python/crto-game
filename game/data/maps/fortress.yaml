@@ -1,0 +1,202 @@
+# schema: map_definition
+# Fortress — Endless Defense map.
+# Central 20×20 player base surrounded by impassable terrain.
+# Four corridors approach from N / S / E / W — each with a chokepoint.
+# No resource nodes — all credits come from defeated wave payouts.
+
+map_id: "fortress"
+display_name: "The Fortress"
+description: "Defend your base against endless waves. Four corridors. No mercy."
+author: "CRTO Team"
+mode: "endless_defense"
+
+dimensions:
+  width: 80
+  height: 80
+
+player_count:
+  min: 2
+  max: 6
+  optimal: 4
+
+# ── Starting positions ──────────────────────────────────────────────────────
+# All players share the central base.  Spawn points are spread around the
+# central Construction Yard so each player starts with a defensive unit near
+# one of the four corridors.
+spawn_points:
+  team_human:
+    construction_yard: [40, 40]
+    initial_resources:
+      primary: 0        # no startup ore — earn everything from waves
+      secondary: 0
+    starting_units:
+      # North-corridor defenders
+      - {type: "faction_rifleman",   position: [40, 29], count: 2}
+      # South-corridor defenders
+      - {type: "faction_rifleman",   position: [40, 51], count: 2}
+      # West-corridor defenders
+      - {type: "faction_rifleman",   position: [29, 40], count: 2}
+      # East-corridor defenders
+      - {type: "faction_rifleman",   position: [51, 40], count: 2}
+      # Commander's initial turret budget — placed by Commander role
+      # (represented as a cash grant via the first wave_reward event)
+
+# ── Resource nodes ──────────────────────────────────────────────────────────
+# None.  Credits awarded exclusively through EndlessDefenseSystem wave payouts.
+resources: []
+
+# ── Enemy spawn gates ────────────────────────────────────────────────────────
+# Wave enemies spawn just outside the map edges, funnelled into corridors.
+enemy_spawn_gates:
+  north: {position: [40,  0], corridor_entry: [40, 18]}
+  south: {position: [40, 79], corridor_entry: [40, 62]}
+  west:  {position: [ 0, 40], corridor_entry: [18, 40]}
+  east:  {position: [79, 40], corridor_entry: [62, 40]}
+
+# ── Terrain ──────────────────────────────────────────────────────────────────
+#
+#  Layout (not to scale):
+#
+#    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#    X                  |  North corridor (8 tiles wide)  |               X
+#    X   impassable      ══════════╦══════════              impassable     X
+#    X   badlands        chokeN ►  ║  ◄ chokeN              badlands      X
+#    X                  ══════════╩══════════                             X
+#    X                                                                    X
+#    X══chokeW═╗          ┌─────────────┐          ╔═chokeE══X
+#    X corridor ║          │  BASE ZONE  │          ║  corridor X
+#    X══════════╝    (x30..50, y30..50)  └──────────╚══════════X
+#    X                                                                    X
+#    X   impassable      ══════════╦══════════              impassable     X
+#    X   badlands        chokeS ►  ║  ◄ chokeS              badlands      X
+#    X                  ══════════╩══════════                             X
+#    X                  |  South corridor (8 tiles wide) |               X
+#    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#
+#  Base zone:   x 30..50, y 30..50  (21×21 tiles, passable concrete)
+#  Corridors:   4 tiles wide at chokepoint, 8 tiles wide in open approach
+#  Badlands:    impassable except flying units
+
+terrain:
+  base_type: "concrete"
+
+  features:
+
+    # ── Impassable badlands — fills the four corner quadrants ────────────
+    - type: "badlands"
+      bounds: {x: 0,  y: 0,  width: 30, height: 30}   # NW corner
+    - type: "badlands"
+      bounds: {x: 50, y: 0,  width: 30, height: 30}   # NE corner
+    - type: "badlands"
+      bounds: {x: 0,  y: 50, width: 30, height: 30}   # SW corner
+    - type: "badlands"
+      bounds: {x: 50, y: 50, width: 30, height: 30}   # SE corner
+
+    # ── Impassable walls flanking the corridors ───────────────────────────
+    # North corridor walls (corridor runs x 36..44, y 0..29)
+    - type: "concrete_wall"
+      bounds: {x: 0,  y: 0,  width: 36, height: 30}
+    - type: "concrete_wall"
+      bounds: {x: 44, y: 0,  width: 36, height: 30}
+
+    # South corridor walls (corridor runs x 36..44, y 51..80)
+    - type: "concrete_wall"
+      bounds: {x: 0,  y: 51, width: 36, height: 29}
+    - type: "concrete_wall"
+      bounds: {x: 44, y: 51, width: 36, height: 29}
+
+    # West corridor walls (corridor runs x 0..29, y 36..44)
+    - type: "concrete_wall"
+      bounds: {x: 0,  y: 0,  width: 30, height: 36}
+    - type: "concrete_wall"
+      bounds: {x: 0,  y: 44, width: 30, height: 36}
+
+    # East corridor walls (corridor runs x 51..80, y 36..44)
+    - type: "concrete_wall"
+      bounds: {x: 51, y: 0,  width: 29, height: 36}
+    - type: "concrete_wall"
+      bounds: {x: 51, y: 44, width: 29, height: 36}
+
+    # ── Chokepoints — narrow 4-tile passages at each corridor mouth ───────
+    # Each chokepoint is a gap in a transverse wall.  Flanking walls force
+    # units into the gap, creating a natural turret placement point.
+
+    # North chokepoint — at y=18..20, gap x 38..42
+    - type: "concrete_wall"
+      bounds: {x: 30, y: 18, width: 8,  height: 3}   # west side of gap
+    - type: "concrete_wall"
+      bounds: {x: 42, y: 18, width: 8,  height: 3}   # east side of gap
+
+    # South chokepoint — at y=60..62, gap x 38..42
+    - type: "concrete_wall"
+      bounds: {x: 30, y: 60, width: 8,  height: 3}
+    - type: "concrete_wall"
+      bounds: {x: 42, y: 60, width: 8,  height: 3}
+
+    # West chokepoint — at x=18..20, gap y 38..42
+    - type: "concrete_wall"
+      bounds: {x: 18, y: 30, width: 3,  height: 8}
+    - type: "concrete_wall"
+      bounds: {x: 18, y: 42, width: 3,  height: 8}
+
+    # East chokepoint — at x=60..62, gap y 38..42
+    - type: "concrete_wall"
+      bounds: {x: 60, y: 30, width: 3,  height: 8}
+    - type: "concrete_wall"
+      bounds: {x: 60, y: 42, width: 3,  height: 8}
+
+    # ── Cliff overlooks at each chokepoint — Spec Ops perches ────────────
+    - type: "cliff"
+      bounds: {x: 35, y: 15, width: 3, height: 3}
+      provides: {vision_bonus: 6}   # overlooks north corridor
+
+    - type: "cliff"
+      bounds: {x: 42, y: 15, width: 3, height: 3}
+      provides: {vision_bonus: 6}
+
+    - type: "cliff"
+      bounds: {x: 35, y: 62, width: 3, height: 3}
+      provides: {vision_bonus: 6}   # overlooks south corridor
+
+    - type: "cliff"
+      bounds: {x: 42, y: 62, width: 3, height: 3}
+      provides: {vision_bonus: 6}
+
+    - type: "cliff"
+      bounds: {x: 15, y: 35, width: 3, height: 3}
+      provides: {vision_bonus: 6}   # overlooks west corridor
+
+    - type: "cliff"
+      bounds: {x: 15, y: 42, width: 3, height: 3}
+      provides: {vision_bonus: 6}
+
+    - type: "cliff"
+      bounds: {x: 62, y: 35, width: 3, height: 3}
+      provides: {vision_bonus: 6}   # overlooks east corridor
+
+    - type: "cliff"
+      bounds: {x: 62, y: 42, width: 3, height: 3}
+      provides: {vision_bonus: 6}
+
+# ── Expansion points ────────────────────────────────────────────────────────
+# None — fortress is a closed arena by design.
+expansions: []
+
+# ── Map-specific rules ───────────────────────────────────────────────────────
+rules:
+  no_resource_harvest: true       # credits come from EndlessDefenseSystem only
+  endless_defense_mode: true      # enables wave-based enemy spawning
+  no_ai_base: true                # enemies arrive via spawn gates, not an AI base
+  shared_base: true               # all players share one Construction Yard
+
+# ── AI hints (wave routing) ──────────────────────────────────────────────────
+ai_hints:
+  attack_routes:
+    - [40, 0]    # north approach → north gate
+    - [40, 79]   # south approach → south gate
+    - [0, 40]    # west  approach → west  gate
+    - [79, 40]   # east  approach → east  gate
+  note: >
+    Enemies are distributed evenly across all four corridors early-game.
+    Later waves skew distribution toward whichever corridor has the fewest
+    turrets, pressuring under-defended flanks.
