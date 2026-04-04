@@ -49,6 +49,7 @@ var formation_system: FormationSystem
 var repair_system: RepairSystem
 var tech_tree_system: TechTreeSystem
 var endless_defense_system: EndlessDefenseSystem
+var permission_system: PermissionSystem
 
 # ── AI ────────────────────────────────────────────────────────────────────────
 var ai_opponents: Array = []  # Array[AIOpponent]
@@ -72,6 +73,9 @@ func initialize(map: GameMap, config: Dictionary = {}) -> void:
 	entity_factory = EntityFactory.new(ecs)
 	game_stats = GameStats.new()
 	game_stats.game_start_tick = 0
+
+	# Step 2: Permission validation
+	permission_system = PermissionSystem.new(null, command_queue)
 
 	# Step 4: Economy
 	economy_system = EconomySystem.new()
@@ -129,9 +133,8 @@ func tick() -> void:
 		return
 
 	# Step 1 & 2: Input + Permission
-	var commands: Array = command_queue.get_commands_for_tick(tick_count)
-	command_queue.clear_tick(tick_count)
-	command_queue.clear_expired(tick_count)
+	permission_system.tick(ecs, tick_count)
+	var commands: Array = permission_system.validated_commands.duplicate()
 
 	# Step 3: AI Decision
 	for ai in ai_opponents:
@@ -197,6 +200,19 @@ func get_ecs() -> ECS:
 
 func get_tick_count() -> int:
 	return tick_count
+
+
+func issue_move_command(entity_id: int, world_position: Vector2) -> void:
+	var cmd: Dictionary = {
+		"action": "MoveUnit",
+		"entity_ids": [entity_id],
+		"target_position": {"x": world_position.x, "y": world_position.y},
+		"player_id": 1,
+		"role": "commander",
+		"tick": tick_count,
+		"params": {"entity_ids": [entity_id], "target_position": {"x": world_position.x, "y": world_position.y}},
+	}
+	command_queue.enqueue(cmd)
 
 
 # ── Private ───────────────────────────────────────────────────────────────────

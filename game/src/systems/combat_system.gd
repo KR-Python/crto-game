@@ -26,13 +26,13 @@ func set_spatial_hash(sh: SpatialHash) -> void:
 
 
 func _load_armor_matrix() -> void:
-	var file := FileAccess.open("res://data/balance/damage_armor_matrix.yaml", FileAccess.READ)
+	var file := FileAccess.open("res://data/balance/damage_armor_matrix.json", FileAccess.READ)
 	if file == null:
 		_armor_matrix = _get_default_armor_matrix()
 		return
-	var yaml_text := file.get_as_text()
+	var json_text := file.get_as_text()
 	file.close()
-	var parsed: Variant = _parse_yaml(yaml_text)
+	var parsed: Variant = JSON.parse_string(json_text)
 	if parsed is Dictionary and parsed.has("matrix"):
 		_armor_matrix = parsed["matrix"]
 	else:

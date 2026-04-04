@@ -35,6 +35,11 @@ func create_from_definition(unit_type: String, position: Vector2) -> int:
 ## Create a structure entity from a structure type identifier and position.
 ## Loads structure definition from YAML (stubbed), falls back to hardcoded T1 defs.
 ## Returns the new entity_id.
+## Convenience method for Phase 0 testing — creates a basic AEGIS rifleman at the given position.
+func create_test_unit(position: Vector2) -> int:
+	return create_from_definition("aegis_rifleman", position)
+
+
 func create_structure(structure_type: String, position: Vector2, faction_id: int) -> int:
 	# YAML loading stub — would load from data/structures/{faction}_{structure}.yaml
 	var def: Dictionary = _builtin_structure_definitions().get(structure_type, {})
