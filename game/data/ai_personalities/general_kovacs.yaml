@@ -1,0 +1,37 @@
+personality_id: "general_kovacs"
+display_name: "General Kovacs"
+faction_affinity: "aegis"
+difficulty: "medium"
+description: "Methodical commander. Expands steadily, attacks when ready."
+
+strategy_weights:
+  expand_economy: 1.3
+  build_army: 1.0
+  tech_up: 1.0
+  attack: 1.0
+  defend: 1.0
+  harass: 0.6
+
+behavior:
+  first_attack_tick: 1500
+  attack_frequency: "medium"
+  retreat_threshold: 0.5
+  expansion_timing: "mid"
+  tech_priority: ["vehicles", "infantry", "air"]
+  preferred_composition:
+    vehicles: 0.4
+    infantry: 0.4
+    air: 0.2
+
+difficulty_modifiers:
+  resource_bonus: 1.0
+  reaction_time_ticks: 15
+  micro_precision: 0.6
+  scouting_frequency: "medium"
+  multi_prong_attacks: false
+
+personality_quirks:
+  - "Expands to secondary resource nodes early"
+  - "Maintains a balanced army composition at all times"
+  - "Only attacks when economy and army are both strong"
+  - "Steady and predictable — but hard to out-macro"
