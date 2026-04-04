@@ -1,164 +1,136 @@
-## session_manager.gd
-## Lobby + session lifecycle using Godot's built-in ENetMultiplayerPeer.
-## Handles hosting, joining, role selection, disconnect → AI takeover, host migration.
+## SessionManager
+## Host-authoritative session: tracks connected players, their roles,
+## and whether each role is human- or AI-controlled.
+## Wires into RoleHotSwap for seamless AI ↔ human transitions.
 class_name SessionManager
 extends Node
 
-enum State { IDLE, HOSTING, JOINING, IN_LOBBY, IN_GAME }
+# ── Signals ──────────────────────────────────────────────────────────────────
+signal player_joined(player_id: int, role: String)
+signal player_left(player_id: int, role: String)
+signal role_assignment_changed(role: String, player_id: int)  # -1 = AI
 
-var state: State = State.IDLE
-var players: Dictionary = {}  # peer_id → {name, role, connected, is_ai}
-var local_player_id: int = -1
-var is_host: bool = false
+# ── Constants ─────────────────────────────────────────────────────────────────
+const VALID_ROLES := ["commander", "quartermaster", "field_marshal", "spec_ops"]
 
-var _peer: ENetMultiplayerPeer = null
+# ── State ─────────────────────────────────────────────────────────────────────
+## player_id → role
+var player_roles: Dictionary = {}
 
-const DEFAULT_PORT: int = 7777
-const MAX_CLIENTS: int = 7
+## role → player_id (-1 = AI-controlled)
+var role_assignments: Dictionary = {
+	"commander":    -1,
+	"quartermaster": -1,
+	"field_marshal": -1,
+	"spec_ops":     -1,
+}
 
-signal player_joined(player_id: int, player_name: String)
-signal player_left(player_id: int)
-signal role_assigned(player_id: int, role: String)
-signal role_vacated(role: String)
-signal game_started()
-signal host_migrated(new_host_id: int)
-signal connection_failed()
+## role → AIPartner node (null if human-controlled)
+var ai_partners: Dictionary = {}
 
+## Set of currently connected player_ids
+var connected_players: Dictionary = {}   # player_id → true
 
+## Reference to RoleHotSwap helper (set during _ready or by game coordinator)
+var hot_swap: RoleHotSwap = null
+
+# ── ECS world reference (set by game coordinator) ─────────────────────────────
+var ecs_world = null   # typed as variant to avoid hard dependency
+
+# ── Lifecycle ─────────────────────────────────────────────────────────────────
 func _ready() -> void:
-	multiplayer.peer_connected.connect(_on_peer_connected)
-	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	multiplayer.connection_failed.connect(_on_connection_failed)
-	multiplayer.server_disconnected.connect(_on_host_disconnected)
+	hot_swap = RoleHotSwap.new()
+	hot_swap.name = "RoleHotSwap"
+	add_child(hot_swap)
 
+	# Forward hot-swap signals upward
+	hot_swap.role_transferred.connect(_on_role_transferred)
+	hot_swap.ai_activated.connect(_on_ai_activated)
+	hot_swap.ai_deactivated.connect(_on_ai_deactivated)
 
-## Host a new game on the given port.
-func host_game(port: int = DEFAULT_PORT) -> Error:
-	if state != State.IDLE:
-		push_warning("SessionManager.host_game: not in IDLE state")
-		return ERR_ALREADY_IN_USE
+	# Wire multiplayer callbacks when running inside Godot's multiplayer tree
+	if multiplayer:
+		multiplayer.peer_connected.connect(_on_peer_connected)
+		multiplayer.peer_disconnected.connect(_on_player_disconnected)
 
-	_peer = ENetMultiplayerPeer.new()
-	var err := _peer.create_server(port, MAX_CLIENTS)
-	if err != OK:
-		push_error("SessionManager.host_game: create_server failed: %s" % error_string(err))
-		_peer = null
-		return err
+# ── Public API ────────────────────────────────────────────────────────────────
 
-	multiplayer.multiplayer_peer = _peer
-	is_host = true
-	local_player_id = 1
-	state = State.IN_LOBBY
-	players[1] = {"name": "Host", "role": "", "connected": true, "is_ai": false}
-	return OK
+## Called when a new peer connects (pre-lobby). Tracks presence only.
+func _on_peer_connected(player_id: int) -> void:
+	connected_players[player_id] = true
 
-
-## Join an existing game at the given address and port.
-func join_game(address: String, port: int = DEFAULT_PORT) -> Error:
-	if state != State.IDLE:
-		push_warning("SessionManager.join_game: not in IDLE state")
-		return ERR_ALREADY_IN_USE
-
-	_peer = ENetMultiplayerPeer.new()
-	var err := _peer.create_client(address, port)
-	if err != OK:
-		push_error("SessionManager.join_game: create_client failed: %s" % error_string(err))
-		_peer = null
-		return err
-
-	multiplayer.multiplayer_peer = _peer
-	is_host = false
-	state = State.JOINING
-	return OK
-
-
-## Select a role for the local player.
-func select_role(role: String) -> void:
-	if local_player_id < 0:
-		push_warning("SessionManager.select_role: not connected")
-		return
-	if local_player_id in players:
-		players[local_player_id]["role"] = role
-		role_assigned.emit(local_player_id, role)
-
-
-## Check if a role is already taken by a connected player.
-func is_role_taken(role: String) -> bool:
-	for pid: int in players:
-		if players[pid]["role"] == role and players[pid]["connected"]:
-			return true
-	return false
-
-
-## Start the game (host only).
-func start_game() -> void:
-	if not is_host:
-		push_warning("SessionManager.start_game: only host can start")
-		return
-	if state != State.IN_LOBBY:
-		push_warning("SessionManager.start_game: not in lobby")
-		return
-	state = State.IN_GAME
-	game_started.emit()
-
-
-func _on_peer_connected(peer_id: int) -> void:
-	players[peer_id] = {"name": "Player_%d" % peer_id, "role": "", "connected": true, "is_ai": false}
-	player_joined.emit(peer_id, players[peer_id]["name"])
-
-
-func _on_peer_disconnected(peer_id: int) -> void:
-	if peer_id not in players:
-		return
-	var role: String = players[peer_id].get("role", "")
-	players[peer_id]["connected"] = false
-	players[peer_id]["is_ai"] = true
-	player_left.emit(peer_id)
+## Called when a peer disconnects. AI immediately covers their role.
+func _on_player_disconnected(player_id: int) -> void:
+	connected_players.erase(player_id)
+	var role: String = player_roles.get(player_id, "")
 	if role != "":
-		role_vacated.emit(role)
+		player_roles.erase(player_id)
+		emit_signal("player_left", player_id, role)
+		# Seamlessly hand off to AI
+		hot_swap.ai_take_role(role, self)
 
+## Called when a joining player requests to fill an AI-held role.
+## Returns true if the handoff succeeds.
+func request_role(player_id: int, role: String) -> bool:
+	if role not in VALID_ROLES:
+		return false
+	# Only allow taking AI-held roles via this path
+	if role_assignments.get(role, -1) != -1:
+		return false
+	return hot_swap.human_take_role(player_id, role, self)
 
-func _on_connected_to_server() -> void:
-	local_player_id = multiplayer.get_unique_id()
-	state = State.IN_LOBBY
-	players[local_player_id] = {"name": "Player_%d" % local_player_id, "role": "", "connected": true, "is_ai": false}
+## Assign a role directly (called by RoleHotSwap after validation).
+func assign_role(player_id: int, role: String) -> void:
+	player_roles[player_id] = role
+	role_assignments[role] = player_id
+	emit_signal("role_assignment_changed", role, player_id)
 
+## Mark a role as AI-controlled.
+func mark_role_ai(role: String) -> void:
+	# Remove reverse lookup for previous human holder if any
+	var prev_player: int = role_assignments.get(role, -1)
+	if prev_player != -1:
+		player_roles.erase(prev_player)
+	role_assignments[role] = -1
+	emit_signal("role_assignment_changed", role, -1)
 
-func _on_connection_failed() -> void:
-	state = State.IDLE
-	_peer = null
-	connection_failed.emit()
+## Store an active AIPartner for a role.
+func set_ai_partner(role: String, partner) -> void:
+	ai_partners[role] = partner
 
+## Remove and free the AIPartner for a role.
+func clear_ai_partner(role: String) -> void:
+	if ai_partners.has(role) and ai_partners[role] != null:
+		var partner = ai_partners[role]
+		if partner.is_inside_tree():
+			partner.queue_free()
+		ai_partners.erase(role)
 
-func _on_host_disconnected() -> void:
-	if state == State.IN_GAME:
-		var new_host_id: int = HostMigration.select_new_host(players)
-		if new_host_id == local_player_id:
-			is_host = true
-		host_migrated.emit(new_host_id)
-	else:
-		state = State.IDLE
-		players.clear()
-		_peer = null
+## Returns true if role is currently AI-controlled.
+func is_ai_role(role: String) -> bool:
+	return role_assignments.get(role, -1) == -1
 
+## Returns true if player_id is connected.
+func is_connected_player(player_id: int) -> bool:
+	return connected_players.has(player_id)
 
-## Disconnect and reset state.
-func disconnect_game() -> void:
-	if _peer != null:
-		_peer.close()
-		_peer = null
-	multiplayer.multiplayer_peer = null
-	state = State.IDLE
-	players.clear()
-	local_player_id = -1
-	is_host = false
+## Returns true if player_id already holds any role.
+func player_has_role(player_id: int) -> bool:
+	return player_roles.has(player_id)
 
+## Returns a deep-copy snapshot of the current session state.
+func get_state_snapshot() -> Dictionary:
+	return {
+		"player_roles":    player_roles.duplicate(),
+		"role_assignments": role_assignments.duplicate(),
+	}
 
-## Get list of connected player IDs.
-func get_connected_players() -> Array[int]:
-	var result: Array[int] = []
-	for pid: int in players:
-		if players[pid]["connected"]:
-			result.append(pid)
-	return result
+# ── Signal Handlers ──────────────────────────────────────────────────────────
+func _on_role_transferred(role: String, from_player_id: int, to_player_id: int) -> void:
+	emit_signal("role_assignment_changed", role, to_player_id)
+
+func _on_ai_activated(role: String) -> void:
+	emit_signal("role_assignment_changed", role, -1)
+
+func _on_ai_deactivated(role: String) -> void:
+	pass  # role_assignment already updated by human_take_role
