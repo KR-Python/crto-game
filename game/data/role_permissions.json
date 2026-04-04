@@ -1,0 +1,215 @@
+{
+  "roles": {
+    "commander": {
+      "display_name": "Commander",
+      "min_players_required": 2,
+      "unit_cap": -1,
+      "selectable_entities": {
+        "tags_include": [
+          "structure",
+          "construction_yard"
+        ],
+        "tags_exclude": [
+          "defense_turret"
+        ]
+      },
+      "allowed_actions": [
+        "PLACE_STRUCTURE",
+        "CANCEL_STRUCTURE",
+        "RESEARCH",
+        "CANCEL_RESEARCH",
+        "PING_MAP",
+        "REQUEST_FROM_ROLE",
+        "APPROVE_SUPERWEAPON",
+        "TOGGLE_POWER",
+        "TRANSFER_CONTROL"
+      ]
+    },
+    "quartermaster": {
+      "display_name": "Quartermaster",
+      "min_players_required": 3,
+      "unit_cap": -1,
+      "selectable_entities": {
+        "tags_include": [
+          "harvester",
+          "production_building",
+          "refinery"
+        ],
+        "tags_exclude": []
+      },
+      "allowed_actions": [
+        "QUEUE_PRODUCTION",
+        "CANCEL_PRODUCTION",
+        "SET_RALLY_POINT",
+        "MOVE_UNITS",
+        "STOP",
+        "TOGGLE_POWER",
+        "PING_MAP",
+        "REQUEST_FROM_ROLE"
+      ]
+    },
+    "field_marshal": {
+      "display_name": "Field Marshal",
+      "min_players_required": 2,
+      "unit_cap": -1,
+      "selectable_entities": {
+        "tags_include": [
+          "combat",
+          "infantry",
+          "vehicle",
+          "naval"
+        ],
+        "tags_exclude": [
+          "spec_ops",
+          "hero",
+          "air",
+          "harvester",
+          "engineer_unit"
+        ]
+      },
+      "allowed_actions": [
+        "MOVE_UNITS",
+        "ATTACK_TARGET",
+        "ATTACK_MOVE",
+        "PATROL",
+        "GUARD",
+        "STOP",
+        "HOLD_POSITION",
+        "SET_FORMATION",
+        "PING_MAP",
+        "REQUEST_FROM_ROLE",
+        "APPROVE_SUPERWEAPON"
+      ]
+    },
+    "spec_ops": {
+      "display_name": "Spec Ops",
+      "min_players_required": 4,
+      "unit_cap": 15,
+      "selectable_entities": {
+        "tags_include": [
+          "spec_ops",
+          "hero"
+        ],
+        "tags_exclude": []
+      },
+      "allowed_actions": [
+        "MOVE_UNITS",
+        "ATTACK_TARGET",
+        "INFILTRATE",
+        "SABOTAGE",
+        "MARK_TARGET",
+        "STOP",
+        "PING_MAP",
+        "REQUEST_FROM_ROLE"
+      ]
+    },
+    "chief_engineer": {
+      "display_name": "Chief Engineer",
+      "min_players_required": 5,
+      "unit_cap": -1,
+      "selectable_entities": {
+        "tags_include": [
+          "defense_turret",
+          "wall",
+          "gate",
+          "mine",
+          "sensor",
+          "engineer_unit"
+        ],
+        "tags_exclude": []
+      },
+      "allowed_actions": [
+        "PLACE_STRUCTURE",
+        "PLACE_WALL",
+        "PLACE_MINE",
+        "REPAIR_STRUCTURE",
+        "REPAIR_VEHICLE",
+        "MOVE_UNITS",
+        "STOP",
+        "PING_MAP",
+        "REQUEST_FROM_ROLE"
+      ]
+    },
+    "air_marshal": {
+      "display_name": "Air Marshal",
+      "min_players_required": 5,
+      "unit_cap": -1,
+      "selectable_entities": {
+        "tags_include": [
+          "air",
+          "airfield"
+        ],
+        "tags_exclude": []
+      },
+      "allowed_actions": [
+        "MOVE_UNITS",
+        "ATTACK_TARGET",
+        "PATROL",
+        "BOMBING_RUN",
+        "PARADROP",
+        "STOP",
+        "PING_MAP",
+        "REQUEST_FROM_ROLE"
+      ]
+    }
+  },
+  "merge_rules": {
+    "2_players": [
+      {
+        "role": "commander",
+        "absorbs": [
+          "quartermaster",
+          "chief_engineer"
+        ]
+      },
+      {
+        "role": "field_marshal",
+        "absorbs": [
+          "spec_ops",
+          "air_marshal"
+        ]
+      }
+    ],
+    "3_players": [
+      {
+        "role": "commander",
+        "absorbs": [
+          "chief_engineer"
+        ]
+      },
+      {
+        "role": "quartermaster",
+        "absorbs": []
+      },
+      {
+        "role": "field_marshal",
+        "absorbs": [
+          "spec_ops",
+          "air_marshal"
+        ]
+      }
+    ],
+    "4_players": [
+      {
+        "role": "commander",
+        "absorbs": [
+          "chief_engineer"
+        ]
+      },
+      {
+        "role": "quartermaster",
+        "absorbs": []
+      },
+      {
+        "role": "field_marshal",
+        "absorbs": [
+          "air_marshal"
+        ]
+      },
+      {
+        "role": "spec_ops",
+        "absorbs": []
+      }
+    ]
+  }
+}

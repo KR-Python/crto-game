@@ -1,0 +1,47 @@
+{
+  "structure_id": "aegis_construction_yard",
+  "display_name": "Construction Yard",
+  "faction": "aegis",
+  "tier": 1,
+  "role_tag": "special",
+  "cost": {
+    "primary": 5000,
+    "secondary": 0
+  },
+  "build_time": 0.0,
+  "build_requirements": {
+    "structures": [],
+    "tech": []
+  },
+  "footprint": {
+    "width": 4,
+    "height": 4
+  },
+  "placement_rules": {
+    "requires_power": false,
+    "requires_ground": true,
+    "min_distance_from_edge": 2
+  },
+  "health": {
+    "max": 3500,
+    "armor_type": "building"
+  },
+  "power": {
+    "consumption": 0,
+    "production": 0
+  },
+  "vision": {
+    "range": 8
+  },
+  "production": {
+    "can_produce": [],
+    "queue_size": 1,
+    "rally_point": false
+  },
+  "tech_provides": [],
+  "weapons": [],
+  "abilities": [],
+  "sprite": "sprites/aegis/construction_yard.png",
+  "icon": "ui/icons/aegis/construction_yard.png",
+  "construction_stages": 3
+}
