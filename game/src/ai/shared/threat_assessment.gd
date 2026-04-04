@@ -1,11 +1,6 @@
 class_name ThreatAssessment
 ## Shared threat assessment utilities for opponent and partner AIs.
-## Estimates army strength from unit lists using simple health × dps heuristic.
 
-
-## Estimate total army strength for a collection of units.
-## Each unit dict should have: { health: float, dps: float, type: String }
-## Returns a scalar strength value.
 static func estimate_army_strength(units: Array) -> float:
 	var total: float = 0.0
 	for unit in units:
@@ -16,7 +11,6 @@ static func estimate_army_strength(units: Array) -> float:
 	return total
 
 
-## Per-type multiplier — vehicles and air worth more in raw strength.
 static func _type_multiplier(unit_type: String) -> float:
 	match unit_type:
 		"infantry": return 1.0
@@ -26,25 +20,19 @@ static func _type_multiplier(unit_type: String) -> float:
 		_: return 1.0
 
 
-## Analyze composition of a unit list → { anti_infantry, anti_vehicle, anti_air, anti_structure }
 static func analyze_composition(units: Array) -> Dictionary:
 	var result := {
-		"anti_infantry": 0.0,
-		"anti_vehicle": 0.0,
-		"anti_air": 0.0,
-		"anti_structure": 0.0,
+		"anti_infantry": 0.0, "anti_vehicle": 0.0,
+		"anti_air": 0.0, "anti_structure": 0.0,
 	}
 	for unit in units:
-		var t: String = unit.get("type", "infantry")
-		match t:
-			"infantry":
-				result["anti_infantry"] += 1.0
+		match unit.get("type", "infantry"):
+			"infantry": result["anti_infantry"] += 1.0
 			"vehicle":
 				result["anti_vehicle"] += 1.0
 				result["anti_structure"] += 0.5
 			"air":
 				result["anti_infantry"] += 0.5
 				result["anti_structure"] += 1.0
-			_:
-				result["anti_infantry"] += 0.5
+			_: result["anti_infantry"] += 0.5
 	return result
