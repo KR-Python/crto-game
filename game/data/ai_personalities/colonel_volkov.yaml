@@ -1,0 +1,44 @@
+# schema: ai_personality
+# file: data/ai_personalities/colonel_volkov.yaml
+
+personality_id: "colonel_volkov"
+display_name: "Colonel Volkov"
+faction_affinity: "forge"
+difficulty: "hard"
+portrait: "ui/portraits/volkov.png"
+description: "Relentless aggressor. Will pressure you from minute one."
+unlock_condition: "beat_any_hard_ai"
+
+voice_lines:
+  game_start: "Your defenses mean nothing."
+  first_attack: "Here they come."
+  losing: "You think you've won? I'm just getting started."
+  winning: "Crumble."
+  superweapon: "Fire everything."
+
+strategy_weights:
+  expand_economy: 0.5
+  build_army: 1.5
+  tech_up: 0.6
+  attack: 1.8
+  defend: 0.4
+  harass: 1.2
+
+behavior:
+  first_attack_tick: 600
+  attack_frequency: "high"
+  retreat_threshold: 0.3
+  expansion_timing: "late"
+  tech_priority: ["vehicles", "infantry", "air"]
+  preferred_composition:
+    infantry: 0.3
+    vehicles: 0.6
+    air: 0.1
+
+difficulty_modifiers:
+  resource_bonus: 1.0
+  reaction_time_ticks: 5
+  micro_precision: 0.8
+  scouting_frequency: "high"
+  multi_prong_attacks: true
+  uses_superweapon: true

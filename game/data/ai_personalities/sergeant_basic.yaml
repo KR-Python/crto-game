@@ -1,0 +1,44 @@
+# schema: ai_personality
+# file: data/ai_personalities/sergeant_basic.yaml
+
+personality_id: "sergeant_basic"
+display_name: "Sergeant Basic"
+faction_affinity: "forge"
+difficulty: "easy"
+portrait: "ui/portraits/sergeant_basic.png"
+description: "A straightforward opponent for learning the ropes."
+unlock_condition: null
+
+voice_lines:
+  game_start: "Let's see what you've got."
+  first_attack: "Moving out!"
+  losing: "Hmm, not bad..."
+  winning: "Too easy."
+  superweapon: "Firing!"
+
+strategy_weights:
+  expand_economy: 1.0
+  build_army: 1.0
+  tech_up: 0.8
+  attack: 0.8
+  defend: 1.0
+  harass: 0.3
+
+behavior:
+  first_attack_tick: 900
+  attack_frequency: "low"
+  retreat_threshold: 0.5
+  expansion_timing: "mid"
+  tech_priority: ["infantry", "vehicles"]
+  preferred_composition:
+    infantry: 0.7
+    vehicles: 0.3
+    air: 0.0
+
+difficulty_modifiers:
+  resource_bonus: 0.8
+  reaction_time_ticks: 45
+  micro_precision: 0.3
+  scouting_frequency: "low"
+  multi_prong_attacks: false
+  uses_superweapon: false

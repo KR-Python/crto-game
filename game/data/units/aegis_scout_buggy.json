@@ -1,0 +1,62 @@
+{
+  "unit_id": "aegis_scout_buggy",
+  "display_name": "Scout Buggy",
+  "faction": "aegis",
+  "category": "vehicle",
+  "tier": 1,
+  "role_tag": "combat",
+  "cost": {
+    "primary": 250,
+    "secondary": 0
+  },
+  "build_time": 6.0,
+  "produced_at": "aegis_barracks",
+  "tech_requirements": [],
+  "health": {
+    "max": 150,
+    "armor_type": "light"
+  },
+  "movement": {
+    "speed": 6.0,
+    "type": "wheeled",
+    "can_crush_infantry": false
+  },
+  "vision": {
+    "range": 12,
+    "detector": false
+  },
+  "weapons": [
+    {
+      "weapon_id": "aegis_mounted_mg",
+      "damage": 8,
+      "damage_type": "kinetic",
+      "range": 5,
+      "cooldown": 0.5,
+      "targets": [
+        "ground"
+      ],
+      "projectile_speed": 25,
+      "area_of_effect": 0,
+      "turret": true
+    }
+  ],
+  "abilities": [],
+  "ai_hints": {
+    "threat_value": 2,
+    "preferred_targets": [
+      "infantry"
+    ],
+    "engagement_range": "weapon_range",
+    "retreat_health_pct": 0.3
+  },
+  "sounds": {
+    "select": "sfx/aegis/scout_buggy_select.ogg",
+    "move": "sfx/aegis/scout_buggy_move.ogg",
+    "attack": "sfx/aegis/scout_buggy_fire.ogg",
+    "death": "sfx/aegis/scout_buggy_explode.ogg"
+  },
+  "sprite": "sprites/aegis/scout_buggy.png",
+  "icon": "ui/icons/aegis/scout_buggy.png",
+  "death_effect": "effects/vehicle_explosion_small",
+  "scale": 1.0
+}

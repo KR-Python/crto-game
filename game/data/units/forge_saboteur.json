@@ -1,0 +1,80 @@
+{
+  "unit_id": "forge_saboteur",
+  "display_name": "Saboteur",
+  "faction": "forge",
+  "category": "infantry",
+  "tier": 1,
+  "role_tag": "spec_ops",
+  "cost": {
+    "primary": 250,
+    "secondary": 0
+  },
+  "build_time": 8.0,
+  "produced_at": "forge_barracks",
+  "tech_requirements": [],
+  "health": {
+    "max": 90,
+    "armor_type": "light"
+  },
+  "movement": {
+    "speed": 3.5,
+    "type": "foot",
+    "can_crush_infantry": false
+  },
+  "vision": {
+    "range": 7,
+    "detector": false
+  },
+  "weapons": [
+    {
+      "weapon_id": "forge_demo_charge",
+      "damage": 45,
+      "damage_type": "explosive",
+      "range": 3,
+      "cooldown": 3.0,
+      "targets": [
+        "ground",
+        "structure"
+      ],
+      "projectile_speed": 12,
+      "area_of_effect": 1.5,
+      "turret": false
+    }
+  ],
+  "abilities": [
+    {
+      "ability_id": "plant_c4",
+      "display_name": "Plant C4",
+      "description": "Places a timed explosive on a structure",
+      "cooldown": 30.0,
+      "range": 1,
+      "effect": {
+        "type": "delayed_damage",
+        "damage": 200,
+        "delay": 5.0,
+        "targets": [
+          "structure"
+        ]
+      }
+    }
+  ],
+  "ai_hints": {
+    "threat_value": 4,
+    "preferred_targets": [
+      "structure",
+      "vehicle"
+    ],
+    "engagement_range": "weapon_range",
+    "retreat_health_pct": 0.3
+  },
+  "sounds": {
+    "select": "sfx/forge/saboteur_select.ogg",
+    "move": "sfx/forge/saboteur_move.ogg",
+    "attack": "sfx/forge/saboteur_fire.ogg",
+    "death": "sfx/forge/saboteur_death.ogg"
+  },
+  "sprite": "sprites/forge/saboteur.png",
+  "icon": "ui/icons/forge/saboteur.png",
+  "death_effect": "effects/infantry_death",
+  "scale": 1.0
+}

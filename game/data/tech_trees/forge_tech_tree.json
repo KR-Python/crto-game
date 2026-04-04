@@ -1,0 +1,38 @@
+{
+  "faction": "forge",
+  "tiers": {
+    "tier_1": {
+      "available_at_start": true,
+      "structures": [
+        "forge_construction_yard",
+        "forge_generator",
+        "forge_barracks",
+        "forge_refinery",
+        "forge_flame_turret"
+      ],
+      "units": [
+        "forge_conscript",
+        "forge_saboteur",
+        "forge_attack_bike",
+        "forge_harvester"
+      ]
+    },
+    "tier_2": {
+      "unlock_requirements": {
+        "structures": [
+          "forge_barracks"
+        ]
+      },
+      "structures": [],
+      "units": []
+    },
+    "tier_3": {
+      "unlock_requirements": {
+        "structures": []
+      },
+      "structures": [],
+      "units": []
+    }
+  },
+  "research": []
+}

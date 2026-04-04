@@ -1,0 +1,38 @@
+{
+  "faction": "aegis",
+  "tiers": {
+    "tier_1": {
+      "available_at_start": true,
+      "structures": [
+        "aegis_construction_yard",
+        "aegis_power_plant",
+        "aegis_barracks",
+        "aegis_refinery",
+        "aegis_turret"
+      ],
+      "units": [
+        "aegis_rifleman",
+        "aegis_engineer",
+        "aegis_scout_buggy",
+        "aegis_harvester"
+      ]
+    },
+    "tier_2": {
+      "unlock_requirements": {
+        "structures": [
+          "aegis_barracks"
+        ]
+      },
+      "structures": [],
+      "units": []
+    },
+    "tier_3": {
+      "unlock_requirements": {
+        "structures": []
+      },
+      "structures": [],
+      "units": []
+    }
+  },
+  "research": []
+}

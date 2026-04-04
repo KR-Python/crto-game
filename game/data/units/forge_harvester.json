@@ -1,0 +1,59 @@
+{
+  "unit_id": "forge_harvester",
+  "display_name": "Harvester",
+  "faction": "forge",
+  "category": "vehicle",
+  "tier": 1,
+  "role_tag": "harvester",
+  "cost": {
+    "primary": 600,
+    "secondary": 0
+  },
+  "build_time": 15.0,
+  "produced_at": "forge_refinery",
+  "tech_requirements": [],
+  "health": {
+    "max": 400,
+    "armor_type": "heavy"
+  },
+  "movement": {
+    "speed": 4.0,
+    "type": "wheeled",
+    "can_crush_infantry": false
+  },
+  "vision": {
+    "range": 5,
+    "detector": false
+  },
+  "weapons": [],
+  "abilities": [
+    {
+      "ability_id": "harvest",
+      "display_name": "Harvest",
+      "description": "Collects resources from ore fields",
+      "cooldown": 0.0,
+      "range": 1,
+      "effect": {
+        "type": "harvest",
+        "capacity": 30,
+        "harvest_rate": 2.0
+      }
+    }
+  ],
+  "ai_hints": {
+    "threat_value": 0,
+    "preferred_targets": [],
+    "engagement_range": "none",
+    "retreat_health_pct": 0.5
+  },
+  "sounds": {
+    "select": "sfx/forge/harvester_select.ogg",
+    "move": "sfx/forge/harvester_move.ogg",
+    "attack": "",
+    "death": "sfx/forge/harvester_explode.ogg"
+  },
+  "sprite": "sprites/forge/harvester.png",
+  "icon": "ui/icons/forge/harvester.png",
+  "death_effect": "effects/vehicle_explosion",
+  "scale": 1.2
+}

@@ -1,0 +1,63 @@
+{
+  "unit_id": "aegis_rifleman",
+  "display_name": "Rifleman",
+  "faction": "aegis",
+  "category": "infantry",
+  "tier": 1,
+  "role_tag": "combat",
+  "cost": {
+    "primary": 150,
+    "secondary": 0
+  },
+  "build_time": 5.0,
+  "produced_at": "aegis_barracks",
+  "tech_requirements": [],
+  "health": {
+    "max": 120,
+    "armor_type": "light"
+  },
+  "movement": {
+    "speed": 3.0,
+    "type": "foot",
+    "can_crush_infantry": false
+  },
+  "vision": {
+    "range": 7,
+    "detector": false
+  },
+  "weapons": [
+    {
+      "weapon_id": "aegis_assault_rifle",
+      "damage": 12,
+      "damage_type": "kinetic",
+      "range": 5,
+      "cooldown": 0.8,
+      "targets": [
+        "ground",
+        "structure"
+      ],
+      "projectile_speed": 20,
+      "area_of_effect": 0,
+      "turret": false
+    }
+  ],
+  "abilities": [],
+  "ai_hints": {
+    "threat_value": 3,
+    "preferred_targets": [
+      "infantry"
+    ],
+    "engagement_range": "weapon_range",
+    "retreat_health_pct": 0.2
+  },
+  "sounds": {
+    "select": "sfx/aegis/rifleman_select.ogg",
+    "move": "sfx/aegis/rifleman_move.ogg",
+    "attack": "sfx/aegis/rifleman_fire.ogg",
+    "death": "sfx/aegis/rifleman_death.ogg"
+  },
+  "sprite": "sprites/aegis/rifleman.png",
+  "icon": "ui/icons/aegis/rifleman.png",
+  "death_effect": "effects/infantry_death",
+  "scale": 1.0
+}
