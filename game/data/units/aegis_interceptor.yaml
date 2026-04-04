@@ -1,0 +1,49 @@
+# Countered by: AA Vehicle, Skyguard (energy vs medium) | Counters: Helicopters, enemy air units
+unit_id: "aegis_interceptor"
+display_name: "Interceptor"
+faction: "aegis"
+category: "air"
+tier: 2
+role_tag: "air"
+cost:
+  primary: 700
+  secondary: 150
+build_time: 10.0
+produced_at: "aegis_war_factory"
+tech_requirements:
+  - "aegis_radar"
+health:
+  max: 180
+  armor_type: "medium"
+movement:
+  speed: 8.0
+  type: "flying"
+  can_crush_infantry: false
+vision:
+  range: 10
+  detector: false
+weapons:
+  - weapon_id: "aegis_pulse_cannon"
+    damage: 45
+    damage_type: "energy"
+    range: 8
+    cooldown: 1.2
+    targets: ["air"]
+    projectile_speed: 30
+    area_of_effect: 0
+    turret: false
+abilities: []
+ai_hints:
+  threat_value: 5
+  preferred_targets: ["air"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.25
+sounds:
+  select: "sfx/aegis/interceptor_select.ogg"
+  move: "sfx/aegis/interceptor_move.ogg"
+  attack: "sfx/aegis/interceptor_fire.ogg"
+  death: "sfx/aegis/interceptor_explode.ogg"
+sprite: "sprites/aegis/interceptor.png"
+icon: "ui/icons/aegis/interceptor.png"
+death_effect: "effects/air_explosion"
+scale: 1.0

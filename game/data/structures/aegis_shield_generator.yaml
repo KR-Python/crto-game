@@ -1,0 +1,48 @@
+structure_id: "aegis_shield_generator"
+display_name: "Shield Generator"
+faction: "aegis"
+tier: 2
+role_tag: "special"
+cost:
+  primary: 1500
+  secondary: 500
+build_time: 25.0
+build_requirements:
+  structures: ["aegis_tech_lab"]
+  tech: []
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 1
+health:
+  max: 600
+  armor_type: "building"
+power:
+  consumption: 50
+  production: 0
+vision:
+  range: 6
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+tech_provides: []
+weapons: []
+abilities:
+  - ability_id: "shield_bubble"
+    display_name: "Protective Shield"
+    description: "Projects a shield bubble over nearby structures (Phase 5 stub)"
+    cooldown: 0.0
+    range: 8
+    effect:
+      type: "shield_bubble"
+      radius: 8
+      shield_hp: 500
+      recharge_rate: 10
+      recharge_delay: 5.0
+sprite: "sprites/aegis/shield_generator.png"
+icon: "ui/icons/aegis/shield_generator.png"
+construction_stages: 3

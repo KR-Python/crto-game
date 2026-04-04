@@ -1,0 +1,46 @@
+structure_id: "forge_tunnel_entrance"
+display_name: "Tunnel Entrance"
+faction: "forge"
+tier: 2
+role_tag: "special"
+cost:
+  primary: 1200
+  secondary: 300
+build_time: 20.0
+build_requirements:
+  structures: ["forge_munitions"]
+  tech: []
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 1
+health:
+  max: 500
+  armor_type: "building"
+power:
+  consumption: 20
+  production: 0
+vision:
+  range: 5
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+tech_provides: []
+weapons: []
+abilities:
+  - ability_id: "tunnel_network"
+    display_name: "Tunnel Network"
+    description: "Instantly transport units between connected tunnel entrances (Phase 5 stub)"
+    cooldown: 10.0
+    range: 1
+    effect:
+      type: "tunnel_transport"
+      capacity: 5
+      allowed_categories: ["infantry"]
+sprite: "sprites/forge/tunnel_entrance.png"
+icon: "ui/icons/forge/tunnel_entrance.png"
+construction_stages: 2

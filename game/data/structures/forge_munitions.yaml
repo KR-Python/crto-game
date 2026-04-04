@@ -1,0 +1,38 @@
+structure_id: "forge_munitions"
+display_name: "Munitions Depot"
+faction: "forge"
+tier: 2
+role_tag: "tech"
+cost:
+  primary: 1000
+  secondary: 200
+build_time: 15.0
+build_requirements:
+  structures: ["forge_barracks"]
+  tech: []
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 1
+health:
+  max: 650
+  armor_type: "building"
+power:
+  consumption: 25
+  production: 0
+vision:
+  range: 5
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+tech_provides:
+  - "forge_munitions"
+weapons: []
+abilities: []
+sprite: "sprites/forge/munitions.png"
+icon: "ui/icons/forge/munitions.png"
+construction_stages: 3
