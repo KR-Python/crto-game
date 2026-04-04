@@ -1,0 +1,48 @@
+# Countered by: AEGIS Turret (stationary, kinetic), massed Riflemen | Counters: AEGIS Scout Buggy, harvesters (speed + explosive)
+unit_id: "forge_attack_bike"
+display_name: "Attack Bike"
+faction: "forge"
+category: "vehicle"
+tier: 1
+role_tag: "combat"
+cost:
+  primary: 200
+  secondary: 0
+build_time: 5.0
+produced_at: "forge_barracks"
+tech_requirements: []
+health:
+  max: 100
+  armor_type: "light"
+movement:
+  speed: 7.5
+  type: "wheeled"
+  can_crush_infantry: false
+vision:
+  range: 8
+  detector: false
+weapons:
+  - weapon_id: "forge_bike_rockets"
+    damage: 25
+    damage_type: "explosive"
+    range: 5
+    cooldown: 2.0
+    targets: ["ground", "structure"]
+    projectile_speed: 14
+    area_of_effect: 0.5
+    turret: false
+abilities: []
+ai_hints:
+  threat_value: 3
+  preferred_targets: ["vehicle", "harvester"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.3
+sounds:
+  select: "sfx/forge/attack_bike_select.ogg"
+  move: "sfx/forge/attack_bike_move.ogg"
+  attack: "sfx/forge/attack_bike_fire.ogg"
+  death: "sfx/forge/attack_bike_explode.ogg"
+sprite: "sprites/forge/attack_bike.png"
+icon: "ui/icons/forge/attack_bike.png"
+death_effect: "effects/vehicle_explosion_small"
+scale: 1.0
