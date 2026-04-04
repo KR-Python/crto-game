@@ -1,0 +1,57 @@
+unit_id: "aegis_gunship"
+display_name: "Sentinel Gunship"
+faction: "aegis"
+category: "air"
+tier: 3
+role_tag: "air"
+
+cost:
+  primary: 1800
+  secondary: 400
+build_time: 24.0
+produced_at: "aegis_airfield"
+tech_requirements:
+  - "aegis_airfield"
+
+health:
+  max: 500
+  armor_type: "medium"
+
+movement:
+  speed: 3.5
+  type: "hover"
+  can_crush_infantry: false
+
+vision:
+  range: 10
+  detector: false
+
+weapons:
+  - weapon_id: "energy_gatling"
+    damage: 35
+    damage_type: "energy"
+    range: 7
+    cooldown: 0.4
+    targets: ["ground", "air"]
+    projectile_speed: 25
+    area_of_effect: 0
+    turret: true
+
+abilities: []
+
+ai_hints:
+  threat_value: 7
+  preferred_targets: ["vehicle", "air"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.25
+
+sounds:
+  select: "sfx/aegis/gunship_select.ogg"
+  move: "sfx/aegis/gunship_move.ogg"
+  attack: "sfx/aegis/gunship_fire.ogg"
+  death: "sfx/aegis/gunship_crash.ogg"
+
+sprite: "sprites/aegis/sentinel_gunship.png"
+icon: "ui/icons/aegis/sentinel_gunship.png"
+death_effect: "effects/aircraft_explosion"
+scale: 1.2

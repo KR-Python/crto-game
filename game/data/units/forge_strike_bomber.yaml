@@ -1,0 +1,68 @@
+unit_id: "forge_strike_bomber"
+display_name: "Vulture Strike Bomber"
+faction: "forge"
+category: "air"
+tier: 3
+role_tag: "air"
+
+cost:
+  primary: 1800
+  secondary: 400
+build_time: 26.0
+produced_at: "forge_airstrip"
+tech_requirements:
+  - "forge_airstrip"
+
+health:
+  max: 500
+  armor_type: "medium"
+
+movement:
+  speed: 4.5
+  type: "flying"
+  can_crush_infantry: false
+
+vision:
+  range: 8
+  detector: false
+
+weapons:
+  - weapon_id: "chemical_bomb"
+    damage: 120
+    damage_type: "chemical"
+    range: 1
+    cooldown: 8.0
+    targets: ["ground", "structure"]
+    projectile_speed: 0
+    area_of_effect: 3.5
+    turret: false
+
+abilities:
+  - ability_id: "chem_dot_field"
+    display_name: "Toxic Residue"
+    description: "Bomb impacts leave a toxic field. 20 damage/s for 6s in the blast area."
+    cooldown: 0.0
+    passive: true
+    effect:
+      type: "area_dot"
+      damage_per_second: 20
+      radius: 3.5
+      duration: 6.0
+      damage_type: "chemical"
+
+ai_hints:
+  threat_value: 7
+  preferred_targets: ["infantry", "structure"]
+  engagement_range: "close"
+  retreat_health_pct: 0.3
+
+sounds:
+  select: "sfx/forge/strike_bomber_select.ogg"
+  move: "sfx/forge/strike_bomber_move.ogg"
+  attack: "sfx/forge/strike_bomber_drop.ogg"
+  death: "sfx/forge/strike_bomber_crash.ogg"
+
+sprite: "sprites/forge/vulture_bomber.png"
+icon: "ui/icons/forge/vulture_bomber.png"
+death_effect: "effects/aircraft_explosion"
+scale: 1.3

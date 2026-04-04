@@ -1,0 +1,104 @@
+unit_id: "forge_iron_fist"
+display_name: "Warlord Kael 'Iron Fist'"
+faction: "forge"
+category: "vehicle"
+tier: 3
+role_tag: "hero"
+
+cost:
+  primary: 3000
+  secondary: 1200
+build_time: 40.0
+produced_at: "forge_advanced_munitions"
+tech_requirements:
+  - "forge_advanced_munitions"
+unique: true
+
+health:
+  max: 1800
+  armor_type: "heavy"
+
+movement:
+  speed: 3.5
+  type: "tracked"
+  can_crush_infantry: true
+
+vision:
+  range: 10
+  detector: false
+
+weapons:
+  - weapon_id: "twin_flamethrowers"
+    damage: 45
+    damage_type: "fire"
+    range: 4
+    cooldown: 0.6
+    targets: ["ground"]
+    projectile_speed: 0
+    area_of_effect: 2.0
+    turret: true
+  - weapon_id: "heavy_autocannon"
+    damage: 50
+    damage_type: "kinetic"
+    range: 7
+    cooldown: 1.5
+    targets: ["ground", "air"]
+    projectile_speed: 22
+    area_of_effect: 0
+    turret: true
+
+abilities:
+  - ability_id: "flame_aura"
+    display_name: "Flame Aura"
+    description: "Toggle: deals 15 fire damage/s to all enemies within 3 tiles. Costs 5 HP/s to maintain."
+    cooldown: 5.0
+    passive: false
+    effect:
+      type: "toggle_aura"
+      damage_per_second: 15
+      damage_type: "fire"
+      radius: 3
+      self_damage_per_second: 5
+
+  - ability_id: "charge"
+    display_name: "Berserker Charge"
+    description: "Rush to target location, dealing 300 damage and stunning enemies in path for 2s."
+    cooldown: 35.0
+    passive: false
+    effect:
+      type: "dash_damage"
+      damage: 300
+      damage_type: "kinetic"
+      stun_duration: 2.0
+      range: 10
+      width: 2
+
+  - ability_id: "rally_cry"
+    display_name: "Rally Cry"
+    description: "Nearby units gain +30% movement speed and +15% damage for 12s."
+    cooldown: 60.0
+    passive: false
+    effect:
+      type: "aura_buff"
+      radius: 8
+      duration: 12.0
+      modifier:
+        movement.speed: 1.3
+        weapons.damage: 1.15
+
+ai_hints:
+  threat_value: 10
+  preferred_targets: ["infantry", "vehicle"]
+  engagement_range: "close"
+  retreat_health_pct: 0.2
+
+sounds:
+  select: "sfx/forge/iron_fist_select.ogg"
+  move: "sfx/forge/iron_fist_move.ogg"
+  attack: "sfx/forge/iron_fist_fire.ogg"
+  death: "sfx/forge/iron_fist_death.ogg"
+
+sprite: "sprites/forge/warlord_kael.png"
+icon: "ui/icons/forge/warlord_kael.png"
+death_effect: "effects/hero_explosion"
+scale: 1.7

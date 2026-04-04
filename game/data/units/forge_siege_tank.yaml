@@ -1,0 +1,72 @@
+unit_id: "forge_siege_tank"
+display_name: "Basilisk Siege Tank"
+faction: "forge"
+category: "vehicle"
+tier: 3
+role_tag: "combat"
+
+cost:
+  primary: 1600
+  secondary: 200
+build_time: 22.0
+produced_at: "forge_war_factory"
+tech_requirements:
+  - "forge_advanced_munitions"
+
+health:
+  max: 500
+  armor_type: "medium"
+
+movement:
+  speed: 2.8
+  type: "tracked"
+  can_crush_infantry: false
+
+vision:
+  range: 6
+  detector: false
+
+weapons:
+  - weapon_id: "siege_howitzer"
+    damage: 180
+    damage_type: "explosive"
+    range: 15
+    cooldown: 5.5
+    targets: ["ground", "structure"]
+    projectile_speed: 8
+    area_of_effect: 2.5
+    turret: false
+    requires_deploy: true
+
+abilities:
+  - ability_id: "siege_mode"
+    display_name: "Siege Mode"
+    description: "Deploy to fire. Cannot move while deployed. 2.5s deploy/undeploy."
+    cooldown: 0.0
+    passive: false
+    effect:
+      type: "deploy"
+      deploy_time: 2.5
+      undeploy_time: 2.5
+      while_deployed:
+        movement_speed: 0
+        weapon_enabled: true
+      while_mobile:
+        weapon_enabled: false
+
+ai_hints:
+  threat_value: 7
+  preferred_targets: ["structure", "vehicle"]
+  engagement_range: "max_range"
+  retreat_health_pct: 0.3
+
+sounds:
+  select: "sfx/forge/siege_tank_select.ogg"
+  move: "sfx/forge/siege_tank_move.ogg"
+  attack: "sfx/forge/siege_tank_fire.ogg"
+  death: "sfx/forge/siege_tank_explode.ogg"
+
+sprite: "sprites/forge/basilisk_siege_tank.png"
+icon: "ui/icons/forge/basilisk_siege_tank.png"
+death_effect: "effects/vehicle_explosion"
+scale: 1.3
