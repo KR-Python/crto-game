@@ -1,0 +1,85 @@
+scenario_id: "escort_convoy"
+display_name: "Escort the Convoy"
+description: "Three supply convoys must reach the forward base. Protect them at all costs."
+map: "iron_bridge"
+player_faction: "aegis"
+ai_faction: "forge"
+ai_personality: "colonel_volkov"
+starting_resources:
+  primary: 5000
+  secondary: 1000
+time_limit_ticks: 27000  # 30 minutes — convoy is slow
+
+objectives:
+  - id: "escort_convoys"
+    type: "escort_unit"
+    description: "Get at least 2 of 3 convoys to the extraction zone"
+    target_unit_tags:
+      - "convoy"
+    destination_zone:
+      position: [100, 48]
+      radius: 10
+    min_survivors: 2
+    primary: true
+
+  - id: "survive"
+    type: "survive_ticks"
+    description: "Hold until the convoys reach safety"
+    duration_ticks: 27000
+
+events:
+  - tick: 0
+    type: "spawn_units"
+    faction: "player"
+    tags:
+      - "convoy"
+    units:
+      - unit: "aegis_harvester"
+        count: 3
+    position: [15, 48]
+    narrative: "Convoys are moving. Protect them at all costs."
+
+  - tick: 600
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_attack_bike"
+        count: 4
+    spawn_position: [110, 45]
+
+  - tick: 600
+    type: "narrative"
+    text: "Enemy intercept units detected. They're going for the convoy!"
+    speaker: "Command"
+
+  - tick: 1800
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_battle_tank"
+        count: 2
+      - unit: "forge_conscript"
+        count: 6
+    spawn_position: [112, 50]
+
+  - tick: 1800
+    type: "narrative"
+    text: "Armoured column incoming. Flank protection critical."
+    speaker: "Command"
+
+  - tick: 3600
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_toxin_truck"
+        count: 1
+      - unit: "forge_conscript"
+        count: 8
+    spawn_position: [115, 48]
+
+  - tick: 3600
+    type: "narrative"
+    text: "Toxin vehicles spotted — keep the convoy clear of chemical hazards."
+    speaker: "Spec Ops"
+
+  - tick: 5400
+    type: "narrative"
+    text: "Convoy approaching the bridge. Almost there — don't let up."
+    speaker: "Command"

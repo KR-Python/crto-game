@@ -1,0 +1,74 @@
+scenario_id: "destroy_the_weapon"
+display_name: "Destroy the Weapon"
+description: "FORGE has a Chemical Missile primed to fire in 15 minutes. Destroy it before launch."
+map: "dust_bowl"
+player_faction: "aegis"
+ai_faction: "forge"
+ai_personality: "colonel_volkov"
+starting_resources:
+  primary: 6000
+  secondary: 1500
+time_limit_ticks: 13500  # 15 minutes at 15 ticks/sec
+
+objectives:
+  - id: "destroy_superweapon"
+    type: "destroy_structure"
+    description: "Destroy the Chemical Missile launcher"
+    target_structure_type: "forge_chemical_missile"
+    primary: true
+
+  - id: "dont_lose_base"
+    type: "survive"
+    description: "Protect your Construction Yard"
+
+events:
+  - tick: 0
+    type: "narrative"
+    text: "Intel confirms a Chemical Missile facility. Neutralize it."
+    speaker: "Spec Ops"
+
+  - tick: 0
+    type: "spawn_units"
+    faction: "forge"
+    units:
+      - unit: "forge_conscript"
+        count: 4
+    position: [90, 50]
+
+  - tick: 1800
+    type: "narrative"
+    text: "FORGE patrols have been reinforced around the launch site."
+    speaker: "Spec Ops"
+
+  - tick: 1800
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_battle_tank"
+        count: 2
+      - unit: "forge_conscript"
+        count: 4
+    spawn_position: [95, 52]
+
+  - tick: 6750
+    type: "narrative"
+    text: "Halfway to launch window. Move fast."
+    speaker: "Spec Ops"
+
+  - tick: 9000
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_battle_tank"
+        count: 3
+      - unit: "forge_grenadier"
+        count: 6
+    spawn_position: [92, 48]
+
+  - tick: 12000
+    type: "narrative"
+    text: "Warning: Launch sequence initiated. 3 minutes remaining."
+    speaker: "Command"
+
+  - tick: 13050
+    type: "narrative"
+    text: "One minute to launch. Destroy it NOW."
+    speaker: "Command"
