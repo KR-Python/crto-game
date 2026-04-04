@@ -1,0 +1,83 @@
+scenario_id: "hold_the_bridge"
+display_name: "Hold the Bridge"
+description: "Enemy forces are advancing. Hold the bridge for 20 minutes until reinforcements arrive."
+map: "iron_bridge"
+player_faction: "aegis"
+ai_faction: "forge"
+ai_personality: "colonel_volkov"
+starting_resources:
+  primary: 8000
+  secondary: 2000
+time_limit_ticks: 18000  # 20 minutes at 15 ticks/sec
+
+objectives:
+  - id: "hold_bridge"
+    type: "hold_position"
+    description: "Hold the bridge — don't let FORGE cross"
+    position: [64, 48]  # bridge center
+    radius: 8
+    duration_ticks: 18000
+    fail_if_enemy_present: true
+
+  - id: "survive"
+    type: "survive_ticks"
+    description: "Survive for 20 minutes"
+    duration_ticks: 18000
+
+events:
+  - tick: 0
+    type: "narrative"
+    text: "Enemy forces detected. Fortify the bridge immediately."
+    speaker: "Command"
+
+  - tick: 300
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_conscript"
+        count: 6
+    spawn_position: [110, 48]
+
+  - tick: 900
+    type: "narrative"
+    text: "Second wave incoming. Hold your positions!"
+    speaker: "Command"
+
+  - tick: 900
+    type: "spawn_units"
+    faction: "forge"
+    units:
+      - unit: "forge_battle_tank"
+        count: 3
+      - unit: "forge_conscript"
+        count: 8
+    position: [115, 48]
+
+  - tick: 2700
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_mammoth_tank"
+        count: 1
+      - unit: "forge_conscript"
+        count: 10
+    spawn_position: [115, 48]
+
+  - tick: 9000
+    type: "narrative"
+    text: "Halfway there. Keep holding — reinforcements are en route."
+    speaker: "Command"
+
+  - tick: 14400
+    type: "enemy_attack"
+    composition:
+      - unit: "forge_mammoth_tank"
+        count: 2
+      - unit: "forge_battle_tank"
+        count: 4
+      - unit: "forge_conscript"
+        count: 12
+    spawn_position: [115, 48]
+
+  - tick: 14400
+    type: "narrative"
+    text: "Final assault! Hold the line — four minutes remaining!"
+    speaker: "Command"
