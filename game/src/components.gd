@@ -51,6 +51,22 @@ static func c4_charge(damage: int, detonation_tick: int, placed_by: int) -> Dict
 	}
 
 
+# -- Repair -------------------------------------------------------------------
+
+## Command issued to an EngineerUnit to repair a target entity.
+static func repair_command(target_entity: int) -> Dictionary:
+	return {"target_entity": target_entity}
+
+
+## Left behind by DeathSystem when a vehicle is destroyed.
+## reclaim_value: 25% of original unit cost in primary resources.
+static func wreckage(unit_type: String, reclaim_value: int) -> Dictionary:
+	return {
+		"unit_type": unit_type,
+		"reclaim_value": reclaim_value,
+	}
+
+
 # -- Detection -----------------------------------------------------------------
 
 ## Marks a unit or structure as capable of revealing Stealthed entities.
