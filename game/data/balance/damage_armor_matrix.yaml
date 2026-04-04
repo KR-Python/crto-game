@@ -1,0 +1,29 @@
+# Damage Type vs Armor Type Matrix
+# Multiplier applied to damage: final_damage = base_damage × matrix[damage_type][armor_type]
+
+matrix:
+  kinetic:
+    light: 1.0
+    medium: 0.75
+    heavy: 0.5
+    building: 0.25
+  explosive:
+    light: 1.5
+    medium: 1.0
+    heavy: 0.75
+    building: 1.5
+  energy:
+    light: 0.75
+    medium: 1.0
+    heavy: 1.25
+    building: 1.0
+  chemical:
+    light: 1.5
+    medium: 1.25
+    heavy: 0.5
+    building: 0.25
+  fire:
+    light: 1.75
+    medium: 1.0
+    heavy: 0.25
+    building: 1.5
