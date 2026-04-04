@@ -1,0 +1,66 @@
+unit_id: "aegis_shock_trooper"
+display_name: "Shock Trooper"
+faction: "aegis"
+category: "infantry"
+tier: 3
+role_tag: "combat"
+
+cost:
+  primary: 600
+  secondary: 200
+build_time: 18.0
+produced_at: "aegis_barracks"
+tech_requirements:
+  - "aegis_advanced_tech"
+
+health:
+  max: 280
+  armor_type: "medium"
+
+movement:
+  speed: 2.8
+  type: "foot"
+  can_crush_infantry: false
+
+vision:
+  range: 7
+  detector: false
+
+weapons:
+  - weapon_id: "plasma_rifle"
+    damage: 55
+    damage_type: "energy"
+    range: 5
+    cooldown: 1.4
+    targets: ["ground", "structure"]
+    projectile_speed: 20
+    area_of_effect: 0
+    turret: false
+
+abilities:
+  - ability_id: "personal_shield"
+    display_name: "Personal Shield"
+    description: "Absorbs 150 damage before breaking. Recharges after 10s out of combat."
+    cooldown: 10.0
+    passive: true
+    effect:
+      type: "shield"
+      shield_hp: 150
+      recharge_delay: 10.0
+
+ai_hints:
+  threat_value: 7
+  preferred_targets: ["infantry", "vehicle"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.2
+
+sounds:
+  select: "sfx/aegis/shock_trooper_select.ogg"
+  move: "sfx/aegis/shock_trooper_move.ogg"
+  attack: "sfx/aegis/shock_trooper_fire.ogg"
+  death: "sfx/aegis/shock_trooper_death.ogg"
+
+sprite: "sprites/aegis/shock_trooper.png"
+icon: "ui/icons/aegis/shock_trooper.png"
+death_effect: "effects/infantry_energy_death"
+scale: 1.0
