@@ -1,0 +1,137 @@
+# schema: map_definition
+# file pattern: data/maps/{map_name}.yaml
+
+map_id: "dust_bowl"
+display_name: "Dust Bowl"
+description: "Open desert. Three lanes. No hiding."
+author: "CRTO Team"
+
+dimensions:
+  width: 96
+  height: 80
+
+player_count:
+  min: 2
+  max: 4
+  optimal: 2
+
+# Starting positions — diagonal corners for 2-player asymmetric pressure
+spawn_points:
+  team_human:
+    construction_yard: [8, 40]
+    starting_units:
+      - {type: "faction_harvester", position: [11, 40]}
+      - {type: "faction_rifleman", position: [6, 37], count: 3}
+      - {type: "faction_scout_buggy", position: [6, 43]}
+    initial_resources: {primary: 5000, secondary: 1000}
+
+  team_ai:
+    construction_yard: [88, 40]
+    starting_units:
+      - {type: "faction_harvester", position: [85, 40]}
+      - {type: "faction_rifleman", position: [90, 37], count: 3}
+      - {type: "faction_scout_buggy", position: [90, 43]}
+    initial_resources: {primary: 5000, secondary: 1000}
+
+# Resource nodes
+resources:
+  # Home ore — near each base, safe side
+  - {type: "ore", position: [12, 32], amount: 25000}
+  - {type: "ore", position: [12, 48], amount: 25000}
+  - {type: "ore", position: [84, 32], amount: 25000}
+  - {type: "ore", position: [84, 48], amount: 25000}
+
+  # Center lane contested gems — high value, exposed
+  - {type: "gems", position: [48, 38], amount: 12000}
+  - {type: "gems", position: [48, 42], amount: 12000}
+
+  # North lane expansion ore — risky flank
+  - {type: "ore", position: [48, 12], amount: 20000}
+
+  # South lane expansion ore — risky flank
+  - {type: "ore", position: [48, 68], amount: 20000}
+
+  # Deep center ore — extreme risk, vehicle country
+  - {type: "ore", position: [48, 40], amount: 35000}
+
+# Expansion points
+expansions:
+  - {id: "human_north_flank", position: [25, 10], risk: "medium"}
+  - {id: "human_south_flank", position: [25, 70], risk: "medium"}
+  - {id: "center_north", position: [48, 8], risk: "high"}
+  - {id: "center_mid", position: [48, 40], risk: "extreme"}
+  - {id: "center_south", position: [48, 72], risk: "high"}
+  - {id: "ai_north_flank", position: [71, 10], risk: "medium"}
+  - {id: "ai_south_flank", position: [71, 70], risk: "medium"}
+
+# Terrain features
+# Layout: three horizontal lanes separated by impassable rocky ridges
+#
+#   y=0..15    — North side lane (infantry / Spec Ops)
+#   y=16..18   — Rocky ridge (impassable except flying)
+#   y=19..22   — North ridge narrows (chokepoint, 4 tiles wide)
+#   y=23..57   — Center lane (wide open, vehicle country)
+#   y=58..60   — South ridge narrows (chokepoint, 4 tiles wide)
+#   y=61..63   — Rocky ridge (impassable except flying)
+#   y=64..79   — South side lane (infantry / Spec Ops)
+#
+# Base terrain is desert sand — tracked vehicles excel, infantry survive.
+terrain:
+  base_type: "sand"
+  features:
+    # North rocky ridge — full width except the chokepoint gap
+    - type: "rocky_ridge"
+      bounds: {x: 0, y: 16, width: 35, height: 3}
+    - type: "rocky_ridge"
+      bounds: {x: 39, y: 16, width: 57, height: 3}   # gap at x=35..38 (4 tiles)
+
+    # North chokepoint opening — passable by all, narrow pressure point
+    # (no feature needed — sand passthrough by default in the gap)
+
+    # South rocky ridge — full width except the chokepoint gap
+    - type: "rocky_ridge"
+      bounds: {x: 0, y: 61, width: 35, height: 3}
+    - type: "rocky_ridge"
+      bounds: {x: 39, y: 61, width: 57, height: 3}   # gap at x=35..38 (4 tiles)
+
+    # Cliff overlooks guarding the center chokepoints — Spec Ops perches
+    - type: "cliff"
+      bounds: {x: 30, y: 13, width: 4, height: 3}
+      provides: {vision_bonus: 5}    # see into center lane from north side
+
+    - type: "cliff"
+      bounds: {x: 30, y: 64, width: 4, height: 3}
+      provides: {vision_bonus: 5}    # see into center lane from south side
+
+    - type: "cliff"
+      bounds: {x: 62, y: 13, width: 4, height: 3}
+      provides: {vision_bonus: 5}
+
+    - type: "cliff"
+      bounds: {x: 62, y: 64, width: 4, height: 3}
+      provides: {vision_bonus: 5}
+
+    # Rocky outcroppings in center lane — cover for infantry, breakpoints for vehicle pushes
+    - type: "rocky_ridge"
+      bounds: {x: 30, y: 26, width: 4, height: 6}
+
+    - type: "rocky_ridge"
+      bounds: {x: 62, y: 26, width: 4, height: 6}
+
+    - type: "rocky_ridge"
+      bounds: {x: 30, y: 48, width: 4, height: 6}
+
+    - type: "rocky_ridge"
+      bounds: {x: 62, y: 48, width: 4, height: 6}
+
+# Map-specific rules
+rules:
+  no_water: true
+  dust_storm_enabled: false            # future feature: periodic vision penalty
+
+# AI hints
+ai_hints:
+  attack_routes: [[48, 40]]           # straight center push
+  harass_routes: [[48, 12], [48, 68]] # side lane flanks
+  expansion_priority: ["near_base", "side_lane_ore", "contested_center"]
+  note: "Vehicle-heavy compositions excel in center. Spec Ops should use side lanes to threaten expansion ore and snipe gems."

@@ -1,0 +1,73 @@
+structure_id: "forge_chemical_missile"
+display_name: "Chemical Missile Silo"
+faction: "forge"
+tier: 3
+role_tag: "special"
+is_superweapon: true
+activation_time: 270.0
+requires_dual_confirm: true
+
+weapon_effect:
+  type: "chemical_barrage"
+  damage: 4000
+  radius: 10
+  damage_type: "chemical"
+
+cost:
+  primary: 4500
+  secondary: 2000
+build_time: 100.0
+build_requirements:
+  structures: ["forge_advanced_munitions"]
+  tech: []
+
+footprint:
+  width: 3
+  height: 4
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 3
+
+health:
+  max: 2500
+  armor_type: "building"
+
+power:
+  consumption: 80
+  production: 0
+
+vision:
+  range: 8
+
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+
+tech_provides: []
+weapons: []
+
+abilities:
+  - ability_id: "chemical_missile_launch"
+    display_name: "Chemical Missile"
+    description: "Launch a chemical warhead at target. 270s charge. Initial 4000 damage + toxic field (50 damage/s for 15s). Requires dual confirmation."
+    cooldown: 270.0
+    passive: false
+    effect:
+      type: "superweapon_strike"
+      charge_time: 270.0
+      damage: 4000
+      radius: 10
+      damage_type: "chemical"
+      requires_dual_confirm: true
+      residual:
+        type: "area_dot"
+        damage_per_second: 50
+        duration: 15.0
+        radius: 10
+        damage_type: "chemical"
+
+sprite: "sprites/forge/chemical_silo.png"
+icon: "ui/icons/forge/chemical_silo.png"
+construction_stages: 5
