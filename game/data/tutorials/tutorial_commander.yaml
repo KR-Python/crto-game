@@ -1,0 +1,38 @@
+tutorial_id: "commander_basics"
+display_name: "Commander Tutorial"
+description: "Learn to build your base and plan the tech path"
+role: "commander"
+map: "iron_bridge"
+
+steps:
+  - id: "welcome"
+    text: "You are the Commander. You decide what gets built and where. Your base layout shapes the entire game."
+    complete_when: "manual"
+
+  - id: "open_palette"
+    text: "Open the structure palette on the left to see available buildings."
+    highlight_element: "structure_palette"
+    complete_when: "palette_opened"
+    hint: "Click the palette icon on the left sidebar"
+
+  - id: "place_barracks"
+    text: "Place a Barracks near your base. Select it from the palette, then click the map to place it."
+    complete_when: "structure_placed"
+    require_structure: "barracks"
+    hint: "Choose a spot close to your starting Command Center — proximity reduces unit travel time"
+
+  - id: "place_refinery"
+    text: "Place a Refinery near the ore field to the north. Your Quartermaster's harvesters need it."
+    complete_when: "structure_placed"
+    require_structure: "refinery"
+    hint: "The ore field is marked on the minimap — place the Refinery adjacent to it"
+
+  - id: "tech_tree"
+    text: "Check the tech tree to plan your research path. Early upgrades unlock stronger units for your Field Marshal."
+    highlight_element: "tech_tree_panel"
+    complete_when: "manual"
+    hint: "Tech decisions lock in mid-game power spikes — plan ahead"
+
+  - id: "complete"
+    text: "Excellent, Commander! Your team can now produce units and expand the economy. Communicate with your Quartermaster about what to build next."
+    complete_when: "manual"
