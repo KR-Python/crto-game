@@ -1,0 +1,57 @@
+# Countered by: any combat unit (weak in combat) | Counters: damaged vehicles/structures (repair utility)
+unit_id: "aegis_engineer"
+display_name: "Engineer"
+faction: "aegis"
+category: "infantry"
+tier: 1
+role_tag: "engineer"
+cost:
+  primary: 200
+  secondary: 0
+build_time: 8.0
+produced_at: "aegis_barracks"
+tech_requirements: []
+health:
+  max: 80
+  armor_type: "light"
+movement:
+  speed: 2.5
+  type: "foot"
+  can_crush_infantry: false
+vision:
+  range: 6
+  detector: false
+weapons:
+  - weapon_id: "aegis_sidearm"
+    damage: 5
+    damage_type: "kinetic"
+    range: 3
+    cooldown: 1.2
+    targets: ["ground"]
+    projectile_speed: 20
+    area_of_effect: 0
+    turret: false
+abilities:
+  - ability_id: "repair"
+    display_name: "Repair"
+    description: "Repairs friendly structures and vehicles"
+    cooldown: 0.0
+    range: 2
+    effect:
+      type: "heal"
+      rate: 15
+      targets: ["structure", "vehicle"]
+ai_hints:
+  threat_value: 1
+  preferred_targets: ["structure"]
+  engagement_range: "max_range"
+  retreat_health_pct: 0.5
+sounds:
+  select: "sfx/aegis/engineer_select.ogg"
+  move: "sfx/aegis/engineer_move.ogg"
+  attack: "sfx/aegis/engineer_fire.ogg"
+  death: "sfx/aegis/engineer_death.ogg"
+sprite: "sprites/aegis/engineer.png"
+icon: "ui/icons/aegis/engineer.png"
+death_effect: "effects/infantry_death"
+scale: 1.0

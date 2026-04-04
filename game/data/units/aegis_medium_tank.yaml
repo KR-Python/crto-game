@@ -1,0 +1,49 @@
+# Countered by: Rocket Trooper, Artillery (explosive vs heavy) | Counters: Light vehicles, Infantry blobs, Structures
+unit_id: "aegis_medium_tank"
+display_name: "Guardian Tank"
+faction: "aegis"
+category: "vehicle"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 800
+  secondary: 0
+build_time: 12.0
+produced_at: "aegis_war_factory"
+tech_requirements:
+  - "aegis_tech_lab"
+health:
+  max: 450
+  armor_type: "heavy"
+movement:
+  speed: 3.5
+  type: "tracked"
+  can_crush_infantry: true
+vision:
+  range: 8
+  detector: false
+weapons:
+  - weapon_id: "120mm_cannon"
+    damage: 85
+    damage_type: "kinetic"
+    range: 7
+    cooldown: 2.0
+    targets: ["ground", "structure"]
+    projectile_speed: 15
+    area_of_effect: 0
+    turret: true
+abilities: []
+ai_hints:
+  threat_value: 6
+  preferred_targets: ["vehicle", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.25
+sounds:
+  select: "sfx/aegis/tank_select.ogg"
+  move: "sfx/aegis/tank_move.ogg"
+  attack: "sfx/aegis/tank_fire.ogg"
+  death: "sfx/aegis/tank_explode.ogg"
+sprite: "sprites/aegis/guardian_tank.png"
+icon: "ui/icons/aegis/guardian_tank.png"
+death_effect: "effects/vehicle_explosion"
+scale: 1.0

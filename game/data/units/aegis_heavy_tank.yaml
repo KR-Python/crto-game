@@ -1,0 +1,75 @@
+unit_id: "aegis_heavy_tank"
+display_name: "Paladin Heavy Tank"
+faction: "aegis"
+category: "vehicle"
+tier: 3
+role_tag: "combat"
+
+cost:
+  primary: 2200
+  secondary: 400
+build_time: 30.0
+produced_at: "aegis_war_factory"
+tech_requirements:
+  - "aegis_advanced_tech"
+
+health:
+  max: 1200
+  armor_type: "heavy"
+
+movement:
+  speed: 2.0
+  type: "tracked"
+  can_crush_infantry: true
+
+vision:
+  range: 8
+  detector: false
+
+weapons:
+  - weapon_id: "dual_energy_cannon"
+    damage: 120
+    damage_type: "energy"
+    range: 8
+    cooldown: 2.5
+    targets: ["ground", "structure"]
+    projectile_speed: 18
+    area_of_effect: 0.5
+    turret: true
+  - weapon_id: "missile_pod"
+    damage: 60
+    damage_type: "explosive"
+    range: 9
+    cooldown: 3.0
+    targets: ["ground", "air"]
+    projectile_speed: 12
+    area_of_effect: 0
+    turret: true
+
+abilities:
+  - ability_id: "overcharge_shields"
+    display_name: "Overcharge Shields"
+    description: "Gain 400 temporary shield HP for 8 seconds. 45s cooldown."
+    cooldown: 45.0
+    passive: false
+    effect:
+      type: "shield"
+      shield_hp: 400
+      duration: 8.0
+
+ai_hints:
+  threat_value: 9
+  preferred_targets: ["vehicle", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.2
+
+sounds:
+  select: "sfx/aegis/heavy_tank_select.ogg"
+  move: "sfx/aegis/heavy_tank_move.ogg"
+  attack: "sfx/aegis/heavy_tank_fire.ogg"
+  death: "sfx/aegis/heavy_tank_explode.ogg"
+
+sprite: "sprites/aegis/paladin_heavy_tank.png"
+icon: "ui/icons/aegis/paladin_heavy_tank.png"
+death_effect: "effects/large_vehicle_explosion"
+scale: 1.5

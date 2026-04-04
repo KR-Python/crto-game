@@ -1,0 +1,47 @@
+structure_id: "forge_generator"
+display_name: "Generator"
+faction: "forge"
+tier: 1
+role_tag: "economy"
+
+cost:
+  primary: 250
+  secondary: 0
+build_time: 8.0
+build_requirements:
+  structures: ["forge_construction_yard"]
+  tech: []
+
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: false
+  requires_ground: true
+  min_distance_from_edge: 1
+
+health:
+  max: 400
+  armor_type: "building"
+
+power:
+  consumption: 20
+  production: 70
+
+vision:
+  range: 4
+
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+
+tech_provides: []
+
+weapons: []
+
+abilities: []
+
+sprite: "sprites/forge/generator.png"
+icon: "ui/icons/forge/generator.png"
+construction_stages: 3

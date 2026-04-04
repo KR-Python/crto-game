@@ -1,0 +1,49 @@
+# Countered by: Any direct combat unit (no weapon) | Counters: Attrition (sustains infantry blobs)
+unit_id: "aegis_medic"
+display_name: "Combat Medic"
+faction: "aegis"
+category: "infantry"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 250
+  secondary: 50
+build_time: 7.0
+produced_at: "aegis_barracks"
+tech_requirements:
+  - "aegis_tech_lab"
+health:
+  max: 90
+  armor_type: "light"
+movement:
+  speed: 3.0
+  type: "foot"
+  can_crush_infantry: false
+vision:
+  range: 6
+  detector: false
+weapons: []
+abilities:
+  - ability_id: "heal_aura"
+    display_name: "Medical Aura"
+    description: "Passively heals nearby friendly infantry"
+    cooldown: 0.0
+    range: 3
+    effect:
+      type: "heal_aura"
+      radius: 3
+      rate: 5
+ai_hints:
+  threat_value: 4
+  preferred_targets: []
+  engagement_range: "follow_friendly"
+  retreat_health_pct: 0.4
+sounds:
+  select: "sfx/aegis/medic_select.ogg"
+  move: "sfx/aegis/medic_move.ogg"
+  attack: "sfx/aegis/medic_heal.ogg"
+  death: "sfx/aegis/medic_death.ogg"
+sprite: "sprites/aegis/medic.png"
+icon: "ui/icons/aegis/medic.png"
+death_effect: "effects/infantry_death"
+scale: 1.0

@@ -1,0 +1,57 @@
+unit_id: "aegis_bomber"
+display_name: "Thunderhawk Bomber"
+faction: "aegis"
+category: "air"
+tier: 3
+role_tag: "air"
+
+cost:
+  primary: 2000
+  secondary: 500
+build_time: 28.0
+produced_at: "aegis_airfield"
+tech_requirements:
+  - "aegis_airfield"
+
+health:
+  max: 600
+  armor_type: "medium"
+
+movement:
+  speed: 4.0
+  type: "flying"
+  can_crush_infantry: false
+
+vision:
+  range: 9
+  detector: false
+
+weapons:
+  - weapon_id: "carpet_bombs"
+    damage: 200
+    damage_type: "explosive"
+    range: 1
+    cooldown: 6.0
+    targets: ["ground", "structure"]
+    projectile_speed: 0
+    area_of_effect: 3.0
+    turret: false
+
+abilities: []
+
+ai_hints:
+  threat_value: 8
+  preferred_targets: ["structure", "vehicle"]
+  engagement_range: "close"
+  retreat_health_pct: 0.3
+
+sounds:
+  select: "sfx/aegis/bomber_select.ogg"
+  move: "sfx/aegis/bomber_move.ogg"
+  attack: "sfx/aegis/bomber_drop.ogg"
+  death: "sfx/aegis/bomber_crash.ogg"
+
+sprite: "sprites/aegis/thunderhawk_bomber.png"
+icon: "ui/icons/aegis/thunderhawk_bomber.png"
+death_effect: "effects/aircraft_explosion"
+scale: 1.3

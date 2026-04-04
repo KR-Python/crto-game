@@ -1,0 +1,88 @@
+unit_id: "forge_commando"
+display_name: "Iron Fang Commando"
+faction: "forge"
+category: "infantry"
+tier: 3
+role_tag: "spec_ops"
+
+cost:
+  primary: 700
+  secondary: 250
+build_time: 22.0
+produced_at: "forge_barracks"
+tech_requirements:
+  - "forge_advanced_munitions"
+
+health:
+  max: 200
+  armor_type: "medium"
+
+movement:
+  speed: 3.2
+  type: "foot"
+  can_crush_infantry: false
+
+vision:
+  range: 8
+  detector: false
+
+weapons:
+  - weapon_id: "assault_carbine"
+    damage: 40
+    damage_type: "kinetic"
+    range: 5
+    cooldown: 1.0
+    targets: ["ground"]
+    projectile_speed: 30
+    area_of_effect: 0
+    turret: false
+  - weapon_id: "satchel_charge"
+    damage: 500
+    damage_type: "explosive"
+    range: 1
+    cooldown: 30.0
+    targets: ["structure"]
+    projectile_speed: 0
+    area_of_effect: 0
+    turret: false
+
+abilities:
+  - ability_id: "infiltrate"
+    display_name: "Infiltrate"
+    description: "Cloak for 20s. Breaks on attack. Can enter enemy structures to sabotage."
+    cooldown: 40.0
+    passive: false
+    effect:
+      type: "stealth"
+      duration: 20.0
+      breaks_on: ["fire"]
+      can_enter_structures: true
+
+  - ability_id: "plant_c4"
+    display_name: "Plant C4"
+    description: "Place explosive charge on structure. Detonates after 5s for 800 damage."
+    cooldown: 60.0
+    passive: false
+    effect:
+      type: "delayed_damage"
+      delay: 5.0
+      damage: 800
+      damage_type: "explosive"
+      range: 1
+
+ai_hints:
+  threat_value: 6
+  preferred_targets: ["structure"]
+  engagement_range: "close"
+  retreat_health_pct: 0.3
+
+sounds:
+  select: "sfx/forge/commando_select.ogg"
+  move: "sfx/forge/commando_move.ogg"
+  attack: "sfx/forge/commando_fire.ogg"
+  death: "sfx/forge/commando_death.ogg"
+
+sprite: "sprites/forge/iron_fang_commando.png"
+icon: "ui/icons/forge/iron_fang_commando.png"
+death_effect: "effects/infantry_death"
+scale: 1.0

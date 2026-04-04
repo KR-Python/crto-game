@@ -1,0 +1,49 @@
+# Countered by: Long-range units, Tanks (short range) | Counters: Infantry, Buildings (fire vs light/building armor)
+unit_id: "forge_flametrooper"
+display_name: "Flametrooper"
+faction: "forge"
+category: "infantry"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 200
+  secondary: 0
+build_time: 6.0
+produced_at: "forge_barracks"
+tech_requirements:
+  - "forge_munitions"
+health:
+  max: 100
+  armor_type: "light"
+movement:
+  speed: 3.0
+  type: "foot"
+  can_crush_infantry: false
+vision:
+  range: 5
+  detector: false
+weapons:
+  - weapon_id: "forge_flamethrower"
+    damage: 25
+    damage_type: "fire"
+    range: 3
+    cooldown: 0.5
+    targets: ["ground", "structure"]
+    projectile_speed: 8
+    area_of_effect: 1.5
+    turret: false
+abilities: []
+ai_hints:
+  threat_value: 4
+  preferred_targets: ["infantry", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.2
+sounds:
+  select: "sfx/forge/flametrooper_select.ogg"
+  move: "sfx/forge/flametrooper_move.ogg"
+  attack: "sfx/forge/flametrooper_fire.ogg"
+  death: "sfx/forge/flametrooper_death.ogg"
+sprite: "sprites/forge/flametrooper.png"
+icon: "ui/icons/forge/flametrooper.png"
+death_effect: "effects/infantry_death"
+scale: 1.0
