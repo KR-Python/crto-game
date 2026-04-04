@@ -16,7 +16,7 @@ var map_bounds: Rect2 = Rect2(0.0, 0.0, 128.0, 96.0)
 
 func tick(ecs: ECS, tick_count: int) -> void:
 	# Collect all movable entities and their pre-tick positions
-	var moving_entities: Array = ecs.query(["Position", "MoveSpeed"])
+	var moving_entities: Array = ecs.query_with_components(["Position", "MoveSpeed"])
 
 	# --- Phase 1: Compute raw velocity for each entity ---
 	var velocities: Dictionary = {}  # entity_id -> Vector2 (velocity after path logic)
@@ -95,8 +95,8 @@ func tick(ecs: ECS, tick_count: int) -> void:
 		new_pos.x = clampf(new_pos.x, map_bounds.position.x, map_bounds.position.x + map_bounds.size.x)
 		new_pos.y = clampf(new_pos.y, map_bounds.position.y, map_bounds.position.y + map_bounds.size.y)
 
-		ecs.add_component(entity_id, "Position", {"x": new_pos.x, "y": new_pos.y})
-		ecs.add_component(entity_id, "Velocity", {"x": vel.x, "y": vel.y})
+		ecs.set_component(entity_id, "Position", {"x": new_pos.x, "y": new_pos.y})
+		ecs.set_component(entity_id, "Velocity", {"x": vel.x, "y": vel.y})
 
 
 func _follow_path(ecs: ECS, entity_id: int, pos: Vector2, speed: float, path_state: Dictionary) -> Vector2:
@@ -107,7 +107,7 @@ func _follow_path(ecs: ECS, entity_id: int, pos: Vector2, speed: float, path_sta
 		# Arrived — clear PathState and MoveCommand
 		ecs.remove_component(entity_id, "PathState")
 		ecs.remove_component(entity_id, "MoveCommand")
-		ecs.add_component(entity_id, "Velocity", {"x": 0.0, "y": 0.0})
+		ecs.set_component(entity_id, "Velocity", {"x": 0.0, "y": 0.0})
 		return Vector2.ZERO
 
 	var waypoint: Vector2 = path[current_index]
@@ -126,7 +126,7 @@ func _follow_path(ecs: ECS, entity_id: int, pos: Vector2, speed: float, path_sta
 			ecs.remove_component(entity_id, "MoveCommand")
 			return Vector2.ZERO
 		else:
-			ecs.add_component(entity_id, "PathState", path_state)
+			ecs.set_component(entity_id, "PathState", path_state)
 			# Move toward the new waypoint this tick
 			waypoint = path[current_index]
 			to_waypoint = waypoint - pos
