@@ -1,4 +1,4 @@
-# Damage Type vs Armor Type Matrix
+# data/balance/damage_armor_matrix.yaml
 # Multiplier applied to damage: final_damage = base_damage × matrix[damage_type][armor_type]
 
 matrix:
