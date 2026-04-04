@@ -1,0 +1,38 @@
+structure_id: "forge_radar"
+display_name: "Radar Array"
+faction: "forge"
+tier: 2
+role_tag: "tech"
+cost:
+  primary: 900
+  secondary: 150
+build_time: 13.0
+build_requirements:
+  structures: ["forge_barracks"]
+  tech: []
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 1
+health:
+  max: 550
+  armor_type: "building"
+power:
+  consumption: 35
+  production: 0
+vision:
+  range: 20
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+tech_provides:
+  - "forge_radar"
+weapons: []
+abilities: []
+sprite: "sprites/forge/radar.png"
+icon: "ui/icons/forge/radar.png"
+construction_stages: 3

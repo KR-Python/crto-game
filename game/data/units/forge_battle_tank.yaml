@@ -1,0 +1,49 @@
+# Countered by: Rocket Trooper, Artillery (explosive vs heavy) | Counters: Light vehicles, Infantry, Structures
+unit_id: "forge_battle_tank"
+display_name: "Crusher Tank"
+faction: "forge"
+category: "vehicle"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 700
+  secondary: 0
+build_time: 11.0
+produced_at: "forge_war_factory"
+tech_requirements:
+  - "forge_munitions"
+health:
+  max: 400
+  armor_type: "heavy"
+movement:
+  speed: 3.8
+  type: "tracked"
+  can_crush_infantry: true
+vision:
+  range: 7
+  detector: false
+weapons:
+  - weapon_id: "forge_105mm_cannon"
+    damage: 75
+    damage_type: "kinetic"
+    range: 6
+    cooldown: 1.8
+    targets: ["ground", "structure"]
+    projectile_speed: 14
+    area_of_effect: 0
+    turret: true
+abilities: []
+ai_hints:
+  threat_value: 6
+  preferred_targets: ["vehicle", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.2
+sounds:
+  select: "sfx/forge/tank_select.ogg"
+  move: "sfx/forge/tank_move.ogg"
+  attack: "sfx/forge/tank_fire.ogg"
+  death: "sfx/forge/tank_explode.ogg"
+sprite: "sprites/forge/crusher_tank.png"
+icon: "ui/icons/forge/crusher_tank.png"
+death_effect: "effects/vehicle_explosion"
+scale: 1.0

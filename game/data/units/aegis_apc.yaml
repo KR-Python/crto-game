@@ -1,0 +1,57 @@
+# Countered by: Anti-vehicle (Rocket Trooper, Battle Tank) | Counters: Infantry positioning (transport + deploy)
+unit_id: "aegis_apc"
+display_name: "Guardian APC"
+faction: "aegis"
+category: "vehicle"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 500
+  secondary: 0
+build_time: 8.0
+produced_at: "aegis_war_factory"
+tech_requirements: []
+health:
+  max: 300
+  armor_type: "medium"
+movement:
+  speed: 5.0
+  type: "wheeled"
+  can_crush_infantry: false
+vision:
+  range: 7
+  detector: false
+weapons:
+  - weapon_id: "aegis_apc_mg"
+    damage: 15
+    damage_type: "kinetic"
+    range: 5
+    cooldown: 0.6
+    targets: ["ground"]
+    projectile_speed: 20
+    area_of_effect: 0
+    turret: true
+abilities:
+  - ability_id: "transport"
+    display_name: "Transport Infantry"
+    description: "Can carry up to 4 infantry units"
+    cooldown: 0.0
+    range: 1
+    effect:
+      type: "transport"
+      capacity: 4
+      allowed_categories: ["infantry"]
+ai_hints:
+  threat_value: 3
+  preferred_targets: ["infantry"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.3
+sounds:
+  select: "sfx/aegis/apc_select.ogg"
+  move: "sfx/aegis/apc_move.ogg"
+  attack: "sfx/aegis/apc_fire.ogg"
+  death: "sfx/aegis/apc_explode.ogg"
+sprite: "sprites/aegis/apc.png"
+icon: "ui/icons/aegis/apc.png"
+death_effect: "effects/vehicle_explosion"
+scale: 1.0

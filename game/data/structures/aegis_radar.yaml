@@ -1,0 +1,38 @@
+structure_id: "aegis_radar"
+display_name: "Radar Station"
+faction: "aegis"
+tier: 2
+role_tag: "tech"
+cost:
+  primary: 1000
+  secondary: 200
+build_time: 15.0
+build_requirements:
+  structures: ["aegis_barracks"]
+  tech: []
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 1
+health:
+  max: 700
+  armor_type: "building"
+power:
+  consumption: 40
+  production: 0
+vision:
+  range: 20
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+tech_provides:
+  - "aegis_radar"
+weapons: []
+abilities: []
+sprite: "sprites/aegis/radar.png"
+icon: "ui/icons/aegis/radar.png"
+construction_stages: 3

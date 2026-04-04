@@ -1,0 +1,38 @@
+structure_id: "aegis_tech_lab"
+display_name: "Tech Lab"
+faction: "aegis"
+tier: 2
+role_tag: "tech"
+cost:
+  primary: 1200
+  secondary: 300
+build_time: 18.0
+build_requirements:
+  structures: ["aegis_barracks"]
+  tech: []
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 1
+health:
+  max: 800
+  armor_type: "building"
+power:
+  consumption: 35
+  production: 0
+vision:
+  range: 5
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+tech_provides:
+  - "aegis_tech_lab"
+weapons: []
+abilities: []
+sprite: "sprites/aegis/tech_lab.png"
+icon: "ui/icons/aegis/tech_lab.png"
+construction_stages: 3

@@ -1,0 +1,49 @@
+# Countered by: Sniper, Interceptor (light armor, slow) | Counters: Vehicles, Light Tanks
+unit_id: "aegis_rocket_trooper"
+display_name: "Rocket Trooper"
+faction: "aegis"
+category: "infantry"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 300
+  secondary: 0
+build_time: 8.0
+produced_at: "aegis_barracks"
+tech_requirements:
+  - "aegis_tech_lab"
+health:
+  max: 100
+  armor_type: "light"
+movement:
+  speed: 2.5
+  type: "foot"
+  can_crush_infantry: false
+vision:
+  range: 7
+  detector: false
+weapons:
+  - weapon_id: "aegis_rocket_launcher"
+    damage: 65
+    damage_type: "explosive"
+    range: 6
+    cooldown: 2.5
+    targets: ["ground", "structure"]
+    projectile_speed: 12
+    area_of_effect: 0.5
+    turret: false
+abilities: []
+ai_hints:
+  threat_value: 5
+  preferred_targets: ["vehicle"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.3
+sounds:
+  select: "sfx/aegis/rocket_trooper_select.ogg"
+  move: "sfx/aegis/rocket_trooper_move.ogg"
+  attack: "sfx/aegis/rocket_trooper_fire.ogg"
+  death: "sfx/aegis/rocket_trooper_death.ogg"
+sprite: "sprites/aegis/rocket_trooper.png"
+icon: "ui/icons/aegis/rocket_trooper.png"
+death_effect: "effects/infantry_death"
+scale: 1.0

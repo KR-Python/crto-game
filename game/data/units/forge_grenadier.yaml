@@ -1,0 +1,49 @@
+# Countered by: Snipers, long-range units | Counters: Infantry blobs, Light vehicles (AoE explosive)
+unit_id: "forge_grenadier"
+display_name: "Grenadier"
+faction: "forge"
+category: "infantry"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 250
+  secondary: 0
+build_time: 7.0
+produced_at: "forge_barracks"
+tech_requirements:
+  - "forge_munitions"
+health:
+  max: 110
+  armor_type: "medium"
+movement:
+  speed: 2.8
+  type: "foot"
+  can_crush_infantry: false
+vision:
+  range: 6
+  detector: false
+weapons:
+  - weapon_id: "forge_grenade_launcher"
+    damage: 40
+    damage_type: "explosive"
+    range: 5
+    cooldown: 2.0
+    targets: ["ground", "structure"]
+    projectile_speed: 10
+    area_of_effect: 2.0
+    turret: false
+abilities: []
+ai_hints:
+  threat_value: 4
+  preferred_targets: ["infantry", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.25
+sounds:
+  select: "sfx/forge/grenadier_select.ogg"
+  move: "sfx/forge/grenadier_move.ogg"
+  attack: "sfx/forge/grenadier_fire.ogg"
+  death: "sfx/forge/grenadier_death.ogg"
+sprite: "sprites/forge/grenadier.png"
+icon: "ui/icons/forge/grenadier.png"
+death_effect: "effects/infantry_death"
+scale: 1.0

@@ -1,0 +1,42 @@
+structure_id: "aegis_war_factory"
+display_name: "War Factory"
+faction: "aegis"
+tier: 2
+role_tag: "production"
+cost:
+  primary: 2000
+  secondary: 0
+build_time: 20.0
+build_requirements:
+  structures: ["aegis_barracks"]
+  tech: []
+footprint:
+  width: 3
+  height: 3
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 2
+health:
+  max: 1200
+  armor_type: "building"
+power:
+  consumption: 30
+  production: 0
+vision:
+  range: 6
+production:
+  can_produce:
+    - "aegis_medium_tank"
+    - "aegis_apc"
+    - "aegis_aa_vehicle"
+    - "aegis_interceptor"
+    - "aegis_harvester"
+  queue_size: 5
+  rally_point: true
+tech_provides: []
+weapons: []
+abilities: []
+sprite: "sprites/aegis/war_factory.png"
+icon: "ui/icons/aegis/war_factory.png"
+construction_stages: 3

@@ -1,0 +1,59 @@
+# Countered by: Snipers, long-range vehicles (slow) | Counters: Infantry blobs, Defensive positions (AoE DoT denies area)
+unit_id: "forge_toxin_truck"
+display_name: "Toxin Truck"
+faction: "forge"
+category: "vehicle"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 550
+  secondary: 100
+build_time: 10.0
+produced_at: "forge_war_factory"
+tech_requirements:
+  - "forge_munitions"
+health:
+  max: 280
+  armor_type: "medium"
+movement:
+  speed: 3.5
+  type: "wheeled"
+  can_crush_infantry: false
+vision:
+  range: 7
+  detector: false
+weapons:
+  - weapon_id: "forge_toxin_sprayer"
+    damage: 20
+    damage_type: "chemical"
+    range: 5
+    cooldown: 1.5
+    targets: ["ground"]
+    projectile_speed: 8
+    area_of_effect: 3.0
+    turret: true
+abilities:
+  - ability_id: "dot_field"
+    display_name: "Toxin Field"
+    description: "Leaves a persistent damage-over-time field on the ground"
+    cooldown: 15.0
+    range: 6
+    effect:
+      type: "dot_field"
+      duration: 10
+      tick_damage: 8
+      radius: 3
+ai_hints:
+  threat_value: 5
+  preferred_targets: ["infantry"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.3
+sounds:
+  select: "sfx/forge/toxin_truck_select.ogg"
+  move: "sfx/forge/toxin_truck_move.ogg"
+  attack: "sfx/forge/toxin_truck_fire.ogg"
+  death: "sfx/forge/toxin_truck_explode.ogg"
+sprite: "sprites/forge/toxin_truck.png"
+icon: "ui/icons/forge/toxin_truck.png"
+death_effect: "effects/chemical_explosion"
+scale: 1.0

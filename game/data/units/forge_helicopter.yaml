@@ -1,0 +1,49 @@
+# Countered by: Interceptor, AA Vehicle (energy vs medium) | Counters: Ground vehicles, Structures (explosive from above)
+unit_id: "forge_helicopter"
+display_name: "Havoc Gunship"
+faction: "forge"
+category: "air"
+tier: 2
+role_tag: "air"
+cost:
+  primary: 650
+  secondary: 100
+build_time: 10.0
+produced_at: "forge_war_factory"
+tech_requirements:
+  - "forge_radar"
+health:
+  max: 220
+  armor_type: "medium"
+movement:
+  speed: 6.5
+  type: "flying"
+  can_crush_infantry: false
+vision:
+  range: 9
+  detector: false
+weapons:
+  - weapon_id: "forge_rocket_barrage"
+    damage: 50
+    damage_type: "explosive"
+    range: 6
+    cooldown: 2.0
+    targets: ["ground", "structure"]
+    projectile_speed: 14
+    area_of_effect: 1.5
+    turret: false
+abilities: []
+ai_hints:
+  threat_value: 6
+  preferred_targets: ["vehicle", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.3
+sounds:
+  select: "sfx/forge/helicopter_select.ogg"
+  move: "sfx/forge/helicopter_move.ogg"
+  attack: "sfx/forge/helicopter_fire.ogg"
+  death: "sfx/forge/helicopter_explode.ogg"
+sprite: "sprites/forge/havoc_gunship.png"
+icon: "ui/icons/forge/havoc_gunship.png"
+death_effect: "effects/air_explosion"
+scale: 1.0

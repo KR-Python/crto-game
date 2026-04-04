@@ -1,0 +1,49 @@
+# Countered by: Ground units, Tanks (can't shoot ground) | Counters: Helicopters, Interceptors, all air units
+unit_id: "aegis_aa_vehicle"
+display_name: "Skyguard"
+faction: "aegis"
+category: "vehicle"
+tier: 2
+role_tag: "combat"
+cost:
+  primary: 600
+  secondary: 100
+build_time: 10.0
+produced_at: "aegis_war_factory"
+tech_requirements:
+  - "aegis_radar"
+health:
+  max: 250
+  armor_type: "medium"
+movement:
+  speed: 4.5
+  type: "wheeled"
+  can_crush_infantry: false
+vision:
+  range: 10
+  detector: false
+weapons:
+  - weapon_id: "aegis_aa_laser"
+    damage: 40
+    damage_type: "energy"
+    range: 9
+    cooldown: 1.0
+    targets: ["air"]
+    projectile_speed: 25
+    area_of_effect: 0
+    turret: true
+abilities: []
+ai_hints:
+  threat_value: 5
+  preferred_targets: ["air"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.3
+sounds:
+  select: "sfx/aegis/aa_select.ogg"
+  move: "sfx/aegis/aa_move.ogg"
+  attack: "sfx/aegis/aa_fire.ogg"
+  death: "sfx/aegis/aa_explode.ogg"
+sprite: "sprites/aegis/skyguard.png"
+icon: "ui/icons/aegis/skyguard.png"
+death_effect: "effects/vehicle_explosion"
+scale: 1.0
