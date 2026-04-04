@@ -1,143 +1,48 @@
 class_name EntityFactory
 ## Creates ECS entities from definitions.
-## Loads real stats from YAML-sourced JSON via DataLoader.
-## Falls back to hardcoded definitions when DataLoader is unavailable or unit_id is unknown.
+## YAML loading is stubbed — hardcoded fallback definitions used in Phase 1.
 ##
 ## Usage:
-##   var factory := EntityFactory.new(ecs, data_loader)
+##   var factory := EntityFactory.new(ecs)
 ##   var unit_id  := factory.create_from_definition("aegis_rifleman", Vector2(10, 10))
 ##   var struct_id := factory.create_structure("aegis_barracks", Vector2(5, 5), 0)
 
 var _ecs: ECS
-var _data_loader: DataLoader  # injected at game start; null falls back to hardcoded defs
 
 
-func _init(ecs: ECS, data_loader: DataLoader = null) -> void:
+func _init(ecs: ECS) -> void:
 	_ecs = ecs
-	_data_loader = data_loader
 
 
 # ── Unit Creation ─────────────────────────────────────────────────────────────
 
 ## Create a unit entity from a unit type identifier.
-## Loads from DataLoader (YAML-sourced JSON) with hardcoded fallback.
-## Returns the new entity_id, or -1 if the unit type is completely unknown.
-func create_test_unit(position: Vector2) -> int:
-	return create_from_definition("aegis_rifleman", position)
-
-
+## Loads from YAML (stubbed). Returns the new entity_id.
 func create_from_definition(unit_type: String, position: Vector2) -> int:
-	var def: Dictionary = _resolve_unit_def(unit_type)
+	# YAML loading stub — would load from data/units/{faction}_{unit}.yaml
+	push_warning("EntityFactory.create_from_definition: YAML loading not yet implemented, using hardcoded fallback for '%s'" % unit_type)
+
+	var def: Dictionary = _builtin_unit_definitions().get(unit_type, {})
 	if def.is_empty():
 		push_error("EntityFactory.create_from_definition: unknown unit type '%s'" % unit_type)
 		return -1
+
 	return _create_unit_entity(def, position)
-
-
-func _resolve_unit_def(unit_type: String) -> Dictionary:
-	# Prefer live YAML data when DataLoader is wired up.
-	if _data_loader != null:
-		var yaml_def := _data_loader.get_unit(unit_type)
-		if not yaml_def.is_empty():
-			return _normalize_unit_def(yaml_def)
-	# Fall back to hardcoded stubs for unknown ids or when loader is absent.
-	return _builtin_unit_definitions().get(unit_type, {})
 
 
 # ── Structure Creation ────────────────────────────────────────────────────────
 
 ## Create a structure entity from a structure type identifier and position.
-## Loads from DataLoader (YAML-sourced JSON) with hardcoded fallback.
-## Returns the new entity_id, or -1 if the structure type is unknown.
+## Loads structure definition from YAML (stubbed), falls back to hardcoded T1 defs.
+## Returns the new entity_id.
 func create_structure(structure_type: String, position: Vector2, faction_id: int) -> int:
-	var def: Dictionary = _resolve_structure_def(structure_type)
+	# YAML loading stub — would load from data/structures/{faction}_{structure}.yaml
+	var def: Dictionary = _builtin_structure_definitions().get(structure_type, {})
 	if def.is_empty():
 		push_error("EntityFactory.create_structure: unknown structure type '%s'" % structure_type)
 		return -1
+
 	return _create_structure_entity(def, position, faction_id)
-
-
-func _resolve_structure_def(structure_type: String) -> Dictionary:
-	if _data_loader != null:
-		var yaml_def := _data_loader.get_structure(structure_type)
-		if not yaml_def.is_empty():
-			return _normalize_structure_def(yaml_def)
-	return _builtin_structure_definitions().get(structure_type, {})
-
-
-# ── YAML Schema Normalization ────────────────────────────────────────────────
-# Translates the rich YAML schema (docs/06-DATA-SCHEMAS.md) into the flat dict
-# format expected by _create_unit_entity / _create_structure_entity.
-
-func _normalize_unit_def(yaml: Dictionary) -> Dictionary:
-	var d: Dictionary = {}
-	var faction: String = yaml.get("faction", "aegis")
-	d["faction_id"] = 0 if faction == "aegis" else 1
-	d["faction_name"] = faction
-	d["role_tag"] = yaml.get("role_tag", "combat")
-
-	var health: Dictionary = yaml.get("health", {})
-	d["health_max"] = float(health.get("max", 100))
-	d["armor_type"] = health.get("armor_type", "medium")
-
-	var movement: Dictionary = yaml.get("movement", {})
-	d["speed"] = float(movement.get("speed", 3.0))
-
-	var vision: Dictionary = yaml.get("vision", {})
-	d["vision_range"] = float(vision.get("range", 6.0))
-
-	# First weapon only — multi-weapon support is Phase 3.
-	var weapons: Array = yaml.get("weapons", [])
-	if weapons.size() > 0:
-		var w: Dictionary = weapons[0]
-		d["damage"] = float(w.get("damage", 0))
-		d["weapon_range"] = float(w.get("range", 5.0))
-		d["cooldown"] = float(w.get("cooldown", 1.5))
-		d["damage_type"] = w.get("damage_type", "kinetic")
-		d["targets"] = w.get("targets", ["ground"])
-		d["area_of_effect"] = float(w.get("area_of_effect", 0.0))
-
-	# Harvester capacity from abilities.
-	for ability: Dictionary in yaml.get("abilities", []):
-		var effect: Dictionary = ability.get("effect", {})
-		if effect.get("type") == "harvest":
-			d["harvest_capacity"] = float(effect.get("capacity", 30.0))
-			d["harvest_rate"] = float(effect.get("harvest_rate", 2.0))
-
-	# Tags inferred from category + role_tag.
-	var tags: Array = [yaml.get("category", "infantry"), d["role_tag"]]
-	if yaml.get("movement", {}).get("type") == "flying":
-		tags.append("flying")
-	d["tags"] = tags
-
-	return d
-
-
-func _normalize_structure_def(yaml: Dictionary) -> Dictionary:
-	var d: Dictionary = {}
-	d["structure_type"] = yaml.get("structure_id", "")
-	d["faction"] = yaml.get("faction", "aegis")
-
-	var health: Dictionary = yaml.get("health", {})
-	d["health_max"] = float(health.get("max", 500))
-	d["armor_type"] = health.get("armor_type", "building")
-
-	var footprint: Dictionary = yaml.get("footprint", {})
-	d["footprint_width"] = int(footprint.get("width", 2))
-	d["footprint_height"] = int(footprint.get("height", 2))
-
-	var power: Dictionary = yaml.get("power", {})
-	d["power_consumption"] = float(power.get("consumption", 0.0))
-	d["power_production"] = float(power.get("production", 0.0))
-
-	var vision: Dictionary = yaml.get("vision", {})
-	d["vision_range"] = float(vision.get("range", 4.0))
-
-	d["build_time"] = float(yaml.get("build_time", 10.0))
-	d["cost_primary"] = float(yaml.get("cost", {}).get("primary", 0.0))
-	d["cost_secondary"] = float(yaml.get("cost", {}).get("secondary", 0.0))
-
-	return d
 
 
 # ── Internal: Unit Assembly ───────────────────────────────────────────────────

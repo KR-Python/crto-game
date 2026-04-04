@@ -1,228 +1,130 @@
 class_name VisionSystem
-## Tick pipeline step 11.
-## Maintains per-team fog of war state. Updates each simulation tick.
-##
-## Fog grid: 64×48 cells (each covers 2×2 world units on a 128×96 tile map).
-## Three states: 0=UNEXPLORED, 1=SEEN (previously visible), 2=VISIBLE (currently visible).
-##
-## Reads:  Position, VisionRange, FactionComponent, Stealthed, Detector, PoweredOff
-## Writes: internal fog grids (per team)
 
-const FOG_COLS: int = 64
-const FOG_ROWS: int = 48
-const CELL_SIZE: float = 2.0  # world units per fog cell side
-const UNEXPLORED: int = 0
-const SEEN: int = 1
-const VISIBLE: int = 2
+# Computes fog-of-war visibility per faction.
+# Uses SpatialHash + dirty region tracking to avoid recomputing
+# the entire map each tick.
+#
+# Reads: Position, VisionRange, Faction
+# Writes: _visible_cells (internal), queried by renderer
+#
+# Dirty region tracking: MovementSystem marks cells dirty when
+# entities move. Only dirty cells + cells around new/removed
+# entities get recomputed.
 
-const MAX_TEAMS: int = 8
+var _spatial_hash: SpatialHash = null
+var _dirty_positions: Array = []  # Array[Vector2] — positions that changed this tick
+var _visible_cells: Dictionary = {}  # int (faction_id) → Dictionary{Vector2i → int (viewer_count)}
+var _needs_full_rebuild: bool = true
 
-## Per-team fog grids. Index: [team_id][row * FOG_COLS + col]
-var _fog: Array = []
+const CELL_SIZE: float = 32.0  # fog cell size (1 tile)
 
-## Faction → team mapping. Populated via register_faction_team().
-var _faction_team: Dictionary = {}
-
-## Pre-computed circle offsets per fog radius (cached for performance).
-var _circle_cache: Dictionary = {}
+func set_spatial_hash(sh: SpatialHash) -> void:
+	_spatial_hash = sh
 
 
-func _init() -> void:
-	for _i in range(MAX_TEAMS):
-		var grid: PackedByteArray = PackedByteArray()
-		grid.resize(FOG_COLS * FOG_ROWS)
-		grid.fill(UNEXPLORED)
-		_fog.append(grid)
+func mark_dirty(position: Vector2) -> void:
+	_dirty_positions.append(position)
 
 
-func initialize(_w: int, _h: int) -> void:
-	pass
+func request_full_rebuild() -> void:
+	_needs_full_rebuild = true
 
 
-
-# ── Public API ────────────────────────────────────────────────────────────────
-
-## Register which team a faction belongs to (all same-team factions share vision).
-func register_faction_team(faction_id: int, team_id: int) -> void:
-	_faction_team[faction_id] = team_id
-
-
-## Returns true if the world position is currently visible to the given faction.
-func is_visible(world_pos: Vector2, faction_id: int) -> bool:
-	return get_fog_state(world_pos, faction_id) == VISIBLE
-
-
-## Returns fog state (0/1/2) for a world position and faction.
-func get_fog_state(world_pos: Vector2, faction_id: int) -> int:
-	var team_id: int = _get_team(faction_id)
-	var fc: Vector2i = _world_to_fog(world_pos)
-	if not _in_bounds(fc):
-		return UNEXPLORED
-	return _fog[team_id][fc.y * FOG_COLS + fc.x]
-
-
-## Returns a 64×48 grayscale Image for GPU fog rendering.
-## 0=black (unexplored), 128=dim (seen), 255=white (visible).
-func get_fog_texture(faction_id: int) -> Image:
-	var team_id: int = _get_team(faction_id)
-	var grid: PackedByteArray = _fog[team_id]
-	var img: Image = Image.create(FOG_COLS, FOG_ROWS, false, Image.FORMAT_L8)
-
-	for row in range(FOG_ROWS):
-		for col in range(FOG_COLS):
-			var state: int = grid[row * FOG_COLS + col]
-			var brightness: int = 0
-			match state:
-				UNEXPLORED: brightness = 0
-				SEEN:       brightness = 128
-				VISIBLE:    brightness = 255
-			img.set_pixel(col, row, Color8(brightness, brightness, brightness))
-
-	return img
-
-
-# ── Tick ──────────────────────────────────────────────────────────────────────
-
-## Main tick — recalculate vision for all teams.
-func tick(ecs: ECS, tick_count: int) -> void:
-	_decay_all_grids()
-	_apply_vision_sources(ecs)
-
-
-# ── Stealth Query ─────────────────────────────────────────────────────────────
-
-## Returns true if `stealthed_entity` is detectable by `observer_faction`.
-## Checks Detector range first, then close-proximity reveal (Stealthed.detection_range).
-func is_entity_detectable(stealthed_entity: int, observer_faction: int, ecs: ECS) -> bool:
-	var stealthed_comp: Dictionary = ecs.get_component(stealthed_entity, "Stealthed")
-	if stealthed_comp.is_empty():
-		return true  # Not stealthed — always visible
-
-	var stealthed_pos_comp: Dictionary = ecs.get_component(stealthed_entity, "Position")
-	if stealthed_pos_comp.is_empty():
-		return false
-
-	var stealthed_pos: Vector2 = Vector2(stealthed_pos_comp["x"], stealthed_pos_comp["y"])
-	var detection_range: float = stealthed_comp.get("detection_range", 0.0)
-
-	var stealthed_faction_comp: Dictionary = ecs.get_component(stealthed_entity, "FactionComponent")
-	if stealthed_faction_comp.is_empty():
-		return false
-	var stealthed_faction: int = stealthed_faction_comp["faction_id"]
-
-	# Check observer's Detector entities
-	var detector_entities: Array = ecs.get_entities_with_component("Detector")
-	for det_id in detector_entities:
-		var det_faction_comp: Dictionary = ecs.get_component(det_id, "FactionComponent")
-		if det_faction_comp.is_empty() or det_faction_comp["faction_id"] != observer_faction:
-			continue
-
-		var det_pos_comp: Dictionary = ecs.get_component(det_id, "Position")
-		if det_pos_comp.is_empty():
-			continue
-
-		var det_pos: Vector2 = Vector2(det_pos_comp["x"], det_pos_comp["y"])
-		var det_comp: Dictionary = ecs.get_component(det_id, "Detector")
-		var detector_range: float = det_comp.get("range", 0.0)
-
-		if stealthed_pos.distance_to(det_pos) <= detector_range:
-			return true
-
-	# Close-proximity reveal: any observer enemy within stealthed.detection_range
-	var all_entities: Array = ecs.get_all_entities()
-	for other_id in all_entities:
-		if other_id == stealthed_entity:
-			continue
-		var other_faction_comp: Dictionary = ecs.get_component(other_id, "FactionComponent")
-		if other_faction_comp.is_empty():
-			continue
-		if other_faction_comp["faction_id"] == stealthed_faction:
-			continue
-		if other_faction_comp["faction_id"] != observer_faction:
-			continue
-
-		var other_pos_comp: Dictionary = ecs.get_component(other_id, "Position")
-		if other_pos_comp.is_empty():
-			continue
-
-		var other_pos: Vector2 = Vector2(other_pos_comp["x"], other_pos_comp["y"])
-		if stealthed_pos.distance_to(other_pos) <= detection_range:
-			return true
-
+func is_visible(faction_id: int, world_pos: Vector2) -> bool:
+	var cell: Vector2i = _pos_to_cell(world_pos)
+	if _visible_cells.has(faction_id):
+		return _visible_cells[faction_id].has(cell)
 	return false
 
 
-# ── Internal ──────────────────────────────────────────────────────────────────
+func tick(ecs: ECS, _tick_count: int) -> void:
+	if _needs_full_rebuild:
+		_full_rebuild(ecs)
+		_needs_full_rebuild = false
+		_dirty_positions.clear()
+		return
 
-func _decay_all_grids() -> void:
-	for team_id in range(MAX_TEAMS):
-		var grid: PackedByteArray = _fog[team_id]
-		for i in range(grid.size()):
-			if grid[i] == VISIBLE:
-				grid[i] = SEEN
+	if _dirty_positions.is_empty():
+		return  # Nothing moved — skip entirely
 
-
-func _apply_vision_sources(ecs: ECS) -> void:
-	var entities: Array = ecs.get_entities_with_component("VisionRange")
-
-	for entity_id in entities:
-		if ecs.has_component(entity_id, "PoweredOff"):
-			continue
-
-		var pos_comp: Dictionary = ecs.get_component(entity_id, "Position")
-		if pos_comp.is_empty():
-			continue
-
-		var vision_comp: Dictionary = ecs.get_component(entity_id, "VisionRange")
-		if vision_comp.is_empty():
-			continue
-
-		var faction_comp: Dictionary = ecs.get_component(entity_id, "FactionComponent")
-		if faction_comp.is_empty():
-			continue
-
-		var world_pos: Vector2 = Vector2(pos_comp["x"], pos_comp["y"])
-		var vision_range: float = vision_comp["range"]
-		var team_id: int = _get_team(faction_comp["faction_id"])
-
-		_illuminate(team_id, world_pos, vision_range)
+	_incremental_update(ecs)
+	_dirty_positions.clear()
 
 
-func _illuminate(team_id: int, world_pos: Vector2, vision_range: float) -> void:
-	var fog_center: Vector2i = _world_to_fog(world_pos)
-	var fog_range: int = int(ceil(vision_range / CELL_SIZE))
-	var offsets: Array = _get_circle_offsets(fog_range)
-	var grid: PackedByteArray = _fog[team_id]
-
-	for offset in offsets:
-		var fc: Vector2i = fog_center + offset
-		if _in_bounds(fc):
-			grid[fc.y * FOG_COLS + fc.x] = VISIBLE
+func _full_rebuild(ecs: ECS) -> void:
+	_visible_cells.clear()
+	var entities: Array = ecs.query(["Position", "VisionRange", "Faction"])
+	for eid in entities:
+		_add_vision_for_entity(ecs, eid)
 
 
-func _get_circle_offsets(fog_range: int) -> Array:
-	if _circle_cache.has(fog_range):
-		return _circle_cache[fog_range]
+func _incremental_update(ecs: ECS) -> void:
+	# Collect dirty cells at max vision range
+	var max_range: float = 256.0  # conservative max; could be computed from data
+	var dirty_cells: Dictionary = {}  # Vector2i → true
 
-	var offsets: Array = []
-	var range_sq: float = float(fog_range * fog_range)
+	for pos in _dirty_positions:
+		var min_c: Vector2i = _pos_to_cell(pos - Vector2(max_range, max_range))
+		var max_c: Vector2i = _pos_to_cell(pos + Vector2(max_range, max_range))
+		for x in range(min_c.x, max_c.x + 1):
+			for y in range(min_c.y, max_c.y + 1):
+				dirty_cells[Vector2i(x, y)] = true
 
-	for dy in range(-fog_range, fog_range + 1):
-		for dx in range(-fog_range, fog_range + 1):
-			if float(dx * dx + dy * dy) <= range_sq:
-				offsets.append(Vector2i(dx, dy))
+	# Clear dirty cells from all factions
+	for faction_id in _visible_cells:
+		var faction_vis: Dictionary = _visible_cells[faction_id]
+		for cell in dirty_cells:
+			faction_vis.erase(cell)
 
-	_circle_cache[fog_range] = offsets
-	return offsets
+	# Re-add vision for entities near dirty regions
+	var entities: Array = ecs.query(["Position", "VisionRange", "Faction"])
+	for eid in entities:
+		var pos: Dictionary = ecs.get_component(eid, "Position")
+		var vr: Dictionary = ecs.get_component(eid, "VisionRange")
+		var r: float = vr.get("range", 64.0)
+		var epos := Vector2(pos.get("x", 0.0), pos.get("y", 0.0))
+		var min_c: Vector2i = _pos_to_cell(epos - Vector2(r, r))
+		var max_c: Vector2i = _pos_to_cell(epos + Vector2(r, r))
+
+		# Check if any of this entity's vision cells are dirty
+		var overlaps: bool = false
+		for cx in range(min_c.x, max_c.x + 1):
+			if overlaps:
+				break
+			for cy in range(min_c.y, max_c.y + 1):
+				if dirty_cells.has(Vector2i(cx, cy)):
+					overlaps = true
+					break
+
+		if overlaps:
+			_add_vision_for_entity(ecs, eid)
 
 
-func _world_to_fog(world_pos: Vector2) -> Vector2i:
-	return Vector2i(int(world_pos.x / CELL_SIZE), int(world_pos.y / CELL_SIZE))
+func _add_vision_for_entity(ecs: ECS, eid: int) -> void:
+	var pos: Dictionary = ecs.get_component(eid, "Position")
+	var vr: Dictionary = ecs.get_component(eid, "VisionRange")
+	var faction: Dictionary = ecs.get_component(eid, "Faction")
+	var faction_id: int = faction.get("faction_id", 0)
+	var r: float = vr.get("range", 64.0)
+	var epos := Vector2(pos.get("x", 0.0), pos.get("y", 0.0))
+
+	if not _visible_cells.has(faction_id):
+		_visible_cells[faction_id] = {}
+
+	var faction_vis: Dictionary = _visible_cells[faction_id]
+	var r_sq: float = r * r
+	var min_c: Vector2i = _pos_to_cell(epos - Vector2(r, r))
+	var max_c: Vector2i = _pos_to_cell(epos + Vector2(r, r))
+
+	for cx in range(min_c.x, max_c.x + 1):
+		for cy in range(min_c.y, max_c.y + 1):
+			var cell_center := Vector2(cx * CELL_SIZE + CELL_SIZE * 0.5, cy * CELL_SIZE + CELL_SIZE * 0.5)
+			var dx: float = cell_center.x - epos.x
+			var dy: float = cell_center.y - epos.y
+			if dx * dx + dy * dy <= r_sq:
+				var cell := Vector2i(cx, cy)
+				faction_vis[cell] = faction_vis.get(cell, 0) + 1
 
 
-func _in_bounds(fc: Vector2i) -> bool:
-	return fc.x >= 0 and fc.x < FOG_COLS and fc.y >= 0 and fc.y < FOG_ROWS
-
-
-func _get_team(faction_id: int) -> int:
-	return _faction_team.get(faction_id, faction_id % MAX_TEAMS)
+func _pos_to_cell(pos: Vector2) -> Vector2i:
+	return Vector2i(int(floor(pos.x / CELL_SIZE)), int(floor(pos.y / CELL_SIZE)))

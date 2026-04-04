@@ -16,7 +16,7 @@ var map_bounds: Rect2 = Rect2(0.0, 0.0, 128.0, 96.0)
 
 func tick(ecs: ECS, tick_count: int) -> void:
 	# Collect all movable entities and their pre-tick positions
-	var moving_entities: Array = ecs.query_with_components(["Position", "MoveSpeed"])
+	var moving_entities: Array = ecs.query(["Position", "MoveSpeed"])
 
 	# --- Phase 1: Compute raw velocity for each entity ---
 	var velocities: Dictionary = {}  # entity_id -> Vector2 (velocity after path logic)
@@ -28,8 +28,8 @@ func tick(ecs: ECS, tick_count: int) -> void:
 		if pos_comp.is_empty() or speed_comp.is_empty():
 			continue
 
-		var pos: Vector2 = Vector2(pos_comp.x, pos_comp.y)
-		var speed: float = speed_comp.speed
+		var pos: Vector2 = Vector2(pos_comp.get("x", 0.0), pos_comp.get("y", 0.0))
+		var speed: float = speed_comp.get("speed", 0.0)
 		positions[entity_id] = pos
 
 		var move_cmd: Dictionary = ecs.get_component(entity_id, "MoveCommand")
