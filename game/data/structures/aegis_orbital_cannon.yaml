@@ -1,0 +1,67 @@
+structure_id: "aegis_orbital_cannon"
+display_name: "Orbital Cannon"
+faction: "aegis"
+tier: 3
+role_tag: "special"
+is_superweapon: true
+activation_time: 300.0
+requires_dual_confirm: true
+
+weapon_effect:
+  type: "orbital_strike"
+  damage: 5000
+  radius: 8
+  damage_type: "energy"
+
+cost:
+  primary: 5000
+  secondary: 2500
+build_time: 120.0
+build_requirements:
+  structures: ["aegis_advanced_tech"]
+  tech: []
+
+footprint:
+  width: 4
+  height: 4
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 3
+
+health:
+  max: 3000
+  armor_type: "building"
+
+power:
+  consumption: 100
+  production: 0
+
+vision:
+  range: 10
+
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+
+tech_provides: []
+weapons: []
+
+abilities:
+  - ability_id: "orbital_strike_superweapon"
+    display_name: "Orbital Strike"
+    description: "Fire a devastating orbital beam at target location. 300s charge time. Requires Commander + Field Marshal dual confirmation."
+    cooldown: 300.0
+    passive: false
+    effect:
+      type: "superweapon_strike"
+      charge_time: 300.0
+      damage: 5000
+      radius: 8
+      damage_type: "energy"
+      requires_dual_confirm: true
+
+sprite: "sprites/aegis/orbital_cannon.png"
+icon: "ui/icons/aegis/orbital_cannon.png"
+construction_stages: 5

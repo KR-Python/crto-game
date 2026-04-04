@@ -1,0 +1,58 @@
+structure_id: "aegis_shield_generator_t3"
+display_name: "Phase Shield Generator"
+faction: "aegis"
+tier: 3
+role_tag: "special"
+
+cost:
+  primary: 2000
+  secondary: 800
+build_time: 35.0
+build_requirements:
+  structures: ["aegis_advanced_tech"]
+  tech: []
+
+footprint:
+  width: 2
+  height: 2
+placement_rules:
+  requires_power: true
+  requires_ground: true
+  min_distance_from_edge: 1
+
+health:
+  max: 1000
+  armor_type: "building"
+
+power:
+  consumption: 60
+  production: 0
+
+vision:
+  range: 6
+
+production:
+  can_produce: []
+  queue_size: 0
+  rally_point: false
+
+tech_provides: []
+
+weapons: []
+
+abilities:
+  - ability_id: "phase_shield"
+    display_name: "Phase Shield Dome"
+    description: "Projects a shield dome (8-tile radius) that absorbs 2000 damage. Recharges 50 HP/s when not taking damage."
+    cooldown: 0.0
+    passive: true
+    effect:
+      type: "shield_dome"
+      radius: 8
+      shield_hp: 2000
+      recharge_rate: 50
+      recharge_delay: 5.0
+
+sprite: "sprites/aegis/phase_shield_gen.png"
+icon: "ui/icons/aegis/phase_shield_gen.png"
+construction_stages: 3

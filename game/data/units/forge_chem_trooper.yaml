@@ -1,0 +1,78 @@
+unit_id: "forge_chem_trooper"
+display_name: "Chem Trooper"
+faction: "forge"
+category: "infantry"
+tier: 3
+role_tag: "combat"
+
+cost:
+  primary: 550
+  secondary: 200
+build_time: 16.0
+produced_at: "forge_barracks"
+tech_requirements:
+  - "forge_advanced_munitions"
+
+health:
+  max: 180
+  armor_type: "medium"
+
+movement:
+  speed: 2.5
+  type: "foot"
+  can_crush_infantry: false
+
+vision:
+  range: 7
+  detector: false
+
+weapons:
+  - weapon_id: "chemical_sprayer"
+    damage: 30
+    damage_type: "chemical"
+    range: 4
+    cooldown: 0.8
+    targets: ["ground"]
+    projectile_speed: 8
+    area_of_effect: 2.0
+    turret: false
+
+abilities:
+  - ability_id: "gas_cloud"
+    display_name: "Deploy Gas Cloud"
+    description: "Release a toxic cloud at target area. 3-tile radius, 25 damage/s for 8s. Friendly chem troopers immune."
+    cooldown: 30.0
+    passive: false
+    effect:
+      type: "area_dot"
+      damage_per_second: 25
+      radius: 3
+      duration: 8.0
+      damage_type: "chemical"
+      friendly_immune: ["forge_chem_trooper"]
+
+  - ability_id: "chem_immunity"
+    display_name: "Chemical Immunity"
+    description: "Immune to all chemical damage."
+    cooldown: 0.0
+    passive: true
+    effect:
+      type: "damage_immunity"
+      immune_to: ["chemical"]
+
+ai_hints:
+  threat_value: 6
+  preferred_targets: ["infantry"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.25
+
+sounds:
+  select: "sfx/forge/chem_trooper_select.ogg"
+  move: "sfx/forge/chem_trooper_move.ogg"
+  attack: "sfx/forge/chem_trooper_fire.ogg"
+  death: "sfx/forge/chem_trooper_death.ogg"
+
+sprite: "sprites/forge/chem_trooper.png"
+icon: "ui/icons/forge/chem_trooper.png"
+death_effect: "effects/chemical_death"
+scale: 1.0

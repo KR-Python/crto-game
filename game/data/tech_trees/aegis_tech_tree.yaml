@@ -1,0 +1,108 @@
+faction: "aegis"
+
+tiers:
+  tier_1:
+    available_at_start: true
+    structures:
+      - aegis_construction_yard
+      - aegis_power_plant
+      - aegis_barracks
+      - aegis_refinery
+    units:
+      - aegis_rifleman
+      - aegis_engineer
+      - aegis_scout_buggy
+      - aegis_light_tank
+      - aegis_harvester
+
+  tier_2:
+    unlock_requirements:
+      structures: ["aegis_barracks"]
+    structures:
+      - aegis_war_factory
+      - aegis_radar
+      - aegis_tech_lab
+      - aegis_turret
+      - aegis_shield_generator
+    units:
+      - aegis_rocket_trooper
+      - aegis_medic
+      - aegis_medium_tank
+      - aegis_apc
+      - aegis_aa_vehicle
+      - aegis_interceptor
+      - aegis_scout_drone
+
+  tier_3:
+    unlock_requirements:
+      structures: ["aegis_tech_lab", "aegis_radar"]
+    structures:
+      - aegis_advanced_tech
+      - aegis_airfield
+      - aegis_shield_generator_t3
+      - aegis_orbital_cannon
+    units:
+      - aegis_shock_trooper
+      - aegis_sniper
+      - aegis_heavy_tank
+      - aegis_artillery
+      - aegis_bomber
+      - aegis_gunship
+      - aegis_transport
+      - aegis_commander_unit
+
+research:
+  - research_id: "aegis_advanced_armor"
+    display_name: "Composite Armor"
+    description: "+25% HP for all vehicles"
+    cost: {primary: 1500, secondary: 500}
+    time: 45.0
+    requires: ["aegis_tech_lab"]
+    effect:
+      type: "stat_modifier"
+      target: {category: "vehicle", faction: "aegis"}
+      modifier: {health.max: 1.25}
+
+  - research_id: "aegis_energy_weapons"
+    display_name: "Focused Energy Weapons"
+    description: "+20% damage for energy weapons"
+    cost: {primary: 1000, secondary: 750}
+    time: 60.0
+    requires: ["aegis_advanced_tech"]
+    effect:
+      type: "stat_modifier"
+      target: {weapon.damage_type: "energy"}
+      modifier: {weapons.damage: 1.2}
+
+  - research_id: "aegis_shield_upgrade"
+    display_name: "Hardened Shields"
+    description: "Shield generators cover wider area, recharge faster"
+    cost: {primary: 2000, secondary: 1000}
+    time: 90.0
+    requires: ["aegis_shield_generator"]
+    effect:
+      type: "ability_upgrade"
+      target: "aegis_shield_generator"
+      modifier: {shield_radius: 1.5, recharge_rate: 2.0}
+
+  - research_id: "aegis_railgun_accelerators"
+    display_name: "Railgun Accelerators"
+    description: "+30% range for kinetic weapons on T3 units"
+    cost: {primary: 1500, secondary: 800}
+    time: 75.0
+    requires: ["aegis_advanced_tech"]
+    effect:
+      type: "stat_modifier"
+      target: {tier: 3, weapon.damage_type: "kinetic", faction: "aegis"}
+      modifier: {weapons.range: 1.3}
+
+  - research_id: "aegis_orbital_targeting"
+    display_name: "Orbital Targeting Matrix"
+    description: "Reduces Orbital Cannon charge time by 60s"
+    cost: {primary: 2500, secondary: 1500}
+    time: 120.0
+    requires: ["aegis_orbital_cannon"]
+    effect:
+      type: "ability_upgrade"
+      target: "aegis_orbital_cannon"
+      modifier: {charge_time: -60.0}

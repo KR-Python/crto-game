@@ -1,0 +1,105 @@
+# schema: map_definition
+# file pattern: data/maps/{map_name}.yaml
+
+map_id: "iron_bridge"
+display_name: "Iron Bridge"
+description: "Two bases separated by a river. One bridge. Infinite possibilities."
+author: "CRTO Team"
+
+dimensions:
+  width: 128                           # tiles
+  height: 96
+
+player_count:
+  min: 2
+  max: 4                               # recommended max
+  optimal: 2
+
+# Starting positions
+spawn_points:
+  team_human:
+    construction_yard: [15, 48]
+    starting_units:
+      - {type: "faction_harvester", position: [18, 48]}
+      - {type: "faction_rifleman", position: [12, 45], count: 3}
+      - {type: "faction_scout_buggy", position: [12, 51]}
+    initial_resources: {primary: 5000, secondary: 1000}
+
+  team_ai:
+    construction_yard: [113, 48]
+    starting_units:
+      - {type: "faction_harvester", position: [110, 48]}
+      - {type: "faction_rifleman", position: [116, 45], count: 3}
+      - {type: "faction_scout_buggy", position: [116, 51]}
+    initial_resources: {primary: 5000, secondary: 1000}
+
+# Resource nodes
+resources:
+  # Near team_human base
+  - {type: "ore", position: [20, 40], amount: 25000}
+  - {type: "ore", position: [20, 56], amount: 25000}
+
+  # Near team_ai base
+  - {type: "ore", position: [108, 40], amount: 25000}
+  - {type: "ore", position: [108, 56], amount: 25000}
+
+  # Contested middle
+  - {type: "gems", position: [64, 30], amount: 10000}
+  - {type: "gems", position: [64, 66], amount: 10000}
+
+  # Expansion ore (risky, high reward)
+  - {type: "ore", position: [50, 48], amount: 30000}
+  - {type: "ore", position: [78, 48], amount: 30000}
+
+# Expansion points
+expansions:
+  - {id: "human_north", position: [30, 25], risk: "low"}
+  - {id: "human_south", position: [30, 71], risk: "low"}
+  - {id: "mid_north", position: [64, 20], risk: "high"}
+  - {id: "mid_south", position: [64, 76], risk: "high"}
+  - {id: "ai_north", position: [98, 25], risk: "low"}
+  - {id: "ai_south", position: [98, 71], risk: "low"}
+
+# Terrain features
+terrain:
+  base_type: "grass"
+  features:
+    # River (impassable except at bridge)
+    - type: "water"
+      shape: "rect"
+      bounds: {x: 60, y: 0, width: 8, height: 96}
+
+    # The Bridge
+    - type: "bridge"
+      bounds: {x: 60, y: 42, width: 8, height: 12}
+      passable_by: ["foot", "wheeled", "tracked"]
+
+    # Spec Ops flanking paths (narrow, north and south)
+    - type: "ford"
+      bounds: {x: 62, y: 5, width: 4, height: 3}
+      passable_by: ["foot"]          # infantry only
+
+    - type: "ford"
+      bounds: {x: 62, y: 88, width: 4, height: 3}
+      passable_by: ["foot"]
+
+    # Cliff overlooks
+    - type: "cliff"
+      bounds: {x: 55, y: 35, width: 3, height: 5}
+      provides: {vision_bonus: 4}    # extra vision range for units on cliff
+
+    - type: "cliff"
+      bounds: {x: 70, y: 56, width: 3, height: 5}
+      provides: {vision_bonus: 4}
+
+# Map-specific rules
+rules:
+  bridge_destructible: true            # bridge can be destroyed
+  bridge_health: 2000
+  bridge_rebuild_time: 120             # seconds to auto-repair
+
+# AI hints for opponent AI
+ai_hints:
+  attack_routes: [[64, 48]]           # through the bridge
+  harass_routes: [[63, 6], [63, 89]]  # through the fords
+  expansion_priority: ["near_base", "contested_mid"]

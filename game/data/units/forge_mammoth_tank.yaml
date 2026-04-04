@@ -1,0 +1,75 @@
+unit_id: "forge_mammoth_tank"
+display_name: "Juggernaut"
+faction: "forge"
+category: "vehicle"
+tier: 3
+role_tag: "combat"
+
+cost:
+  primary: 2500
+  secondary: 500
+build_time: 35.0
+produced_at: "forge_war_factory"
+tech_requirements:
+  - "forge_advanced_munitions"
+
+health:
+  max: 1500
+  armor_type: "heavy"
+
+movement:
+  speed: 1.5
+  type: "tracked"
+  can_crush_infantry: true
+
+vision:
+  range: 7
+  detector: false
+
+weapons:
+  - weapon_id: "dual_150mm_cannons"
+    damage: 100
+    damage_type: "explosive"
+    range: 7
+    cooldown: 2.0
+    targets: ["ground", "structure"]
+    projectile_speed: 14
+    area_of_effect: 1.0
+    turret: true
+  - weapon_id: "top_mounted_autocannon"
+    damage: 25
+    damage_type: "kinetic"
+    range: 6
+    cooldown: 0.5
+    targets: ["ground", "air"]
+    projectile_speed: 20
+    area_of_effect: 0
+    turret: true
+
+abilities:
+  - ability_id: "self_repair"
+    display_name: "Field Repair"
+    description: "Slowly regenerates 5 HP/s when out of combat for 10s."
+    cooldown: 0.0
+    passive: true
+    effect:
+      type: "regeneration"
+      hp_per_second: 5
+      out_of_combat_delay: 10.0
+
+ai_hints:
+  threat_value: 10
+  preferred_targets: ["vehicle", "structure"]
+  engagement_range: "weapon_range"
+  retreat_health_pct: 0.15
+
+sounds:
+  select: "sfx/forge/mammoth_select.ogg"
+  move: "sfx/forge/mammoth_move.ogg"
+  attack: "sfx/forge/mammoth_fire.ogg"
+  death: "sfx/forge/mammoth_explode.ogg"
+
+sprite: "sprites/forge/juggernaut.png"
+icon: "ui/icons/forge/juggernaut.png"
+death_effect: "effects/large_vehicle_explosion"
+scale: 1.8

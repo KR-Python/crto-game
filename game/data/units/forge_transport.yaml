@@ -1,0 +1,58 @@
+unit_id: "forge_transport"
+display_name: "Mule Transport"
+faction: "forge"
+category: "air"
+tier: 3
+role_tag: "air"
+
+cost:
+  primary: 1200
+  secondary: 200
+build_time: 18.0
+produced_at: "forge_airstrip"
+tech_requirements:
+  - "forge_airstrip"
+
+health:
+  max: 450
+  armor_type: "medium"
+
+movement:
+  speed: 5.5
+  type: "flying"
+  can_crush_infantry: false
+
+vision:
+  range: 8
+  detector: false
+
+weapons: []
+
+abilities:
+  - ability_id: "transport"
+    display_name: "Transport"
+    description: "Can carry up to 8 infantry or 4 vehicles."
+    cooldown: 0.0
+    passive: true
+    effect:
+      type: "transport"
+      capacity: 8
+      allowed_categories: ["infantry", "vehicle"]
+      vehicle_weight: 2
+
+ai_hints:
+  threat_value: 2
+  preferred_targets: []
+  engagement_range: "none"
+  retreat_health_pct: 0.4
+
+sounds:
+  select: "sfx/forge/transport_select.ogg"
+  move: "sfx/forge/transport_move.ogg"
+  attack: null
+  death: "sfx/forge/transport_crash.ogg"
+
+sprite: "sprites/forge/mule_transport.png"
+icon: "ui/icons/forge/mule_transport.png"
+death_effect: "effects/aircraft_explosion"
+scale: 1.4
