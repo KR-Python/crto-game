@@ -195,6 +195,17 @@ func stop() -> void:
 func get_ecs() -> ECS:
 	return ecs
 
+
+func issue_move_command(entity_id: int, world_position: Vector2) -> void:
+	command_queue.enqueue({
+		"action": "MoveUnit",
+		"entity_ids": [entity_id],
+		"target_position": {"x": world_position.x, "y": world_position.y},
+		"player_id": 1,
+		"role": "field_marshal",
+		"tick": tick_count,
+	})
+
 func get_tick_count() -> int:
 	return tick_count
 
