@@ -476,6 +476,7 @@ func _unblock_footprint(entity_id: int) -> void:
 
 	var cells: Array = _blocked_cells[entity_id]
 	for cell: Vector2i in cells:
-		nav_grid.set_cell_walkable(cell.x, cell.y, true, NavGrid.MOVE_ALL)
+		for move_type in [NavGrid.MOVE_FOOT, NavGrid.MOVE_WHEELED, NavGrid.MOVE_TRACKED, NavGrid.MOVE_HOVER, NavGrid.MOVE_FLYING]:
+			nav_grid.set_cell_walkable(cell.x, cell.y, true, move_type)
 
 	_blocked_cells.erase(entity_id)

@@ -50,9 +50,11 @@ func tick(ecs: ECS, tick_count: int) -> void:
 	command_queue.clear_tick(tick_count)
 
 func can_execute(player_id: int, command: Dictionary) -> Dictionary:
-	return can_execute_full({}, command, player_id)
+	return can_execute_full(null, command, player_id)
 
-func can_execute_full(ecs: Dictionary, command: Dictionary, override_player_id: int = -1) -> Dictionary:
+func can_execute_full(ecs, command: Dictionary, override_player_id: int = -1) -> Dictionary:
+	if ecs == null:
+		return {"allowed": true, "error_code": -1}
 	var player_id: int = override_player_id if override_player_id >= 0 else command.get("player_id", -1)
 	if not _command_is_valid_shape(command):
 		return _deny(CommandError.INVALID_COMMAND)
@@ -92,7 +94,7 @@ func _player_can_act_as(actual_role: String, claimed_role: String) -> bool:
 	var effective_claimed: String = role_manager.get_effective_role(claimed_role)
 	return effective_claimed == actual_role
 
-func _check_entity_ownership(command: Dictionary, role: String, ecs: Dictionary) -> Dictionary:
+func _check_entity_ownership(command: Dictionary, role: String, ecs) -> Dictionary:
 	var action: String = command["action"]
 	var params: Dictionary = command.get("params", {})
 	var unit_array_actions: Array = [
@@ -124,9 +126,9 @@ func _check_entity_ownership(command: Dictionary, role: String, ecs: Dictionary)
 			return check
 	return _allow()
 
-func _check_owns_entity(entity_id: int, role: String, ecs: Dictionary) -> Dictionary:
+func _check_owns_entity(entity_id: int, role: String, ecs) -> Dictionary:
 	var owner: String = role_manager.get_entity_role(entity_id)
-	if owner == "" and not ecs.is_empty():
+	if owner == "" and ecs != null and not ecs.is_empty():
 		return _deny(CommandError.INVALID_TARGET)
 	if owner == "":
 		return _allow()
@@ -138,7 +140,7 @@ func _check_owns_entity(entity_id: int, role: String, ecs: Dictionary) -> Dictio
 		return _allow()
 	return _deny(CommandError.ENTITY_NOT_OWNED)
 
-func _check_sub_role_restrictions(command: Dictionary, role: String, ecs: Dictionary) -> Dictionary:
+func _check_sub_role_restrictions(command: Dictionary, role: String, ecs) -> Dictionary:
 	var action: String = command["action"]
 	var params: Dictionary = command.get("params", {})
 	if action == "PLACE_STRUCTURE" and role == "chief_engineer":

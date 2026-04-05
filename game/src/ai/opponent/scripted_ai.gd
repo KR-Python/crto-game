@@ -4,6 +4,8 @@ extends AIOpponent
 ## Uses FORGE faction by default (aggressive, suits scripted early pressure).
 ## No adaptation, no scouting, no retreat. Just build and attack on schedule.
 
+var build_order_index: int = 0
+
 const BUILD_ORDER: Array[Dictionary] = [
 	{"tick": 0,   "action": "place_structure", "type": "barracks",    "offset": Vector2(3, 0)},
 	{"tick": 75,  "action": "place_structure", "type": "refinery",    "offset": Vector2(-3, 0)},
@@ -59,3 +61,11 @@ func _issue_attack_wave() -> void:
 			"unit_ids": [entity_id],
 			"destination": attack_target,
 		})
+
+
+func _get_base_position() -> Vector2:
+	return Vector2.ZERO
+
+
+func _get_production_buildings() -> Array[int]:
+	return []

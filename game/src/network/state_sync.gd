@@ -126,7 +126,7 @@ func _is_visible_to_faction(ecs: ECS, entity_id: int, faction_id: int, vision_sy
 		return false
 	var pos: Dictionary = ecs.get_component(entity_id, "Position")
 	var world_pos := Vector2(pos.get("x", 0.0), pos.get("y", 0.0))
-	return vision_system.is_visible(world_pos, faction_id)
+	return vision_system.is_visible(faction_id, world_pos)
 
 
 func _get_entity_data(ecs: ECS, entity_id: int) -> Dictionary:
