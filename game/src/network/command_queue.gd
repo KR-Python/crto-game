@@ -32,7 +32,12 @@ func enqueue(command: Dictionary) -> void:
 ## Returns all commands queued for exactly the given tick.
 ## Does NOT remove them — caller (PermissionSystem) clears after processing.
 func get_commands_for_tick(tick: int) -> Array[Dictionary]:
-	return _queue.get(tick, []) as Array[Dictionary]
+	var raw: Array = _queue.get(tick, [])
+	var result: Array[Dictionary] = []
+	for item in raw:
+		if item is Dictionary:
+			result.append(item)
+	return result
 
 ## Remove all commands whose target tick is strictly less than current_tick.
 ## These represent TICK_EXPIRED commands that arrived too late.
