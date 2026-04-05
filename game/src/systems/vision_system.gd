@@ -18,6 +18,13 @@ var _needs_full_rebuild: bool = true
 const CELL_SIZE: float = 32.0  # fog cell size (1 tile)
 
 
+
+## Register which team a faction belongs to (for shared vision between allies).
+## Vision is currently per-faction; this is a stub for Phase 2 allied vision.
+func register_faction_team(faction_id: int, _team_id: int) -> void:
+	if not _visible_cells.has(faction_id):
+		_visible_cells[faction_id] = {}
+
 func set_spatial_hash(sh: SpatialHash) -> void:
 	_spatial_hash = sh
 
