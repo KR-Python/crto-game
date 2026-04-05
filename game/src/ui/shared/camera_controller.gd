@@ -7,14 +7,14 @@ extends Camera2D
 @export var edge_scroll_speed: float = 500.0
 @export var zoom_min: float = 0.25
 @export var zoom_max: float = 4.0
-@export var zoom_step: float = 0.1
+@export var zoom_step: float = 0.25
 @export var zoom_speed: float = 8.0         # smooth zoom lerp speed
 
 # Map bounds clamping (set from GameMap on load)
 var map_bounds: Rect2 = Rect2(0, 0, 4096, 3072)
 
 # Internal state
-var _target_zoom: float = 1.0
+var _target_zoom: float = 3.0
 var _is_middle_drag: bool = false
 var _drag_start_mouse: Vector2 = Vector2.ZERO
 var _drag_start_cam: Vector2 = Vector2.ZERO
@@ -28,7 +28,7 @@ signal zoom_changed(new_zoom: float)
 
 
 func _ready() -> void:
-	_target_zoom = zoom.x
+	zoom = Vector2(_target_zoom, _target_zoom)
 	_spawn_point = position
 
 
