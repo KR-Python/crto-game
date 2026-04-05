@@ -208,3 +208,14 @@ func _passable_for_type(base_type: String) -> Array:
 			return [PASS_FOOT, PASS_WHEELED, PASS_TRACKED, PASS_HOVER, PASS_FLYING]
 		_:
 			return [PASS_FOOT, PASS_WHEELED, PASS_TRACKED, PASS_HOVER, PASS_FLYING]
+
+# Convenience: create a flat all-grass map of given dimensions (for testing)
+func load_flat_map(w: int, h: int) -> void:
+	width = w
+	height = h
+	_init_tile_meta()
+	emit_signal("map_loaded", width, height)
+
+# Returns world-space bounds of the map as a Rect2
+func get_world_bounds() -> Rect2:
+	return Rect2(0.0, 0.0, float(width * TILE_SIZE), float(height * TILE_SIZE))
