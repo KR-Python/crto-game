@@ -14,6 +14,8 @@ const TAB_KEYBINDS: int = 2
 # Rebind state — which action row is waiting for a key press
 var _rebinding_action: String = ""
 
+var _settings: SettingsManager = SettingsManager.new()
+
 # Built at runtime; maps action name → label node showing current binding
 var _keybind_labels: Dictionary = {}
 
@@ -74,7 +76,7 @@ func _input(event: InputEvent) -> void:
 		return
 	# Accept key or mouse button events only
 	if event is InputEventKey or event is InputEventMouseButton:
-		SettingsManager.rebind_key(_rebinding_action, event)
+		_settings.rebind_key(_rebinding_action, event)
 		_finish_rebind()
 		get_viewport().set_input_as_handled()
 
@@ -309,16 +311,16 @@ func _add_keybind_row(action: String, display_name: String) -> void:
 
 func _load_values() -> void:
 	# Audio
-	_master_slider.value = SettingsManager.audio.get("master_volume", 1.0)
-	_music_slider.value  = SettingsManager.audio.get("music_volume", 0.7)
-	_sfx_slider.value    = SettingsManager.audio.get("sfx_volume", 0.9)
+	_master_slider.value = _settings.audio.get("master_volume", 1.0)
+	_music_slider.value  = _settings.audio.get("music_volume", 0.7)
+	_sfx_slider.value    = _settings.audio.get("sfx_volume", 0.9)
 
 	# Video
-	_fullscreen_check.button_pressed = SettingsManager.video.get("fullscreen", false)
-	_vsync_check.button_pressed      = SettingsManager.video.get("vsync", true)
-	var res: String = SettingsManager.video.get("resolution", "1920x1080")
+	_fullscreen_check.button_pressed = _settings.video.get("fullscreen", false)
+	_vsync_check.button_pressed      = _settings.video.get("vsync", true)
+	var res: String = _settings.video.get("resolution", "1920x1080")
 	_select_resolution(res)
-	_render_scale_slider.value = SettingsManager.video.get("render_scale", 1.0)
+	_render_scale_slider.value = _settings.video.get("render_scale", 1.0)
 
 	# Keybinds
 	_refresh_keybind_labels()
@@ -334,7 +336,7 @@ func _select_resolution(res: String) -> void:
 
 func _refresh_keybind_labels() -> void:
 	for action in _keybind_labels.keys():
-		var event: InputEvent = SettingsManager.get_keybind(action)
+		var event: InputEvent = _settings.get_keybind(action)
 		_keybind_labels[action].text = _event_display(event)
 
 
@@ -358,15 +360,15 @@ func _event_display(event: InputEvent) -> String:
 # ---------------------------------------------------------------------------
 
 func _on_master_slider_changed(value: float) -> void:
-	SettingsManager.set_audio("master_volume", value)
+	_settings.set_audio("master_volume", value)
 
 
 func _on_music_slider_changed(value: float) -> void:
-	SettingsManager.set_audio("music_volume", value)
+	_settings.set_audio("music_volume", value)
 
 
 func _on_sfx_slider_changed(value: float) -> void:
-	SettingsManager.set_audio("sfx_volume", value)
+	_settings.set_audio("sfx_volume", value)
 
 
 func _on_test_sound_pressed() -> void:
@@ -382,20 +384,20 @@ func _on_test_sound_pressed() -> void:
 # ---------------------------------------------------------------------------
 
 func _on_fullscreen_toggled(pressed: bool) -> void:
-	SettingsManager.set_video("fullscreen", pressed)
+	_settings.set_video("fullscreen", pressed)
 
 
 func _on_vsync_toggled(pressed: bool) -> void:
-	SettingsManager.set_video("vsync", pressed)
+	_settings.set_video("vsync", pressed)
 
 
 func _on_video_apply_pressed() -> void:
 	# Read current widget state into SettingsManager then apply
-	SettingsManager.set_video("fullscreen", _fullscreen_check.button_pressed)
-	SettingsManager.set_video("vsync", _vsync_check.button_pressed)
-	SettingsManager.set_video("resolution", _resolution_opt.get_item_text(_resolution_opt.selected))
-	SettingsManager.set_video("render_scale", _render_scale_slider.value)
-	SettingsManager.apply_video()
+	_settings.set_video("fullscreen", _fullscreen_check.button_pressed)
+	_settings.set_video("vsync", _vsync_check.button_pressed)
+	_settings.set_video("resolution", _resolution_opt.get_item_text(_resolution_opt.selected))
+	_settings.set_video("render_scale", _render_scale_slider.value)
+	_settings.apply_video()
 
 
 # ---------------------------------------------------------------------------
@@ -419,7 +421,7 @@ func _cancel_rebind() -> void:
 
 
 func _on_keybind_reset_pressed() -> void:
-	SettingsManager.reset_to_defaults()
+	_settings.reset_to_defaults()
 	_load_values()
 
 

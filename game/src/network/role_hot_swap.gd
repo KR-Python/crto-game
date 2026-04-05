@@ -110,4 +110,5 @@ func _send_state_snapshot_to(player_id: int, session_manager: SessionManager) ->
 	# In production: rpc_id(player_id, "_receive_state_snapshot", snapshot)
 	# For now emit as a local signal so callers/tests can observe it:
 	emit_signal("role_transferred", "snapshot_sent", player_id, player_id)
-	_ = snapshot  # suppress unused-variable warning
+	@warning_ignore("unused_variable")
+	var _snapshot_ref := snapshot  # suppress unused-variable warning

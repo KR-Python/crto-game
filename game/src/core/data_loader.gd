@@ -94,7 +94,7 @@ func _parse_json_file(path: String) -> Dictionary:
 		return {}
 	var json_text := file.get_as_text()
 	file.close()
-	var result := JSON.parse_string(json_text)
+	var result: Variant = JSON.parse_string(json_text)
 	if result == null:
 		push_error("DataLoader: JSON parse failed: %s" % path)
 		return {}

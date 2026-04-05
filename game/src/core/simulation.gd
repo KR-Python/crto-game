@@ -1,5 +1,5 @@
 class_name Simulation
-extends RefCounted
+extends Node
 
 ## Core simulation orchestrator — drives the deterministic tick pipeline.
 ## All 13 steps execute in order each tick. Systems are wired at initialize().

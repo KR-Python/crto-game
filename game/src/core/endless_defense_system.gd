@@ -47,7 +47,7 @@ var wave_in_progress: bool = false
 var _next_wave_tick: int = 0
 
 # Seeded RNG — injected by the game coordinator for determinism.
-var _rng: SimRandom = null
+var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 # ---------------------------------------------------------------------------
 # Signals
@@ -62,9 +62,9 @@ signal game_over(waves_survived: int)
 # Public API
 # ---------------------------------------------------------------------------
 
-## Inject the seeded RNG before the first tick.
-func init(rng: SimRandom) -> void:
-	_rng = rng
+## Set the RNG seed for determinism.
+func init_seed(s: int) -> void:
+	_rng.seed = s
 	_next_wave_tick = 0
 
 

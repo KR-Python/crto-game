@@ -16,4 +16,4 @@ func _process(delta: float) -> void:
 	while _accumulator >= TICK_INTERVAL:
 		_accumulator -= TICK_INTERVAL
 		_tick_count += 1
-		simulation.tick(_tick_count)
+		simulation.tick()

@@ -130,9 +130,9 @@ func test_game_over_when_construction_yard_destroyed() -> void:
 
 func _make_system() -> EndlessDefenseSystem:
 	var system := EndlessDefenseSystem.new()
-	var rng    := SimRandom.new()
-	rng.seed(12345)
-	system.init(rng)
+	var rng    := RandomNumberGenerator.new()
+	rng.seed = 12345
+	system.init_seed(12345)
 	return system
 
 

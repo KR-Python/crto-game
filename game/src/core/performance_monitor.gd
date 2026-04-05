@@ -1,5 +1,5 @@
 class_name PerformanceMonitor
-extends Node
+extends Control
 
 # In-game performance overlay, toggled with F3.
 # Tracks tick times, entity count, and spatial hash stats.

@@ -77,6 +77,6 @@ func _screen_rect_to_world(screen_rect: Rect2) -> Rect2:
 		push_warning("SelectionBox: no camera assigned — returning screen rect as world rect")
 		return screen_rect
 
-	var world_tl := camera.screen_to_world(screen_rect.position)
-	var world_br := camera.screen_to_world(screen_rect.end)
+	var world_tl: Vector2 = camera.screen_to_world(screen_rect.position)
+	var world_br: Vector2 = camera.screen_to_world(screen_rect.end)
 	return Rect2(world_tl, world_br - world_tl).abs()
