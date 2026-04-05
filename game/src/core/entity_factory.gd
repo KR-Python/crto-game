@@ -47,6 +47,11 @@ func create_structure(structure_type: String, position: Vector2, faction_id: int
 
 # ── Internal: Unit Assembly ───────────────────────────────────────────────────
 
+
+## Convenience: create a test unit (AEGIS rifleman) at position. Used by main_scene for Phase 0 testing.
+func create_test_unit(position: Vector2) -> int:
+	return create_from_definition("aegis_rifleman", position)
+
 func _create_unit_entity(def: Dictionary, position: Vector2) -> int:
 	var entity_id: int = _ecs.create_entity()
 
