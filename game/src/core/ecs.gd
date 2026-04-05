@@ -89,9 +89,9 @@ func remove_component(entity_id: int, component_name: String) -> void:
 
 # -- Queries (small-store-first intersection + cache) --------------------------
 
-func query(component_names) -> Array:
+func query(component_names) -> Array[int]:
 	if component_names.is_empty():
-		return []
+		return [] as Array[int]
 
 	var sorted_names: Array = []
 	for n in component_names:
@@ -107,15 +107,15 @@ func query(component_names) -> Array:
 	var smallest_size: int = 999999999
 	for cname in component_names:
 		if not _stores.has(cname):
-			_query_cache[cache_key] = []
-			return []
+			_query_cache[cache_key] = [] as Array[int]
+			return [] as Array[int]
 		var store: Dictionary = _stores[cname]
 		if store.size() < smallest_size:
 			smallest_size = store.size()
 			smallest_store = store
 
 	# Intersect: iterate smallest, check membership in others
-	var result: Array = []
+	var result: Array[int] = []
 	for eid in smallest_store:
 		var has_all: bool = true
 		for cname in component_names:
@@ -129,11 +129,11 @@ func query(component_names) -> Array:
 	return result
 
 
-func query_exclude(required, excluded) -> Array:
-	var base: Array = query(required)
+func query_exclude(required, excluded) -> Array[int]:
+	var base: Array[int] = query(required)
 	if excluded.is_empty():
 		return base
-	var result: Array = []
+	var result: Array[int] = []
 	for eid in base:
 		var dominated: bool = false
 		for cname in excluded:
@@ -145,7 +145,7 @@ func query_exclude(required, excluded) -> Array:
 	return result
 
 
-func query_with_components(component_names) -> Array:
+func query_with_components(component_names) -> Array[int]:
 	return query(component_names)
 
 
