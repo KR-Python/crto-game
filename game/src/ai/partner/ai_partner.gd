@@ -1,5 +1,5 @@
 class_name AIPartner
-extends RefCounted
+extends Node
 ## Base class for all AI partner controllers.
 ## Partners emit commands via _emit_command() and communicate via send_status().
 
