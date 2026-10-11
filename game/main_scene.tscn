@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cxo7q5md00pfy"]
+
+[ext_resource type="Script" uid="uid://d012adu88mn0d" path="res://src/core/main_scene.gd" id="1_gyfs4"]
+[ext_resource type="Script" uid="uid://1ghn6seym6ir" path="res://src/core/game_map.gd" id="2_d5x1h"]
+[ext_resource type="Script" uid="uid://byjexxpxniprm" path="res://src/ui/shared/camera_controller.gd" id="3_8mm7a"]
+
+[node name="Node2D" type="Node2D" unique_id=1848416735]
+script = ExtResource("1_gyfs4")
+
+[node name="GameMap" type="Node" parent="." unique_id=1578438370]
+script = ExtResource("2_d5x1h")
+metadata/_custom_type_script = "uid://1ghn6seym6ir"
+
+[node name="CameraController" type="Camera2D" parent="." unique_id=1831760386]
+script = ExtResource("3_8mm7a")
+metadata/_custom_type_script = "uid://byjexxpxniprm"
+
+[node name="UnitLayer" type="Node2D" parent="." unique_id=998360414]

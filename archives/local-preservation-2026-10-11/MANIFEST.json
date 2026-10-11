@@ -1,0 +1,927 @@
+{
+  "source": "Kyle laptop crto-game",
+  "status": "Unvalidated historical experiment; generated JSON copied for recovery only",
+  "files": [
+    {
+      "path": "game/project.godot",
+      "sha256": "5c0063e09cd21f7d03096766774ac52b54ef0b5544df2efb0e94178881de12b9",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/main_scene.tscn",
+      "sha256": "205405327cc30157c47b3ae5c52c4edc7fc5ccd0673f1ae04efe097feaf697cb",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/node_2d.gd",
+      "sha256": "bfdf016f5bb684d0634369df5071b712ed4ebfb0980a68e1fbd08d304f022e0b",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/node_2d.gd.uid",
+      "sha256": "b4586f16bf8f4517f26a62220db0be28192f5da19c88a628feb1e13bb1b26ed7",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/opponent/ai_opponent.gd.uid",
+      "sha256": "bcd2c88028e987fc545f4c5b44bccdf2a1d34b966bb4797270073727feac8eae",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/opponent/personality_ai.gd.uid",
+      "sha256": "6efde07020aad4e64bc2f7d2ed7988a47d90b67efb222c91577fe70d8982769a",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/opponent/personality_driver.gd.uid",
+      "sha256": "891bb3769eddee4ea18cf34b8d971b41739f7f842f7d46a65a8785310383ba17",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/opponent/reactive_ai.gd.uid",
+      "sha256": "09c5a16fe513ce5315274098dfa14df2bed8d3b75b3f20f34ea52b364302e148",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/opponent/scripted_ai.gd.uid",
+      "sha256": "0cc67099e96d2bde0532dcf1c1b1c2bb0d26ff1f9792799fa8d389ee2faa215e",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/partner/ai_partner.gd.uid",
+      "sha256": "05318775bfab8cbf13e701afa52bfb916652df9ecd5f9d5199f607fa222d3cf9",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/partner/commander_ai.gd.uid",
+      "sha256": "684e8650bab9b65f8a3bf9947fec4d275c649ad8038bea68679b407669b76997",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/partner/field_marshal_ai.gd.uid",
+      "sha256": "d02e28856fb3b801bdff79500259964f9060a4e88f345c2604aed7fb493b4a4c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/partner/quartermaster_ai.gd.uid",
+      "sha256": "88bf3651ff9a169f63643b583f7c9f2e679de26c6a5f39304bbf0599485a9bd9",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/partner/spec_ops_ai.gd.uid",
+      "sha256": "6f46a6280b0d4feeea559985e2df998532c05121953378ba4c0fe83a93eff053",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ai/shared/threat_assessment.gd.uid",
+      "sha256": "b82fe0acbb654d5d7b2fbdd8b77fa34ef6af654c5d1710b56aee7926d0390b3e",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/components.gd.uid",
+      "sha256": "5f57fd016012fbdcc1a370bb2e0a01be194b2da7905d8cd48c245d7b2b48f67e",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/data_loader.gd.uid",
+      "sha256": "fdb59241ec8f7238dc6ad7659d0c61d983db3003dd5eb08279108d1940ddc60c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/ecs.gd.uid",
+      "sha256": "f1f321ee516400674c252154b9b5346bd1a0cc85182a7e6659456888246d9fc9",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/endless_defense_system.gd.uid",
+      "sha256": "a62dd0e04e4f8a67b2d94ff0a7f50c330c250486c4ff3ee7dec07682a797e90c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/entity_factory.gd.uid",
+      "sha256": "033b2a748138f0dc9c41faaece55a9aed49c3645baf0e9d2dcc4961983f94e1b",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/flowfield.gd.uid",
+      "sha256": "a6d5bd8e1ebc58f83e668376f667b554173d6ac3f799b7758fb1538e7468f0eb",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/game_initializer.gd.uid",
+      "sha256": "7945337c5b8b0680262b58750f78b78e40d9c57917b5da0ae80e604dc47007a3",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/game_loop.gd.uid",
+      "sha256": "bd2362b6cbcf66b3066c398ddd3cb45e5a12dd27fbeeffb05b502d7edbd94341",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/game_map.gd.uid",
+      "sha256": "b0ac60503496d56d5a0ca2de9ad2cf9a3eed9061666f35ae2a1abe1d6f779151",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/game_stats.gd.uid",
+      "sha256": "47b1628d8b220d7e0e79b4f4835efa2f9f0cf1092091b746f2e689ad570c3bd7",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/main_scene.gd.uid",
+      "sha256": "fbce58f8761f1d102da924ca675d5faf70fdf38db695044cda0e2812c6cb358f",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/mastery_tracker.gd.uid",
+      "sha256": "58718b6c9c57dc65ccac6adad505a4424ce8aaa1f9fca6992f2406c9027e7cf1",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/nav_grid.gd.uid",
+      "sha256": "402ff8f50236990d79eda1f684d3ad4152e68a56adbbb924e29e69977a16e85c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/pathfinder.gd.uid",
+      "sha256": "7c0a6cb70a9eebe69561a749e9ef6096a2b17d3140f09ead318cc14f5d70311d",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/performance_monitor.gd.uid",
+      "sha256": "05ba7dfb639142a36514f1c0eb29ee7a5e4de048b5982156ae85fce5bfb0c643",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/scenario_system.gd.uid",
+      "sha256": "4fc6146ad2fa54c837ecc0ec3c7840995d17799bbea5425c3ad6832d3aa9d881",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/settings_manager.gd.uid",
+      "sha256": "3d2c323892efd92e9e2b3b2a4c9791ed203f42b0c7103e3c9ab20fd146c08ec2",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/simulation.gd.uid",
+      "sha256": "1cea17d8ed96e838468e060a7ba71684e399168daeb69c257a107cc4d4544bee",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/spatial_hash.gd.uid",
+      "sha256": "4896b6cb87c679e07bbfb226a735c880e109a2014b7064d6c2aa590acf1984f0",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/team_history.gd.uid",
+      "sha256": "f5cfb74f09822d4fe58024b1de72f4c49688776e2fb9f51248a0cab2c2afcb98",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/tutorial_system.gd.uid",
+      "sha256": "80c7e91c70babf487c33aa1a15bc2c67ec5589e093020c04ce00d980df158415",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/core/victory_system.gd.uid",
+      "sha256": "0af8e4079cf9e110f1a92458d14ac4170dd46d929f1ac7cf30429b8a9acabd7a",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/network/command_protocol.gd.uid",
+      "sha256": "963692cc2c4ee2012123a8c177b3e10dcf83e9efd67aa3fffa5f1efcdaa47e05",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/network/command_queue.gd.uid",
+      "sha256": "fe7eb41c1cec837eba263c52a758a0539cd04e488d42e5e078bb1dd9bb066e44",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/network/host_migration.gd.uid",
+      "sha256": "9e45e2917f3b8f840232f529135cc8dd07ae60e8e0ab2c0598e90a064a408ca4",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/network/latency_simulator.gd.uid",
+      "sha256": "ecb4f02f742365950a24894f28783227a5e80c66e42a9da32ce6c1114796ddb7",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/network/role_hot_swap.gd.uid",
+      "sha256": "d0ba32689827e502c9fefdbe4c88f445ff087529e257542854e18337ce479cf7",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/network/session_manager.gd.uid",
+      "sha256": "5f0418b7a57e017c25877e4a5b0f33959d597cced3f470c97299c65dd44c94e5",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/network/state_sync.gd.uid",
+      "sha256": "8d9693038b4aa52bc626e26d16d1cb46a0b8f439422396c71ffe3e2dad377f36",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/roles/role_definitions.gd.uid",
+      "sha256": "4be8a35500add083b4d881edcbc42963976aa795a5f3c247c63ed9f35de076aa",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/roles/role_manager.gd.uid",
+      "sha256": "f0564a6473a49077d18e26003635fd94c7c43e5929650133f09a56e37889de25",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/ability_system.gd.uid",
+      "sha256": "3bbbb397cabb4feae25fb7c2fcf5059156a145f89d1e32d0849da3b0964106c4",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/combat_system.gd.uid",
+      "sha256": "788597c10ee33a3502f5698019dc5a09a7cd5858019e3758eab3fabf55f425b3",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/command_processing_system.gd.uid",
+      "sha256": "56ca5671ff3b5abdada3ce2c67bcc007cec0743aca1ab26c7ae95d10a1ae9041",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/death_system.gd.uid",
+      "sha256": "a367c5831607ebb4f9ebf2041cbc3a581588aa52a79e439e368010de87cc0d69",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/economy_system.gd.uid",
+      "sha256": "b4cb9d9776edaf3e9fcdbb639c2d4bab60a1657dd4d0eb7aec2fbb8ae55cc57c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/formation_system.gd.uid",
+      "sha256": "7c0f6d215a96bb49196b9f634dfbde9af691ad5c0f8fce7012d7073e5521defc",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/movement_system.gd.uid",
+      "sha256": "f91cdbdda01eec0b7f1971e68c63e6ad5a357fa337cf918020f90c0d9504f32c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/permission_system.gd.uid",
+      "sha256": "00b57659549399b073b740ac1a823063770dcd03caa9e44b7e92408feb4fd235",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/production_system.gd.uid",
+      "sha256": "53ef403e3c314e445a13d43e08c009ad6077d5aff3a31ac5251cba7897bb1392",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/repair_system.gd.uid",
+      "sha256": "6f98874c36dc2d049768c4088b00dfbbf30b938aee69028db37f4c5e6e927e80",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/shield_system.gd.uid",
+      "sha256": "6d6c4ee9d5250e9923b98b6e26de4e1ea5ea820c53f62fefba87b153796cad71",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/snapshot_system.gd.uid",
+      "sha256": "efbd69ae6a7e16d03b28c01b6c53b58680a2d79f2b99500151e07ed075b7ed22",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/status_effect_system.gd.uid",
+      "sha256": "76ad31f9e11cf185fc12feacca13331639af54248e6f8eea1dcd6dca2bda33d6",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/stealth_system.gd.uid",
+      "sha256": "78771af45f066f04a6c7232a24d6273c02056e52b4110d5bbd9b85370f13bb62",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/structure_system.gd.uid",
+      "sha256": "fa337017534072abe2465eda979fb3be1d077d662590fbdfa0abd0781dc3d701",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/superweapon_system.gd.uid",
+      "sha256": "740310935a34901e5c2b5662608509af905e5b8f1a79f4ddd4a344a0e84077c0",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/tech_tree_system.gd.uid",
+      "sha256": "43da23f1504daa072745a5e1e584834cd44a1526d51d4ea98cf2b9e1dc4b4181",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/tunnel_system.gd.uid",
+      "sha256": "80758e031972e850ce4d56ef639896aa993f0d8820f61de2cede2759bb3a8a88",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/systems/vision_system.gd.uid",
+      "sha256": "b20440831f1c2f182fdc0aa85125e11caaa6449c754fcc44ac56f033d65fef93",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/air_marshal/air_control_panel.gd.uid",
+      "sha256": "23036b1830cc0978a474dc54bdbff27f911a4f16276a43f1419075f9bec55eec",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/chief_engineer/defense_palette.gd.uid",
+      "sha256": "bd451229daee987f182c685889622c79f057e2c49aef45143f314a16d58355e8",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/commander/structure_palette.gd.uid",
+      "sha256": "603d0661d0e88e69ae7fde1a4a848e69ad41459bd0c14ca12f2f3ac7847feec4",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/commander/tech_tree_panel.gd.uid",
+      "sha256": "3bb25030855ca98810b07717e061af6a532e6d702e49d954d287cc956e5a7b67",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/endless_hud.gd.uid",
+      "sha256": "acb0c9da238d12301ad4b64a270bd954672cf05b49c9873387c71338e4a6481f",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/field_marshal/request_wheel.gd.uid",
+      "sha256": "86789ede90d57606e4d5711d20de0b016e462c3f25e9d9adc9b07444933e898a",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/field_marshal/unit_card_panel.gd.uid",
+      "sha256": "2e478c3ad31de097830ab838ca2076db2707e2b4caca421665bc9dad89074cf0",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/hud_container.gd.uid",
+      "sha256": "8a8b7589fda4967f894203afc552e6447adb277a80620e9f96754a122aec52fb",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/lobby_screen.gd.uid",
+      "sha256": "3d2316b221b008b686e50d3fd419472958b30b222c7a9b676750612623960bfa",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/main_menu.gd.uid",
+      "sha256": "05f489b8eef629a8f6cdc103e44f1f66307c29e77993a43a87feb1df3cbd92cb",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/post_game_screen.gd.uid",
+      "sha256": "ed062288829d8173a35ce5eed149355c246629ed70d7506ca6b97dee7e0733aa",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/quartermaster/production_dashboard.gd.uid",
+      "sha256": "2aab03a5e77db917cfbbbb3b53890a3e936913f38c268a0fc7d817227f57f2e8",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/scenario_hud.gd.uid",
+      "sha256": "c0e31f3b79a1c8cd0feeade88135c0cd1b3e74418bfc50c2cd74706bc2a69546",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/settings_panel.gd.uid",
+      "sha256": "7b1265483adf794fb79063658780ba6b619ead170c308cd8a6acdd2c0fcc7c28",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/settings_screen.gd.uid",
+      "sha256": "966254e9a0e6b13a3209458b28f68dd8b94da701014e6d35f7fed9289d7ff677",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/camera_controller.gd.uid",
+      "sha256": "85e4413ac05ca935f7cea5d8b04e129daf71041ee1bdb47c90c1d66dea671003",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/comms_panel.gd.uid",
+      "sha256": "28b63681775daf5a2116984a0f187d1bc29f4d19e8c1a2aeeafa38e3fb36f06a",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/input_handler.gd.uid",
+      "sha256": "6c92cca8672d15fd5d10fcc9d68773c107b4f29f1af6b4d8318a53b36e7057fc",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/minimap.gd.uid",
+      "sha256": "462a7e8f66868c247880a93934dab1bf91f824ef86517b8b5ff7a95484aa9832",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/ping_system.gd.uid",
+      "sha256": "e418d22df2d0afcf81807738349a4e4179dca97236a9b44bcad82a5d6f10fcd4",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/resource_bar.gd.uid",
+      "sha256": "71371095a648d5cf728befd835c30ba37cdc05b9abb39fd7b134eb5dfa248f77",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/selection_box.gd.uid",
+      "sha256": "b7cb0dc902509db49b555353fd0cfb73888c874e8d2e338525938bdf4d24269d",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/shared/unit_visual.gd.uid",
+      "sha256": "303ceefe92defe6157d8f393ce6c6f3da8d4f68b54d7a6ea4fab5876880b00e8",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/spec_ops/ability_bar.gd.uid",
+      "sha256": "19ac5ab6090d561a34fca0cfd622eff78f73d010b7134dc03213163cf6ce9d65",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/spec_ops/infiltration_view.gd.uid",
+      "sha256": "4ee17d4c4d71eee9ad618ef7648e5b170d07dce1a2b155f11f28c85156ea553f",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/spec_ops/intel_overlay.gd.uid",
+      "sha256": "99352a780cb35a7fc820952b24195763f09b9b61ab9f6c830b89ca7317dd5b25",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/tutorial_overlay.gd.uid",
+      "sha256": "f70d3a08bb3e5a70cff0d06cafc616bfa01b9dfb61388a9827fcb0b5aa4cf474",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/src/ui/victory_screen.gd.uid",
+      "sha256": "7e5fbbf8ad76dd01b138273a0d0dfa504b9f76d4679ba1af100d7001f21a732c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_ai_commander.gd.uid",
+      "sha256": "7bf25d655221f388423079223361529c551aab3d8361a7b52774886c40178c92",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_ai_personality.gd.uid",
+      "sha256": "41bc75d1e725908f570374289e1eac5c8d31964a4cbfe2fd25ae57eacfe7ee9d",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_ai_reactive.gd.uid",
+      "sha256": "7009b9fddd8f78703e8fa514afd3ac246a96d480dc82ea54f5c0973cc1f5faaf",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_ai_scripted.gd.uid",
+      "sha256": "9a1d6d137412bd4426af335b22fed5c76e9ba4a203f9a9fb2fb6a9ecfd371e32",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_combat.gd.uid",
+      "sha256": "19707fe5994052775de11b5c1687962fc58e35052b26777d562df9f5c76a0779",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_economy.gd.uid",
+      "sha256": "eccae75f568d243c2bdccaf05972b8e1a097969ac931b74ec0f8d8fd5637a1ab",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_endless_defense.gd.uid",
+      "sha256": "81ecbe44250219ba21611b3e6059705d6f1ec6815c15fa63be1e463b47cee536",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_entity_factory.gd.uid",
+      "sha256": "54a0b1b6f27d242cc140214c82ce5bdf39977759a9f635a92bf9196ba1de7cd3",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_faction_mechanics.gd.uid",
+      "sha256": "745e54abe72b6a05d7256452b4dd051426e2b51ae35737b48caf901391c19298",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_flowfield.gd.uid",
+      "sha256": "d61bf438adc3f75195b2c9f20a6360250db9d114d163be74e25812bc69334566",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_hot_swap.gd.uid",
+      "sha256": "c968fd26d98355b8c6dd853816ed001aaf49827675b0fa4e0e46bcd1e0e63114",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_integration.gd.uid",
+      "sha256": "f5eea07d7683a81fbc5cdcf59bd82a03763eab308a30240b238bcb9063214e26",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_map_loading.gd.uid",
+      "sha256": "6f598f787101ba3f912c47f39861616b9d82d40b7d68dbdd5257e1e2d6602a69",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_movement.gd.uid",
+      "sha256": "8c14eeea9cdada2f3f260d16a6c40f55457c23d1a4169f6010037fdfdf05be7c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_networking.gd.uid",
+      "sha256": "433ea05480502abd116c75d3eb2e03238f9865ca3685435ab77b390ff179639c",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_pathfinding.gd.uid",
+      "sha256": "3c3203e470223bedc0ce44313e6ed8c0c7c7d9c1dd92d709ecba8346eab4c629",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_performance.gd.uid",
+      "sha256": "58ab30f603a601480a5e9fc5ae26f39c3afc6efa9d0875bb75addcec2b9b11d9",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_permissions.gd.uid",
+      "sha256": "0f54f7501a8eb704409695fb3b66058777e31bb08cffc6626a9bf651236c043d",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_production.gd.uid",
+      "sha256": "c587ca9450fdf945563bc56c01ed3ca2500d61e884d5d8650bb6da40cd8da416",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_stealth.gd.uid",
+      "sha256": "da21ff3b7329f7b48135589053a247b5e8eacd6bbaa51a82039247af291ab118",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_structure_placement.gd.uid",
+      "sha256": "3629a941382724f6c78c475a4a0f5ba5b947832b9d9b639e565c015261b1596f",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_superweapon.gd.uid",
+      "sha256": "247121c07f8c6a45282a2fb14441942980de94da4321441c005a36d6c16aaf4e",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_tech_tree.gd.uid",
+      "sha256": "edc244e6938d5491871ddc9438440a3b1d35f1b06bab8fecf852ca442db9d142",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/tests/test_vision.gd.uid",
+      "sha256": "7015fc3b8703410696c22c9727aa8aa1cef5615a849180e22ea9f0cf387a26d2",
+      "kind": "working_source"
+    },
+    {
+      "path": "game/data/ai_personalities/colonel_volkov.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/ai_personalities/colonel_volkov.json",
+      "sha256": "eb184608eccc40e008f6a764692c5f41194b2a2c056662c10dbf9432c5387331",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/ai_personalities/dr_chen.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/ai_personalities/dr_chen.json",
+      "sha256": "9a8eb18e1b3934e491d3a824369e226e7e3c933211f386e10b0cb9fcbda12b06",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/ai_personalities/general_kovacs.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/ai_personalities/general_kovacs.json",
+      "sha256": "e7a4e50f436bd13bc0172e4b0573b250e1194867f2f6fbb4d743a5cb28824142",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/ai_personalities/sergeant_basic.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/ai_personalities/sergeant_basic.json",
+      "sha256": "db21f42e321345eae68404623472283fe63436c22401c727f8533ab97e7296b1",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/balance/unit_counter_matrix.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/balance/unit_counter_matrix.json",
+      "sha256": "496839271295c547fb5a7e9886352601fec02f3d59548ac135ab3dd5772e9e4a",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/maps/dust_bowl.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/maps/dust_bowl.json",
+      "sha256": "0c3503073f5ba088a0e0d1290c50ea46b664abc58b146a2c3f4ac8b6a1d6e035",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/maps/fortress.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/maps/fortress.json",
+      "sha256": "e9a8952e53074509d15aff435b401a77fecb454560999a978c9fd10b8a727f9b",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/maps/iron_bridge.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/maps/iron_bridge.json",
+      "sha256": "b60721e382c2716f794c4b0b0a3e5f556457ac07bc31113f7c671364bc506001",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/scenarios/scenario_destroy_the_weapon.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/scenarios/scenario_destroy_the_weapon.json",
+      "sha256": "ddb6fd36cf82a755ef84a10639a0e64de6aa43ddcc8f3e79a93da961be6db7dc",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/scenarios/scenario_escort_convoy.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/scenarios/scenario_escort_convoy.json",
+      "sha256": "ae5b9ddad8128ded61bb50753a362e4a7a38659d4019d3fc90ced4575cdc3c8a",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/scenarios/scenario_hold_the_bridge.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/scenarios/scenario_hold_the_bridge.json",
+      "sha256": "25b37a898a3632fec59a3b601d9486e4ad3f1fe9562141c66690841a2c829935",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_advanced_tech.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_advanced_tech.json",
+      "sha256": "79109530484b50a04aed1ac9cd6d790c190bb7f0b68aaa583d9ac7d5148bbee5",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_airfield.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_airfield.json",
+      "sha256": "b4a1f874ed8bf7e6c51a7debed7721895017934f64f00f91a22966ca8a06b86f",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_orbital_cannon.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_orbital_cannon.json",
+      "sha256": "ee83e2f45f2cf0775dff9cb8125471b5891f8e123ba96617d19cc28e59ce98d3",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_radar.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_radar.json",
+      "sha256": "10950e517d63894ff4ee60024b4062a813d21a2fc7f40c8ae1325722b2d8c904",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_shield_generator.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_shield_generator.json",
+      "sha256": "8f7d546f40b3f1ce55a90f11d28e1dcda105550445c1c5799ac2beff466e9680",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_shield_generator_t3.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_shield_generator_t3.json",
+      "sha256": "6945823898e22700e483fd1738a089a84d9de8c01f7e2888a1f49f18187be97c",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_tech_lab.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_tech_lab.json",
+      "sha256": "99c37b66def4962c771c8ab8ae21397587a8f295375b0bb43aa71177496138c8",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/aegis_war_factory.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/aegis_war_factory.json",
+      "sha256": "139a70dd7e95aff81f50ae7bd81e0d510636decf7c21ac7694b03effa76455e8",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_advanced_munitions.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_advanced_munitions.json",
+      "sha256": "e2339d4592460fceb494e6cbc78e2a65eedc106f091380153fe4f4cf7ab2c334",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_airstrip.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_airstrip.json",
+      "sha256": "216858ee18fdb451279d2c38afd81697801b638ff77fa093e8059f86d92e59d1",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_chemical_missile.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_chemical_missile.json",
+      "sha256": "39b7b70016825af50e719410d4cb64b76c2acf2d31e4a7c868293f35a1d2f9b0",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_munitions.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_munitions.json",
+      "sha256": "d61be7a7295caa1d8107d741fa931f846f131efe817662a295b717c91655e14d",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_radar.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_radar.json",
+      "sha256": "8f51b5b5ced61ac22f579cd681db3f40f5783658cc5270897e05d12c78228625",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_tunnel_entrance.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_tunnel_entrance.json",
+      "sha256": "b850b6c8f570161a0afa649716acc2255151ec24c045c483e5a3c82023166e67",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_tunnel_network_hub.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_tunnel_network_hub.json",
+      "sha256": "0c402dbcbc256cfe867af8b6055c078c41750a970ed555a378610bc790437855",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/structures/forge_war_factory.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/structures/forge_war_factory.json",
+      "sha256": "9a9643f1fc8692795ba0fec6d36c75fa56c00ab85a060f74d114a900ab886878",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/tutorials/tutorial_commander.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/tutorials/tutorial_commander.json",
+      "sha256": "fc80b35d84177b701ec7caa8bb1c49c4d84649cf5a95b91e8dfaf592a51882c6",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/tutorials/tutorial_field_marshal.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/tutorials/tutorial_field_marshal.json",
+      "sha256": "454f90911db19bb75d2a7d21c66716d98d325e6bf4b94bfe1261df4009805b25",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_aa_vehicle.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_aa_vehicle.json",
+      "sha256": "4f9025fb4fff39f0877e921271071aa202540eb5a7ed26f5320f987b6d9de7d7",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_apc.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_apc.json",
+      "sha256": "2c39745a9da9d474284b25b8c45edafe7185928001d85c3b20d50baf19070f3c",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_artillery.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_artillery.json",
+      "sha256": "de62276ca112d34cf5ae21796adb0b94e8b643533ff082303c11b1111933eeb5",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_bomber.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_bomber.json",
+      "sha256": "19efec99115214a0b122a954bef20166ae35fa1c497e4fe94876515c67e1ae18",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_commander_unit.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_commander_unit.json",
+      "sha256": "78b9cd4a3275b9a77480bd0c0d1a11188cdd299b2760e72542c994d6563af8af",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_gunship.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_gunship.json",
+      "sha256": "a3ea2c3884b89d98f5d69613270f197fc1cc694b9dd1dcdb5b76400acc9f47fc",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_heavy_tank.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_heavy_tank.json",
+      "sha256": "65d725ba734f51a1923d921466c16cf0f901e0fc04bdb44af58890be4e4fceb0",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_interceptor.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_interceptor.json",
+      "sha256": "aff0e04123d7dd2b69b0e891f8b4a0845141775bc8b2b226745804c65230f092",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_medic.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_medic.json",
+      "sha256": "22b0f8cf488d73161d9fee00330f1522f7c2fee8cd9438e6a8f1cd6c69185c85",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_medium_tank.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_medium_tank.json",
+      "sha256": "e4613a8f351c64da9947806d0d25587add92bbd184c267f3babd9c35dd101880",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_rocket_trooper.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_rocket_trooper.json",
+      "sha256": "64a8c0a0dacde14d2214a9f6e9d4491d8425d71287119d9f9f2a0591aa0fef7f",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_shock_trooper.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_shock_trooper.json",
+      "sha256": "fef86e5c4e187bca7bed1e9478e5e7034fe5924ecea1d37bceed680f7386afac",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_sniper.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_sniper.json",
+      "sha256": "9aa12d36017a55611095e6b8fbfd9f7b98e1d336003357c281283c1e5e2d5643",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/aegis_transport.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/aegis_transport.json",
+      "sha256": "d456f90968734c4c06c226bc813135c18cfb6d8c5238f147c59071807cae4933",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_battle_tank.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_battle_tank.json",
+      "sha256": "d1468e57b0cc2452a661892cbe58ba55e07364801c538ca32d6fbbd8f14b91c5",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_chem_trooper.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_chem_trooper.json",
+      "sha256": "cd19c9071f7f4b593858a7f4a1f6b423e180b261f11268a2775bfa07cf5a9421",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_commando.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_commando.json",
+      "sha256": "6668a903c07172e8eac845a4e45dd4e03fd754bc432d0425ade345fbd81397fa",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_flametrooper.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_flametrooper.json",
+      "sha256": "30c4728ba29d696ea067dcbb9030d46cd1afb4f6ae84d6de77ee738d44b7fa8a",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_grenadier.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_grenadier.json",
+      "sha256": "8f70001bc156e2919518b275e723634539e8db07d544d83e8b56e41773db9ac2",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_helicopter.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_helicopter.json",
+      "sha256": "b0e898f189499823bd02da8c388ef1b6ba976df3624137e1e1020b2f16258c0a",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_iron_fist.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_iron_fist.json",
+      "sha256": "943397076428f94722c317e09cc6ed2078fca62f7239217875fcbfded356a64e",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_mammoth_tank.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_mammoth_tank.json",
+      "sha256": "38d97121872fa7c4deeb953ead801af6a539da1d1375c62b328c4996302a4afe",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_rocket_buggy.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_rocket_buggy.json",
+      "sha256": "402ba256271615c4a6e8c1c1a72a4a891c050d8a66aa365e914f2c894fb2440e",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_siege_tank.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_siege_tank.json",
+      "sha256": "b689c90eda4f2ee9c636d526a94ecb5b65dc36fc5742f1b86f6c73291de87848",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_strike_bomber.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_strike_bomber.json",
+      "sha256": "e4e30e157f94898169b6d21b4cd18c53b3f90fb130646856817e01e7689af267",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_toxin_truck.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_toxin_truck.json",
+      "sha256": "e67bf0f89adb5c015292d8ca09c58bdf7eb5aa950604ee37c7690c691bbfe269",
+      "kind": "generated_recovery_copy"
+    },
+    {
+      "path": "game/data/units/forge_transport.json",
+      "archive_path": "archives/local-preservation-2026-10-11/generated-json/game/data/units/forge_transport.json",
+      "sha256": "7b8965bafb2b02cdcceabfdba0c2784091f25917be65476c148a7b9ab29fc55b",
+      "kind": "generated_recovery_copy"
+    }
+  ]
+}

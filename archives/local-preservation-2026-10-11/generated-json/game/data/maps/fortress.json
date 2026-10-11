@@ -1,0 +1,414 @@
+{
+  "map_id": "fortress",
+  "display_name": "The Fortress",
+  "description": "Defend your base against endless waves. Four corridors. No mercy.",
+  "author": "CRTO Team",
+  "mode": "endless_defense",
+  "dimensions": {
+    "width": 80,
+    "height": 80
+  },
+  "player_count": {
+    "min": 2,
+    "max": 6,
+    "optimal": 4
+  },
+  "spawn_points": {
+    "team_human": {
+      "construction_yard": [
+        40,
+        40
+      ],
+      "initial_resources": {
+        "primary": 0,
+        "secondary": 0
+      },
+      "starting_units": [
+        {
+          "type": "faction_rifleman",
+          "position": [
+            40,
+            29
+          ],
+          "count": 2
+        },
+        {
+          "type": "faction_rifleman",
+          "position": [
+            40,
+            51
+          ],
+          "count": 2
+        },
+        {
+          "type": "faction_rifleman",
+          "position": [
+            29,
+            40
+          ],
+          "count": 2
+        },
+        {
+          "type": "faction_rifleman",
+          "position": [
+            51,
+            40
+          ],
+          "count": 2
+        }
+      ]
+    }
+  },
+  "resources": [],
+  "enemy_spawn_gates": {
+    "north": {
+      "position": [
+        40,
+        0
+      ],
+      "corridor_entry": [
+        40,
+        18
+      ]
+    },
+    "south": {
+      "position": [
+        40,
+        79
+      ],
+      "corridor_entry": [
+        40,
+        62
+      ]
+    },
+    "west": {
+      "position": [
+        0,
+        40
+      ],
+      "corridor_entry": [
+        18,
+        40
+      ]
+    },
+    "east": {
+      "position": [
+        79,
+        40
+      ],
+      "corridor_entry": [
+        62,
+        40
+      ]
+    }
+  },
+  "terrain": {
+    "base_type": "concrete",
+    "features": [
+      {
+        "type": "badlands",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "type": "badlands",
+        "bounds": {
+          "x": 50,
+          "y": 0,
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "type": "badlands",
+        "bounds": {
+          "x": 0,
+          "y": 50,
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "type": "badlands",
+        "bounds": {
+          "x": 50,
+          "y": 50,
+          "width": 30,
+          "height": 30
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "width": 36,
+          "height": 30
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 44,
+          "y": 0,
+          "width": 36,
+          "height": 30
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 0,
+          "y": 51,
+          "width": 36,
+          "height": 29
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 44,
+          "y": 51,
+          "width": 36,
+          "height": 29
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "width": 30,
+          "height": 36
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 0,
+          "y": 44,
+          "width": 30,
+          "height": 36
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 51,
+          "y": 0,
+          "width": 29,
+          "height": 36
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 51,
+          "y": 44,
+          "width": 29,
+          "height": 36
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 30,
+          "y": 18,
+          "width": 8,
+          "height": 3
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 42,
+          "y": 18,
+          "width": 8,
+          "height": 3
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 30,
+          "y": 60,
+          "width": 8,
+          "height": 3
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 42,
+          "y": 60,
+          "width": 8,
+          "height": 3
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 18,
+          "y": 30,
+          "width": 3,
+          "height": 8
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 18,
+          "y": 42,
+          "width": 3,
+          "height": 8
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 60,
+          "y": 30,
+          "width": 3,
+          "height": 8
+        }
+      },
+      {
+        "type": "concrete_wall",
+        "bounds": {
+          "x": 60,
+          "y": 42,
+          "width": 3,
+          "height": 8
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 35,
+          "y": 15,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 42,
+          "y": 15,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 35,
+          "y": 62,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 42,
+          "y": 62,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 15,
+          "y": 35,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 15,
+          "y": 42,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 62,
+          "y": 35,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      },
+      {
+        "type": "cliff",
+        "bounds": {
+          "x": 62,
+          "y": 42,
+          "width": 3,
+          "height": 3
+        },
+        "provides": {
+          "vision_bonus": 6
+        }
+      }
+    ]
+  },
+  "expansions": [],
+  "rules": {
+    "no_resource_harvest": true,
+    "endless_defense_mode": true,
+    "no_ai_base": true,
+    "shared_base": true
+  },
+  "ai_hints": {
+    "attack_routes": [
+      [
+        40,
+        0
+      ],
+      [
+        40,
+        79
+      ],
+      [
+        0,
+        40
+      ],
+      [
+        79,
+        40
+      ]
+    ],
+    "note": "Enemies are distributed evenly across all four corridors early-game. Later waves skew distribution toward whichever corridor has the fewest turrets, pressuring under-defended flanks.\n"
+  }
+}
